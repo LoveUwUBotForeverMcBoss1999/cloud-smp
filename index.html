@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud SMP - Towny Survival Server</title>
+    <title>Cloud SMP</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="main.js" defer></script>
 </head>
 <body>
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar">
+    <aside class="sidebar">
         <div class="sidebar-header">
             <div class="server-logo">
-                <img id="server-icon" src="" alt="Cloud SMP" class="logo-img">
-                <h2 class="server-name">Cloud SMP</h2>
+                <img src="https://via.placeholder.com/40" alt="Server Logo" class="logo-img">
+                <span class="server-name">Cloud SMP</span>
             </div>
         </div>
-        
         <ul class="nav-links">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a href="index.html" class="nav-link">
                     <i class="fas fa-home"></i>
                     <span class="link-text">Home</span>
@@ -26,7 +25,7 @@
             </li>
             <li class="nav-item">
                 <a href="gallery.html" class="nav-link">
-                    <i class="fas fa-images"></i>
+                    <i class="fas fa-image"></i>
                     <span class="link-text">Gallery</span>
                 </a>
             </li>
@@ -44,7 +43,7 @@
             </li>
             <li class="nav-item">
                 <a href="feedback.html" class="nav-link">
-                    <i class="fas fa-comment-dots"></i>
+                    <i class="fas fa-comment"></i>
                     <span class="link-text">Feedback</span>
                 </a>
             </li>
@@ -55,15 +54,13 @@
                 </a>
             </li>
         </ul>
-    </nav>
+    </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 class="hero-title">Welcome to <span class="highlight">Cloud SMP</span></h1>
+                    <h1 class="hero-title">Welcome to Cloud SMP</h1>
                     <p class="hero-subtitle">Chill · Build · Survive peacefully in the Skies!</p>
                     <div class="server-info">
                         <div class="info-card">
@@ -81,7 +78,7 @@
                             </div>
                         </div>
                         <div class="info-card">
-                            <i class="fas fa-gamepad"></i>
+                            <i class="fas fa-code-branch"></i>
                             <div>
                                 <h3 id="server-version">1.21.5</h3>
                                 <p>Server Version</p>
@@ -93,16 +90,17 @@
                             <i class="fas fa-copy"></i>
                             Copy Server IP
                         </button>
-                        <button class="btn btn-secondary" onclick="window.open('https://discord.gg/your-invite', '_blank')">
+                        <a href="#" class="btn btn-secondary" id="discord-join-button">
                             <i class="fab fa-discord"></i>
                             Join Discord
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <div class="hero-image">
                     <div class="server-status">
+                        <img id="server-icon" src="https://via.placeholder.com/128" alt="Server Icon">
                         <div class="status-indicator">
-                            <div class="status-dot" id="status-dot"></div>
+                            <span class="status-dot" id="status-dot"></span>
                             <span id="status-text">Checking...</span>
                         </div>
                     </div>
@@ -110,7 +108,6 @@
             </div>
         </section>
 
-        <!-- Features Section -->
         <section class="features">
             <div class="container">
                 <h2 class="section-title">What Makes Cloud SMP Special?</h2>
@@ -126,12 +123,12 @@
                         <p>Experience survival in the clouds with unique building opportunities and breathtaking views.</p>
                     </div>
                     <div class="feature-card">
-                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-users"></i>
                         <h3>Peaceful Community</h3>
                         <p>Join a chill, friendly community focused on creativity and collaboration rather than conflict.</p>
                     </div>
                     <div class="feature-card">
-                        <i class="fas fa-tools"></i>
+                        <i class="fas fa-code-branch"></i>
                         <h3>Cross-Version Support</h3>
                         <p>Play on any version from 1.10.x to 1.21.x - everyone's welcome regardless of their client version.</p>
                     </div>
@@ -139,42 +136,33 @@
             </div>
         </section>
 
-        <!-- Server Stats Section -->
         <section class="stats">
             <div class="container">
                 <h2 class="section-title">Server Statistics</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
+                        <i class="fas fa-clock stat-icon"></i>
                         <div class="stat-content">
                             <h3>Server Uptime</h3>
-                            <p id="server-uptime">99.9%</p>
+                            <p>99.9%</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
+                        <i class="fas fa-tachometer-alt stat-icon"></i>
                         <div class="stat-content">
                             <h3>Server Performance</h3>
-                            <p id="server-ping">Low Latency</p>
+                            <p>Low Latency</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
+                        <i class="fas fa-shield-alt stat-icon"></i>
                         <div class="stat-content">
                             <h3>Server Security</h3>
                             <p>Protected & Safe</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-users-cog"></i>
-                        </div>
+                        <i class="fas fa-headset stat-icon"></i>
                         <div class="stat-content">
                             <h3>Active Staff</h3>
                             <p>24/7 Support</p>
@@ -184,7 +172,6 @@
             </div>
         </section>
 
-        <!-- MOTD Section -->
         <section class="motd">
             <div class="container">
                 <h2 class="section-title">Server Message</h2>
@@ -198,12 +185,9 @@
         </section>
     </main>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
+    <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span>Server IP copied to clipboard!</span>
     </div>
-
-    <script src="main.js"></script>
 </body>
 </html>
