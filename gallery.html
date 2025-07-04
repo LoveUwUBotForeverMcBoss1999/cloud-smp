@@ -207,15 +207,6 @@
                 <div class="media-card" id="card-${position}">
                     <div class="media-container">
                         <div class="loading-spinner"></div>
-                        <img class="media-item loading" 
-                             id="media-${position}" 
-                             alt="Media ${position}"
-                             style="display: none;">
-                        <video class="media-item loading" 
-                               id="video-${position}" 
-                               controls 
-                               style="display: none;">
-                        </video>
                     </div>
                     <div class="media-info">
                         <div class="media-title">Media #${position}</div>
@@ -272,47 +263,98 @@
                 <span><strong>Position:</strong> ${position} of ${info.total_media_count}</span>
             `;
 
-            // Load media based on type
+            // Create media element based on type
+            let mediaElement;
+            const mediaUrl = `${API_BASE}/media/${position}`;
+
             if (info.type.startsWith('image/')) {
-                const img = document.getElementById(`media-${position}`);
+                mediaElement = document.createElement('img');
+                mediaElement.className = 'media-item';
+                mediaElement.alt = `Media ${position}`;
                 
-                img.onload = function() {
+                mediaElement.onload = function() {
                     spinner.style.display = 'none';
-                    img.style.display = 'block';
-                    img.classList.remove('loading');
+                    mediaElement.style.display = 'block';
                 };
                 
-                img.onerror = function() {
-                    mediaContainer.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #e74c3c;">
-                            <p>❌ Image failed to load</p>
-                            <button class="retry-btn" onclick="loadMedia(${position})">Retry</button>
-                        </div>
-                    `;
+                mediaElement.onerror = function() {
+                    showMediaError(mediaContainer, position);
                 };
                 
-                img.src = `${API_BASE}/media/${position}`;
+                mediaElement.src = mediaUrl;
                 
-            } else if (info.type.startsWith('video/')) {
-                const video = document.getElementById(`video-${position}`);
+            } else if (info.type.startsWith('video/') || info.type === 'video') {
+                mediaElement = document.createElement('video');
+                mediaElement.className = 'media-item';
+                mediaElement.controls = true;
+                mediaElement.preload = 'metadata';
                 
-                video.onloadeddata = function() {
+                mediaElement.onloadeddata = function() {
                     spinner.style.display = 'none';
-                    video.style.display = 'block';
-                    video.classList.remove('loading');
+                    mediaElement.style.display = 'block';
                 };
                 
-                video.onerror = function() {
-                    mediaContainer.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #e74c3c;">
-                            <p>❌ Video failed to load</p>
-                            <button class="retry-btn" onclick="loadMedia(${position})">Retry</button>
-                        </div>
-                    `;
+                mediaElement.onerror = function() {
+                    showMediaError(mediaContainer, position);
                 };
                 
-                video.src = `${API_BASE}/media/${position}`;
+                // Add source element for better compatibility
+                const source = document.createElement('source');
+                source.src = mediaUrl;
+                source.type = info.type;
+                mediaElement.appendChild(source);
+                
+            } else {
+                // Unknown type, try as image first
+                mediaElement = document.createElement('img');
+                mediaElement.className = 'media-item';
+                mediaElement.alt = `Media ${position}`;
+                
+                mediaElement.onload = function() {
+                    spinner.style.display = 'none';
+                    mediaElement.style.display = 'block';
+                };
+                
+                mediaElement.onerror = function() {
+                    // Try as video if image fails
+                    const videoElement = document.createElement('video');
+                    videoElement.className = 'media-item';
+                    videoElement.controls = true;
+                    videoElement.preload = 'metadata';
+                    
+                    videoElement.onloadeddata = function() {
+                        spinner.style.display = 'none';
+                        videoElement.style.display = 'block';
+                    };
+                    
+                    videoElement.onerror = function() {
+                        showMediaError(mediaContainer, position);
+                    };
+                    
+                    videoElement.src = mediaUrl;
+                    mediaContainer.replaceChild(videoElement, mediaElement);
+                };
+                
+                mediaElement.src = mediaUrl;
             }
+            
+            // Replace the loading placeholder with the actual media element
+            const existingMedia = mediaContainer.querySelector('.media-item');
+            if (existingMedia) {
+                mediaContainer.replaceChild(mediaElement, existingMedia);
+            } else {
+                mediaContainer.appendChild(mediaElement);
+            }
+        }
+
+        // Function to show media error
+        function showMediaError(container, position) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 20px; color: #e74c3c;">
+                    <p>❌ Media failed to load</p>
+                    <button class="retry-btn" onclick="loadMedia(${position})">Retry</button>
+                </div>
+            `;
         }
 
         // Function to load total media count
