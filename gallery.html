@@ -39,34 +39,58 @@
       text-align: center;
       margin-top: 20px;
     }
+    .retry-button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .retry-button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
   <h1>Cloud SMP Media Gallery</h1>
   <div class="gallery" id="gallery"></div>
   <div id="error" class="error"></div>
+  <button id="retry" class="retry-button" style="display: none;">Retry Loading Media</button>
 
   <script>
     async function loadMedia() {
       const gallery = document.getElementById('gallery');
       const errorDiv = document.getElementById('error');
+      const retryButton = document.getElementById('retry');
       const baseUrl = 'https://api-cloud-smp.mcboss.top/api/media';
       let index = 1;
 
-      // Check API health first
+      // Clear previous content
+      gallery.innerHTML = '';
+      errorDiv.textContent = '';
+      retryButton.style.display = 'none';
+
+      // Check API health
       try {
         const healthResponse = await fetch('https://api-cloud-smp.mcboss.top/health');
         if (!healthResponse.ok) {
-          errorDiv.textContent = 'API is down. Please check the server status.';
+          errorDiv.textContent = 'API is unavailable. Check server status or try again later.';
+          retryButton.style.display = 'block';
           return;
         }
         const healthData = await healthResponse.json();
         if (!healthData.bot_ready) {
-          errorDiv.textContent = 'Discord bot is not ready. Try again later.';
+          errorDiv.textContent = 'Discord bot is not ready. Ensure the bot token and permissions are correct in the API setup.';
+          retryButton.style.display = 'block';
           return;
         }
       } catch (error) {
-        errorDiv.textContent = 'Failed to connect to API. Check your network or domain settings.';
+        errorDiv.textContent = 'Failed to connect to API. Check your network or API domain settings.';
+        retryButton.style.display = 'block';
         console.error('Health check failed:', error);
         return;
       }
@@ -107,15 +131,15 @@
           index++;
         } catch (error) {
           console.error('Error loading media:', error);
-          if (error.message.includes('ERR_NAME_NOT_RESOLVED') || error.message.includes('Failed to fetch')) {
-            errorDiv.textContent = 'Cannot reach API. Check if api-cloud-smp.mcboss.top is correctly set up.';
-          } else {
-            errorDiv.textContent = `Failed to load media ${index}: ${error.message}`;
-          }
+          errorDiv.textContent = `Failed to load media ${index}: ${error.message}. Try again later.`;
+          retryButton.style.display = 'block';
           break;
         }
       }
     }
+
+    // Retry button event listener
+    document.getElementById('retry').addEventListener('click', loadMedia);
 
     // Load media when the page loads
     window.onload = loadMedia;
