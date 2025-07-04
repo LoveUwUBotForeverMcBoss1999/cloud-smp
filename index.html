@@ -11,82 +11,198 @@
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
         <div class="sidebar-header">
-            <img src="" alt="Cloud SMP" class="server-logo" id="server-logo">
-            <h2>Cloud SMP</h2>
+            <div class="server-logo">
+                <img id="server-icon" src="" alt="Cloud SMP" class="logo-img">
+                <h2 class="server-name">Cloud SMP</h2>
+            </div>
         </div>
+        
         <ul class="nav-links">
-            <li><a href="#" onclick="loadPage('home')" class="nav-link active"><i class="fas fa-home"></i><span>Home</span></a></li>
-            <li><a href="#" onclick="loadPage('gallery')" class="nav-link"><i class="fas fa-images"></i><span>Gallery</span></a></li>
-            <li><a href="#" onclick="loadPage('playerlist')" class="nav-link"><i class="fas fa-users"></i><span>Player List</span></a></li>
-            <li><a href="#" onclick="loadPage('discord')" class="nav-link"><i class="fab fa-discord"></i><span>Discord</span></a></li>
-            <li><a href="#" onclick="loadPage('feedback')" class="nav-link"><i class="fas fa-comments"></i><span>Feedback</span></a></li>
-            <li><a href="#" onclick="loadPage('shop')" class="nav-link"><i class="fas fa-shopping-cart"></i><span>Shop</span></a></li>
+            <li class="nav-item active">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span class="link-text">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="gallery.html" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span class="link-text">Gallery</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="playerlist.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span class="link-text">Players</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="discord.html" class="nav-link">
+                    <i class="fab fa-discord"></i>
+                    <span class="link-text">Discord</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="feedback.html" class="nav-link">
+                    <i class="fas fa-comment-dots"></i>
+                    <span class="link-text">Feedback</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="shop.html" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="link-text">Shop</span>
+                </a>
+            </li>
         </ul>
     </nav>
 
     <!-- Main Content -->
     <main class="main-content">
-        <div id="page-content">
-            <!-- Home Page Content -->
-            <div class="home-content">
-                <div class="hero-section">
-                    <div class="hero-text">
-                        <h1>☁ Welcome to Cloud SMP ☁</h1>
-                        <p class="subtitle">Chill · Build · Survive peacefully in the Skies!</p>
-                        <div class="server-info">
-                            <div class="info-card">
-                                <i class="fas fa-server"></i>
-                                <div>
-                                    <h3>Server IP</h3>
-                                    <p id="server-ip">mc-cloudsmp.mcboss.top</p>
-                                </div>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Welcome to <span class="highlight">Cloud SMP</span></h1>
+                    <p class="hero-subtitle">Chill · Build · Survive peacefully in the Skies!</p>
+                    <div class="server-info">
+                        <div class="info-card">
+                            <i class="fas fa-server"></i>
+                            <div>
+                                <h3 id="server-address">mc-cloudsmp.mcboss.top</h3>
+                                <p>Server Address</p>
                             </div>
-                            <div class="info-card">
-                                <i class="fas fa-users"></i>
-                                <div>
-                                    <h3>Players Online</h3>
-                                    <p id="players-online">Loading...</p>
-                                </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h3 id="player-count">0/50</h3>
+                                <p>Players Online</p>
                             </div>
-                            <div class="info-card">
-                                <i class="fas fa-gamepad"></i>
-                                <div>
-                                    <h3>Version</h3>
-                                    <p id="server-version">1.10x - 1.21x</p>
-                                </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-gamepad"></i>
+                            <div>
+                                <h3 id="server-version">1.21.5</h3>
+                                <p>Server Version</p>
                             </div>
                         </div>
                     </div>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="copyServerIP()">
+                            <i class="fas fa-copy"></i>
+                            Copy Server IP
+                        </button>
+                        <button class="btn btn-secondary" onclick="window.open('https://discord.gg/your-invite', '_blank')">
+                            <i class="fab fa-discord"></i>
+                            Join Discord
+                        </button>
+                    </div>
                 </div>
-                
-                <div class="features-section">
-                    <h2>Why Choose Cloud SMP?</h2>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <i class="fas fa-city"></i>
-                            <h3>Towny System</h3>
-                            <p>Create and manage your own town with friends. Build communities and protect your land!</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-shield-alt"></i>
-                            <h3>Grief Protection</h3>
-                            <p>Your builds are safe with our advanced protection systems. Focus on creativity, not worry!</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-heart"></i>
-                            <h3>Friendly Community</h3>
-                            <p>Join a welcoming community of builders and survivors. Make friends and have fun together!</p>
-                        </div>
-                        <div class="feature-card">
-                            <i class="fas fa-rocket"></i>
-                            <h3>Regular Updates</h3>
-                            <p>We keep the server updated with the latest features and maintain excellent performance!</p>
+                <div class="hero-image">
+                    <div class="server-status">
+                        <div class="status-indicator">
+                            <div class="status-dot" id="status-dot"></div>
+                            <span id="status-text">Checking...</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">What Makes Cloud SMP Special?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-city"></i>
+                        <h3>Towny System</h3>
+                        <p>Create and manage your own towns with friends. Build communities and establish trade relationships.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-cloud"></i>
+                        <h3>Sky-High Adventure</h3>
+                        <p>Experience survival in the clouds with unique building opportunities and breathtaking views.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Peaceful Community</h3>
+                        <p>Join a chill, friendly community focused on creativity and collaboration rather than conflict.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tools"></i>
+                        <h3>Cross-Version Support</h3>
+                        <p>Play on any version from 1.10.x to 1.21.x - everyone's welcome regardless of their client version.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Server Stats Section -->
+        <section class="stats">
+            <div class="container">
+                <h2 class="section-title">Server Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Server Uptime</h3>
+                            <p id="server-uptime">99.9%</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Server Performance</h3>
+                            <p id="server-ping">Low Latency</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Server Security</h3>
+                            <p>Protected & Safe</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Active Staff</h3>
+                            <p>24/7 Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MOTD Section -->
+        <section class="motd">
+            <div class="container">
+                <h2 class="section-title">Server Message</h2>
+                <div class="motd-card">
+                    <div class="motd-content" id="server-motd">
+                        <p>☁ Welcome to Cloud SMP ☁</p>
+                        <p>Chill · Build · Survive peacefully in the Skies!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span>Server IP copied to clipboard!</span>
+    </div>
 
     <script src="main.js"></script>
 </body>
