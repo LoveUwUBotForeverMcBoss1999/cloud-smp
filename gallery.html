@@ -3,465 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Media Loader - Example</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(45deg, #f093fb, #f5576c);
-            color: white;
-        }
-
-        .btn-success {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .status {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .status.loading {
-            background: linear-gradient(45deg, #ffeaa7, #fab1a0);
-            color: #2d3436;
-            animation: pulse 1.5s infinite;
-        }
-
-        .status.success {
-            background: linear-gradient(45deg, #00b894, #00cec9);
-            color: white;
-        }
-
-        .status.error {
-            background: linear-gradient(45deg, #e17055, #d63031);
-            color: white;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .media-item {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .media-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border-color: #667eea;
-        }
-
-        .media-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f2f6;
-        }
-
-        .position-badge {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .media-type {
-            background: linear-gradient(45deg, #f093fb, #f5576c);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .media-content {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .media-content img,
-        .media-content video {
-            max-width: 100%;
-            max-height: 400px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .media-content img:hover,
-        .media-content video:hover {
-            transform: scale(1.02);
-        }
-
-        .media-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .media-info strong {
-            color: #2c3e50;
-        }
-
-        .error-message {
-            background: linear-gradient(45deg, #e17055, #d63031);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .media-filename {
-            font-weight: 600;
-            color: #2c3e50;
-            word-break: break-all;
-            margin-bottom: 5px;
-        }
-
-        .media-size {
-            color: #636e72;
-            font-size: 13px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .media-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>Gallery - Cloud SMP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="main.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Discord Media Loader</h1>
-        
-        <div class="controls">
-            <button class="btn btn-primary" onclick="loadSpecificMedia()">Load Media 1, 2, 4, 6</button>
-            <button class="btn btn-secondary" onclick="refreshAndLoad()">Refresh & Load</button>
-            <button class="btn btn-success" onclick="clearMedia()">Clear All</button>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="server-logo">
+                <img src="https://via.placeholder.com/40" alt="Cloud SMP Logo" class="logo-img" id="server-icon">
+                <span class="server-name">Cloud SMP</span>
+            </div>
         </div>
-        
-        <div id="status" class="status" style="display: none;"></div>
-        
-        <div id="mediaGrid" class="media-grid"></div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span class="link-text">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="gallery.html" class="nav-link">
+                    <i class="fas fa-image"></i>
+                    <span class="link-text">Gallery</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="playerlist.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span class="link-text">Players</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="discord.html" class="nav-link">
+                    <i class="fab fa-discord"></i>
+                    <span class="link-text">Discord</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="feedback.html" class="nav-link">
+                    <i class="fas fa-comment"></i>
+                    <span class="link-text">Feedback</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="shop.html" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="link-text">Shop</span>
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <script>
-        const API_BASE = 'https://api-cloud-smp.mcboss.top';
-        const MEDIA_POSITIONS = [1, 2, 4, 6];
+    <div class="main-content">
+        <section class="gallery-header">
+            <div class="container">
+                <h1 class="gallery-title">Server Gallery</h1>
+                <p class="gallery-subtitle">Latest screenshots and videos from our community</p>
+            </div>
+        </section>
 
-        function showStatus(message, type = 'loading') {
-            const statusDiv = document.getElementById('status');
-            statusDiv.className = `status ${type}`;
-            statusDiv.style.display = 'block';
-            
-            if (type === 'loading') {
-                statusDiv.innerHTML = `<div class="loading-spinner"></div>${message}`;
-            } else {
-                statusDiv.innerHTML = message;
-            }
-        }
-
-        function hideStatus() {
-            const statusDiv = document.getElementById('status');
-            statusDiv.style.display = 'none';
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function formatTimestamp(timestamp) {
-            return new Date(timestamp).toLocaleString();
-        }
-
-        function getMediaTypeClass(type) {
-            if (type.startsWith('image/')) return 'image';
-            if (type.startsWith('video/')) return 'video';
-            return 'unknown';
-        }
-
-        async function loadMediaInfo(position, refresh = false) {
-            try {
-                const url = `${API_BASE}/media/${position}/info${refresh ? '?refresh=true' : ''}`;
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `HTTP ${response.status}`);
-                }
-                
-                return await response.json();
-            } catch (error) {
-                console.error(`Error loading media ${position} info:`, error);
-                throw error;
-            }
-        }
-
-        function createMediaElement(mediaInfo) {
-            const mediaUrl = `${API_BASE}/media/${mediaInfo.position}`;
-            const isImage = mediaInfo.type.startsWith('image/');
-            const isVideo = mediaInfo.type.startsWith('video/');
-            
-            if (isImage) {
-                return `<img src="${mediaUrl}" alt="${mediaInfo.filename}" loading="lazy">`;
-            } else if (isVideo) {
-                return `<video controls preload="metadata">
-                    <source src="${mediaUrl}" type="${mediaInfo.type}">
-                    Your browser does not support the video tag.
-                </video>`;
-            } else {
-                return `<div class="error-message">Unsupported media type: ${mediaInfo.type}</div>`;
-            }
-        }
-
-        function createMediaCard(mediaInfo) {
-            const mediaElement = createMediaElement(mediaInfo);
-            const typeClass = getMediaTypeClass(mediaInfo.type);
-            
-            return `
-                <div class="media-item">
-                    <div class="media-header">
-                        <span class="position-badge">Position ${mediaInfo.position}</span>
-                        <span class="media-type">${typeClass.toUpperCase()}</span>
+        <section class="gallery-content">
+            <div class="container">
+                <div class="gallery-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-images"></i>
+                        <span id="total-media-count">Loading...</span>
+                        <span>Total Media</span>
                     </div>
-                    <div class="media-content">
-                        ${mediaElement}
-                    </div>
-                    <div class="media-info">
-                        <div class="media-filename">${mediaInfo.filename}</div>
-                        <div class="media-size">${formatFileSize(mediaInfo.size)}</div>
-                        <div><strong>Type:</strong> ${mediaInfo.type}</div>
-                        <div><strong>Message ID:</strong> ${mediaInfo.message_id}</div>
-                        <div><strong>Timestamp:</strong> ${formatTimestamp(mediaInfo.timestamp)}</div>
-                        <div><strong>Total Media:</strong> ${mediaInfo.total_media_count}</div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="last-updated">Just now</span>
+                        <span>Last Updated</span>
                     </div>
                 </div>
-            `;
-        }
 
-        function createErrorCard(position, error) {
-            return `
-                <div class="media-item">
-                    <div class="media-header">
-                        <span class="position-badge">Position ${position}</span>
-                        <span class="media-type">ERROR</span>
-                    </div>
-                    <div class="error-message">
-                        Failed to load media at position ${position}<br>
-                        <small>${error.message || error}</small>
-                    </div>
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- Media items will be dynamically loaded here -->
                 </div>
-            `;
-        }
 
-        async function loadSpecificMedia(refresh = false) {
-            showStatus(`Loading media at positions: ${MEDIA_POSITIONS.join(', ')}...`, 'loading');
-            
-            const mediaGrid = document.getElementById('mediaGrid');
-            mediaGrid.innerHTML = '';
-            
-            try {
-                const promises = MEDIA_POSITIONS.map(position => 
-                    loadMediaInfo(position, refresh).catch(error => ({ error, position }))
-                );
-                
-                const results = await Promise.all(promises);
-                
-                let successCount = 0;
-                let errorCount = 0;
-                
-                results.forEach(result => {
-                    if (result.error) {
-                        mediaGrid.innerHTML += createErrorCard(result.position, result.error);
-                        errorCount++;
-                    } else {
-                        mediaGrid.innerHTML += createMediaCard(result);
-                        successCount++;
-                    }
-                });
-                
-                if (successCount > 0 && errorCount === 0) {
-                    showStatus(`Successfully loaded ${successCount} media items!`, 'success');
-                } else if (successCount > 0 && errorCount > 0) {
-                    showStatus(`Loaded ${successCount} media items, ${errorCount} failed to load.`, 'error');
-                } else {
-                    showStatus(`Failed to load all media items.`, 'error');
-                }
-                
-                setTimeout(hideStatus, 3000);
-                
-            } catch (error) {
-                console.error('Error loading media:', error);
-                showStatus(`Error loading media: ${error.message}`, 'error');
-                setTimeout(hideStatus, 5000);
-            }
-        }
+                <div class="gallery-actions">
+                    <button class="btn btn-primary" id="load-more-btn" onclick="loadMoreMedia()">
+                        <i class="fas fa-plus"></i> Load More
+                    </button>
+                    <button class="btn btn-secondary" id="refresh-btn" onclick="refreshGallery()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
 
-        async function refreshAndLoad() {
-            showStatus('Refreshing media cache...', 'loading');
-            
-            try {
-                // Force refresh the cache first
-                const refreshResponse = await fetch(`${API_BASE}/media/refresh`);
-                if (!refreshResponse.ok) {
-                    throw new Error('Failed to refresh cache');
-                }
-                
-                // Wait a moment for cache to update
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Load media with refresh flag
-                await loadSpecificMedia(true);
-                
-            } catch (error) {
-                console.error('Error refreshing:', error);
-                showStatus(`Error refreshing cache: ${error.message}`, 'error');
-                setTimeout(hideStatus, 5000);
-            }
-        }
+                <div class="gallery-loading" id="gallery-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading media...</p>
+                </div>
+            </div>
+        </section>
+    </div>
 
-        function clearMedia() {
-            const mediaGrid = document.getElementById('mediaGrid');
-            mediaGrid.innerHTML = '';
-            hideStatus();
-        }
+    <!-- Media Modal -->
+    <div class="media-modal" id="media-modal">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-media" id="modal-media">
+                <!-- Media content will be loaded here -->
+            </div>
+            <div class="modal-controls">
+                <button class="modal-btn" onclick="previousMedia()">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <button class="modal-btn" onclick="nextMedia()">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
-        // Load media on page load
-        window.addEventListener('load', () => {
-            loadSpecificMedia();
-        });
-
-        // Auto-refresh every 2 minutes
-        setInterval(() => {
-            if (document.getElementById('mediaGrid').children.length > 0) {
-                loadSpecificMedia(true);
-            }
-        }, 120000);
-    </script>
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span>Gallery refreshed successfully!</span>
+    </div>
 </body>
 </html>
