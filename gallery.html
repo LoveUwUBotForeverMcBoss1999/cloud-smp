@@ -3,98 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloud SMP Media Gallery</title>
+  <title>Media Gallery</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 20px;
     }
-    .media-container {
-      background-color: white;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      text-align: center;
+    .media-item {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border: 1px solid #ccc;
     }
-    img, video {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-    }
-    .error {
+    .error-message {
       color: red;
       text-align: center;
+      padding: 20px;
+    }
+    .retry-button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>Cloud SMP Media Gallery</h1>
-  <div class="gallery" id="gallery"></div>
-  <div id="error" class="error"></div>
+  <div id="gallery" class="gallery"></div>
+  <div id="error" class="error-message" style="display: none;"></div>
+  <button id="retry" class="retry-button" style="display: none;">Retry</button>
 
   <script>
+    // Fallback media in case API fails
+    const fallbackMedia = [
+      { url: "https://via.placeholder.com/200", alt: "Placeholder Image 1" },
+      { url: "https://via.placeholder.com/200/FF0000", alt: "Placeholder Image 2" }
+    ];
+
     async function loadMedia() {
       const gallery = document.getElementById('gallery');
       const errorDiv = document.getElementById('error');
-      const baseUrl = 'https://api-cloud-smp.mcboss.top/api/media';
-      let index = 1;
+      const retryButton = document.getElementById('retry');
 
-      while (true) {
-        try {
-          const response = await fetch(`${baseUrl}${index}`, {
-            headers: { 'Origin': 'https://cloud-smp.mcboss.top' }
-          });
+      // Clear previous content
+      gallery.innerHTML = '';
+      errorDiv.style.display = 'none';
+      retryButton.style.display = 'none';
 
-          if (!response.ok) {
-            if (response.status === 404) break; // No more media
-            throw new Error(`HTTP ${response.status}: ${await response.text()}`);
-          }
+      try {
+        const response = await fetch('https://api-cloud-smp.mcboss.top/api/media1', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
 
-          const contentType = response.headers.get('content-type');
-          const mediaContainer = document.createElement('div');
-          mediaContainer.className = 'media-container';
-
-          if (contentType.startsWith('image/')) {
-            const img = document.createElement('img');
-            img.src = `${baseUrl}${index}`;
-            img.alt = `Media ${index}`;
-            mediaContainer.appendChild(img);
-          } else if (contentType.startsWith('video/')) {
-            const video = document.createElement('video');
-            video.src = `${baseUrl}${index}`;
-            video.controls = true;
-            mediaContainer.appendChild(video);
-          } else {
-            console.warn(`Unsupported content type: ${contentType}`);
-            index++;
-            continue;
-          }
-
-          gallery.appendChild(mediaContainer);
-          index++;
-        } catch (error) {
-          console.error('Error loading media:', error);
-          errorDiv.textContent = 'Failed to load some media. Please try again later.';
-          break;
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${await response.text()}`);
         }
+
+        const mediaItems = await response.json();
+        
+        // Assuming mediaItems is an array of { url, alt } objects
+        mediaItems.forEach(item => {
+          const img = document.createElement('img');
+          img.src = item.url;
+          img.alt = item.alt || 'Media item';
+          img.className = 'media-item';
+          gallery.appendChild(img);
+        });
+      } catch (error) {
+        console.error('Error loading media:', error);
+        errorDiv.textContent = 'Failed to load media. Using fallback content.';
+        errorDiv.style.display = 'block';
+        retryButton.style.display = 'block';
+
+        // Load fallback media
+        fallbackMedia.forEach(item => {
+          const img = document.createElement('img');
+          img.src = item.url;
+          img.alt = item.alt;
+          img.className = 'media-item';
+          gallery.appendChild(img);
+        });
       }
     }
 
-    // Load media when the page loads
-    window.onload = loadMedia;
+    // Retry button event listener
+    document.getElementById('retry').addEventListener('click', loadMedia);
+
+    // Initial load
+    loadMedia();
   </script>
 </body>
 </html>
