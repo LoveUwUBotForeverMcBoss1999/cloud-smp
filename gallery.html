@@ -7,6 +7,200 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="main.js" defer></script>
+    <style>
+        /* Gallery specific styles */
+        .gallery {
+            padding: 4rem 0;
+            background: var(--background-dark);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .media-item {
+            background: var(--surface-darker);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .media-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 35px rgba(85, 255, 255, 0.1);
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .media-item:hover img, .media-item:hover video {
+            transform: scale(1.05);
+        }
+
+        .media-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+
+        .media-item:hover .media-overlay {
+            opacity: 1;
+        }
+
+        .media-info {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .load-more-btn {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--background-dark);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .load-more-btn:hover {
+            background: #44EEEE;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(85, 255, 255, 0.3);
+        }
+
+        .load-more-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--background-dark);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-counter {
+            background: var(--surface-darker);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-counter span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .no-media {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .no-media i {
+            font-size: 4rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            background: var(--error-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Modal styles for full-size media */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .media-item img, .media-item video {
+                height: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -57,73 +251,229 @@
     </div>
 
     <div class="main-content">
-        <section class="gallery-header">
+        <section class="gallery">
             <div class="container">
-                <h1 class="gallery-title">Server Gallery</h1>
-                <p class="gallery-subtitle">Latest screenshots and videos from our community</p>
-            </div>
-        </section>
-
-        <section class="gallery-content">
-            <div class="container">
-                <div class="gallery-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-images"></i>
-                        <span id="total-media-count">Loading...</span>
-                        <span>Total Media</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-clock"></i>
-                        <span id="last-updated">Just now</span>
-                        <span>Last Updated</span>
+                <div class="gallery-header">
+                    <h1 class="section-title">Server Gallery</h1>
+                    <div class="gallery-counter">
+                        <span id="loaded-count">0</span> of <span id="total-count">0</span> media items loaded
                     </div>
                 </div>
 
+                <div id="error-container"></div>
+                
                 <div class="gallery-grid" id="gallery-grid">
-                    <!-- Media items will be dynamically loaded here -->
+                    <!-- Media items will be loaded here -->
                 </div>
 
-                <div class="gallery-actions">
-                    <button class="btn btn-primary" id="load-more-btn" onclick="loadMoreMedia()">
-                        <i class="fas fa-plus"></i> Load More
-                    </button>
-                    <button class="btn btn-secondary" id="refresh-btn" onclick="refreshGallery()">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
+                <div class="no-media" id="no-media" style="display: none;">
+                    <i class="fas fa-images"></i>
+                    <h3>No media available</h3>
+                    <p>Check back later for new screenshots and videos!</p>
                 </div>
 
-                <div class="gallery-loading" id="gallery-loading">
-                    <div class="loading-spinner"></div>
-                    <p>Loading media...</p>
-                </div>
+                <button class="load-more-btn" id="load-more-btn" style="display: none;">
+                    <i class="fas fa-plus"></i> Load More
+                </button>
             </div>
         </section>
     </div>
 
-    <!-- Media Modal -->
-    <div class="media-modal" id="media-modal">
-        <div class="modal-overlay" onclick="closeModal()"></div>
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-media" id="modal-media">
-                <!-- Media content will be loaded here -->
-            </div>
-            <div class="modal-controls">
-                <button class="modal-btn" onclick="previousMedia()">
-                    <i class="fas fa-chevron-left"></i> Previous
-                </button>
-                <button class="modal-btn" onclick="nextMedia()">
-                    Next <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
+    <!-- Modal for full-size media -->
+    <div id="media-modal" class="modal">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <img class="modal-content" id="modal-img">
+        <video class="modal-content" id="modal-video" controls style="display: none;"></video>
     </div>
 
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
-        <span>Gallery refreshed successfully!</span>
+        <span>Server IP copied to clipboard!</span>
     </div>
+
+    <script>
+        // Gallery specific JavaScript
+        const GALLERY_CONFIG = {
+            API_BASE: 'https://api-cloud-smp.mcboss.top',
+            ITEMS_PER_LOAD: 4
+        };
+
+        let currentPosition = 1;
+        let totalMediaCount = 0;
+        let isLoading = false;
+
+        // DOM elements
+        const galleryGrid = document.getElementById('gallery-grid');
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const loadedCount = document.getElementById('loaded-count');
+        const totalCount = document.getElementById('total-count');
+        const errorContainer = document.getElementById('error-container');
+        const noMediaDiv = document.getElementById('no-media');
+        const modal = document.getElementById('media-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalVideo = document.getElementById('modal-video');
+        const modalClose = document.getElementById('modal-close');
+
+        // Initialize gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGallery();
+        });
+
+        async function initializeGallery() {
+            try {
+                // Get total media count first
+                const countResponse = await fetch(`${GALLERY_CONFIG.API_BASE}/media/count`);
+                if (!countResponse.ok) throw new Error('Failed to fetch media count');
+                
+                const countData = await countResponse.json();
+                totalMediaCount = countData.count;
+                totalCount.textContent = totalMediaCount;
+
+                if (totalMediaCount === 0) {
+                    noMediaDiv.style.display = 'block';
+                    return;
+                }
+
+                // Load first batch of media
+                await loadMedia();
+                
+            } catch (error) {
+                console.error('Error initializing gallery:', error);
+                showError('Failed to load gallery. Please try again later.');
+            }
+        }
+
+        async function loadMedia() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.innerHTML = '<span class="loading-spinner"></span>Loading...';
+
+            try {
+                const itemsToLoad = Math.min(GALLERY_CONFIG.ITEMS_PER_LOAD, totalMediaCount - currentPosition + 1);
+                const loadPromises = [];
+
+                for (let i = 0; i < itemsToLoad; i++) {
+                    loadPromises.push(loadMediaItem(currentPosition + i));
+                }
+
+                const mediaItems = await Promise.all(loadPromises);
+                
+                // Add media items to gallery
+                mediaItems.forEach(item => {
+                    if (item) {
+                        galleryGrid.appendChild(item);
+                    }
+                });
+
+                currentPosition += itemsToLoad;
+                loadedCount.textContent = currentPosition - 1;
+
+                // Check if there are more items to load
+                if (currentPosition > totalMediaCount) {
+                    loadMoreBtn.style.display = 'none';
+                } else {
+                    loadMoreBtn.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Error loading media:', error);
+                showError('Failed to load media items. Please try again.');
+            } finally {
+                isLoading = false;
+                loadMoreBtn.disabled = false;
+                loadMoreBtn.innerHTML = '<i class="fas fa-plus"></i> Load More';
+            }
+        }
+
+        async function loadMediaItem(position) {
+            try {
+                // Get media info first
+                const infoResponse = await fetch(`${GALLERY_CONFIG.API_BASE}/media/${position}/info`);
+                if (!infoResponse.ok) throw new Error(`Failed to fetch media info for position ${position}`);
+                
+                const mediaInfo = await infoResponse.json();
+                
+                // Create media element
+                const mediaElement = document.createElement('div');
+                mediaElement.className = 'media-item';
+                
+                const mediaUrl = `${GALLERY_CONFIG.API_BASE}/media/${position}`;
+                
+                let mediaTag;
+                if (mediaInfo.type.startsWith('video/')) {
+                    mediaTag = `<video src="${mediaUrl}" muted preload="metadata"></video>`;
+                } else {
+                    mediaTag = `<img src="${mediaUrl}" alt="Server media" loading="lazy">`;
+                }
+
+                mediaElement.innerHTML = `
+                    ${mediaTag}
+                    <div class="media-overlay">
+                        <div class="media-info">
+                            <i class="fas fa-expand-alt"></i> Click to view full size
+                        </div>
+                    </div>
+                `;
+
+                // Add click event for modal
+                mediaElement.addEventListener('click', () => {
+                    openModal(mediaUrl, mediaInfo.type);
+                });
+
+                return mediaElement;
+                
+            } catch (error) {
+                console.error(`Error loading media item ${position}:`, error);
+                return null;
+            }
+        }
+
+        function openModal(mediaUrl, mediaType) {
+            modal.style.display = 'block';
+            
+            if (mediaType.startsWith('video/')) {
+                modalImg.style.display = 'none';
+                modalVideo.style.display = 'block';
+                modalVideo.src = mediaUrl;
+            } else {
+                modalVideo.style.display = 'none';
+                modalImg.style.display = 'block';
+                modalImg.src = mediaUrl;
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            modalImg.src = '';
+            modalVideo.src = '';
+        }
+
+        function showError(message) {
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        // Event listeners
+        loadMoreBtn.addEventListener('click', loadMedia);
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
