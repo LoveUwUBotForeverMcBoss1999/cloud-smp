@@ -3,103 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Gallery</title>
+    <title>Cloud SMP Media Gallery</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1 {
-            text-align: center;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
             color: #333;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-bottom: 40px;
         }
+
+        .media-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.2);
+        }
+
+        .media-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
         .media-item {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            text-align: center;
-        }
-        .media-item img, .media-item video {
             max-width: 100%;
-            height: auto;
-            border-radius: 4px;
+            max-height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
         }
-        .error {
-            color: red;
-            font-weight: bold;
+
+        .media-item.loading {
+            opacity: 0.5;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .media-info {
+            padding: 20px;
+        }
+
+        .media-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .media-details {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .media-details span {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .error-message {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .retry-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background: #5a67d8;
+        }
+
+        .stats {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .stats h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Media Gallery</h1>
-    <div class="gallery" id="gallery">
-        <!-- Media items will be inserted here -->
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Cloud SMP Media Gallery</h1>
+            <p>Latest media from our Discord channel</p>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            <p>Failed to load media. Please try again.</p>
+            <button class="retry-btn" onclick="loadAllMedia()">Retry</button>
+        </div>
+
+        <div class="gallery" id="gallery">
+            <!-- Media cards will be populated here -->
+        </div>
+
+        <div class="stats" id="stats">
+            <h3>Loading stats...</h3>
+        </div>
     </div>
 
     <script>
-        const API_BASE_URL = 'https://<your-vercel-app>.vercel.app'; // Replace with your Vercel app URL
-        const mediaIndices = [1, 2, 3, 4, 5, 6];
+        const API_BASE = 'https://api-cloud-smp.mcboss.top';
+        const MEDIA_POSITIONS = [1, 2, 5, 7];
 
-        async function loadMedia() {
-            const gallery = document.getElementById('gallery');
+        // Function to create media card HTML
+        function createMediaCard(position) {
+            return `
+                <div class="media-card" id="card-${position}">
+                    <div class="media-container">
+                        <div class="loading-spinner"></div>
+                        <img class="media-item loading" 
+                             id="media-${position}" 
+                             alt="Media ${position}"
+                             style="display: none;">
+                        <video class="media-item loading" 
+                               id="video-${position}" 
+                               controls 
+                               style="display: none;">
+                        </video>
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title">Media #${position}</div>
+                        <div class="media-details" id="details-${position}">
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
-            for (const index of mediaIndices) {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/media${index}`, {
-                        headers: {
-                            'Origin': 'https://cloud-smp.mcboss.top' // Match your API's allowed origin
-                        }
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Failed to fetch media ${index}: ${response.statusText}`);
-                    }
-
-                    const contentType = response.headers.get('content-type');
-                    const blob = await response.blob();
-                    const url = URL.createObjectURL(blob);
-
-                    const mediaItem = document.createElement('div');
-                    mediaItem.className = 'media-item';
-
-                    if (contentType.startsWith('image/')) {
-                        const img = document.createElement('img');
-                        img.src = url;
-                        img.alt = `Media ${index}`;
-                        mediaItem.appendChild(img);
-                    } else if (contentType.startsWith('video/')) {
-                        const video = document.createElement('video');
-                        video.src = url;
-                        video.controls = true;
-                        video.alt = `Media ${index}`;
-                        mediaItem.appendChild(video);
-                    } else {
-                        throw new Error(`Unsupported content type for media ${index}: ${contentType}`);
-                    }
-
-                    gallery.appendChild(mediaItem);
-                } catch (error) {
-                    console.error(error);
-                    const errorDiv = document.createElement('div');
-                    errorDiv.className = 'media-item error';
-                    errorDiv.textContent = `Error loading media ${index}: ${error.message}`;
-                    gallery.appendChild(errorDiv);
+        // Function to load media info
+        async function loadMediaInfo(position) {
+            try {
+                const response = await fetch(`${API_BASE}/media/${position}/info`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    return data;
+                } else {
+                    throw new Error(data.error || 'Failed to load media info');
                 }
+            } catch (error) {
+                console.error(`Error loading media ${position} info:`, error);
+                return null;
             }
         }
 
-        // Load media when the page loads
-        window.onload = loadMedia;
+        // Function to load and display media
+        async function loadMedia(position) {
+            const info = await loadMediaInfo(position);
+            const card = document.getElementById(`card-${position}`);
+            const mediaContainer = card.querySelector('.media-container');
+            const spinner = card.querySelector('.loading-spinner');
+            const details = document.getElementById(`details-${position}`);
+            
+            if (!info) {
+                // Show error state
+                mediaContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #e74c3c;">
+                        <p>❌ Failed to load</p>
+                        <button class="retry-btn" onclick="loadMedia(${position})">Retry</button>
+                    </div>
+                `;
+                details.innerHTML = '<span style="color: #e74c3c;">Error loading media</span>';
+                return;
+            }
+
+            // Update details
+            const sizeFormatted = info.size > 0 ? `${(info.size / 1024 / 1024).toFixed(2)} MB` : 'Unknown size';
+            details.innerHTML = `
+                <span><strong>Type:</strong> ${info.type}</span>
+                <span><strong>Size:</strong> ${sizeFormatted}</span>
+                <span><strong>Position:</strong> ${position} of ${info.total_media_count}</span>
+            `;
+
+            // Load media based on type
+            if (info.type.startsWith('image/')) {
+                const img = document.getElementById(`media-${position}`);
+                
+                img.onload = function() {
+                    spinner.style.display = 'none';
+                    img.style.display = 'block';
+                    img.classList.remove('loading');
+                };
+                
+                img.onerror = function() {
+                    mediaContainer.innerHTML = `
+                        <div style="text-align: center; padding: 20px; color: #e74c3c;">
+                            <p>❌ Image failed to load</p>
+                            <button class="retry-btn" onclick="loadMedia(${position})">Retry</button>
+                        </div>
+                    `;
+                };
+                
+                img.src = `${API_BASE}/media/${position}`;
+                
+            } else if (info.type.startsWith('video/')) {
+                const video = document.getElementById(`video-${position}`);
+                
+                video.onloadeddata = function() {
+                    spinner.style.display = 'none';
+                    video.style.display = 'block';
+                    video.classList.remove('loading');
+                };
+                
+                video.onerror = function() {
+                    mediaContainer.innerHTML = `
+                        <div style="text-align: center; padding: 20px; color: #e74c3c;">
+                            <p>❌ Video failed to load</p>
+                            <button class="retry-btn" onclick="loadMedia(${position})">Retry</button>
+                        </div>
+                    `;
+                };
+                
+                video.src = `${API_BASE}/media/${position}`;
+            }
+        }
+
+        // Function to load total media count
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/media/count`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('stats').innerHTML = `
+                        <h3>📊 Channel Statistics</h3>
+                        <p>Total media files: <strong>${data.total_media_count}</strong></p>
+                        <p>Showing positions: <strong>${MEDIA_POSITIONS.join(', ')}</strong></p>
+                    `;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                document.getElementById('stats').innerHTML = `
+                    <h3>📊 Channel Statistics</h3>
+                    <p style="color: #ffcccb;">Failed to load statistics</p>
+                `;
+            }
+        }
+
+        // Function to load all media
+        async function loadAllMedia() {
+            const errorMessage = document.getElementById('errorMessage');
+            const gallery = document.getElementById('gallery');
+            
+            // Hide error message
+            errorMessage.style.display = 'none';
+            
+            // Create gallery cards
+            gallery.innerHTML = MEDIA_POSITIONS.map(pos => createMediaCard(pos)).join('');
+            
+            // Load each media item
+            const promises = MEDIA_POSITIONS.map(pos => loadMedia(pos));
+            
+            try {
+                await Promise.all(promises);
+            } catch (error) {
+                console.error('Error loading media:', error);
+                errorMessage.style.display = 'block';
+            }
+            
+            // Load stats
+            loadStats();
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllMedia();
+        });
     </script>
 </body>
 </html>
