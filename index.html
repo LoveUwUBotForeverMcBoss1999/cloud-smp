@@ -9,10 +9,10 @@
     <script src="main.js" defer></script>
 </head>
 <body>
-    <aside class="sidebar">
+    <div class="sidebar">
         <div class="sidebar-header">
             <div class="server-logo">
-                <img src="https://via.placeholder.com/40" alt="Server Logo" class="logo-img">
+                <img src="https://via.placeholder.com/40" alt="Cloud SMP Logo" class="logo-img" id="server-icon">
                 <span class="server-name">Cloud SMP</span>
             </div>
         </div>
@@ -54,13 +54,13 @@
                 </a>
             </li>
         </ul>
-    </aside>
+    </div>
 
-    <main class="main-content">
+    <div class="main-content">
         <section class="hero">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 class="hero-title">Welcome to Cloud SMP</h1>
+                    <h1 class="hero-title">Welcome to <span class="highlight">Cloud SMP</span></h1>
                     <p class="hero-subtitle">Chill · Build · Survive peacefully in the Skies!</p>
                     <div class="server-info">
                         <div class="info-card">
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="info-card">
-                            <i class="fas fa-code-branch"></i>
+                            <i class="fas fa-code"></i>
                             <div>
                                 <h3 id="server-version">1.21.5</h3>
                                 <p>Server Version</p>
@@ -87,18 +87,15 @@
                     </div>
                     <div class="hero-buttons">
                         <button class="btn btn-primary" onclick="copyServerIP()">
-                            <i class="fas fa-copy"></i>
-                            Copy Server IP
+                            <i class="fas fa-copy"></i> Copy Server IP
                         </button>
                         <a href="#" class="btn btn-secondary" id="discord-join-button">
-                            <i class="fab fa-discord"></i>
-                            Join Discord
+                            <i class="fab fa-discord"></i> Join Discord
                         </a>
                     </div>
                 </div>
                 <div class="hero-image">
                     <div class="server-status">
-                        <img id="server-icon" src="https://via.placeholder.com/128" alt="Server Icon">
                         <div class="status-indicator">
                             <span class="status-dot" id="status-dot"></span>
                             <span id="status-text">Checking...</span>
@@ -128,7 +125,7 @@
                         <p>Join a chill, friendly community focused on creativity and collaboration rather than conflict.</p>
                     </div>
                     <div class="feature-card">
-                        <i class="fas fa-code-branch"></i>
+                        <i class="fas fa-plug"></i>
                         <h3>Cross-Version Support</h3>
                         <p>Play on any version from 1.10.x to 1.21.x - everyone's welcome regardless of their client version.</p>
                     </div>
@@ -141,28 +138,28 @@
                 <h2 class="section-title">Server Statistics</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <i class="fas fa-clock stat-icon"></i>
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
                         <div class="stat-content">
                             <h3>Server Uptime</h3>
                             <p>99.9%</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <i class="fas fa-tachometer-alt stat-icon"></i>
+                        <div class="stat-icon"><i class="fas fa-tachometer-alt"></i></div>
                         <div class="stat-content">
                             <h3>Server Performance</h3>
                             <p>Low Latency</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <i class="fas fa-shield-alt stat-icon"></i>
+                        <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
                         <div class="stat-content">
                             <h3>Server Security</h3>
                             <p>Protected & Safe</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <i class="fas fa-headset stat-icon"></i>
+                        <div class="stat-icon"><i class="fas fa-headset"></i></div>
                         <div class="stat-content">
                             <h3>Active Staff</h3>
                             <p>24/7 Support</p>
@@ -175,7 +172,7 @@
         <section class="motd">
             <div class="container">
                 <h2 class="section-title">Server Message</h2>
-                <div class="motd-card">
+                <div class="mot драфтd-card">
                     <div class="motd-content" id="server-motd">
                         <p>☁ Welcome to Cloud SMP ☁</p>
                         <p>Chill · Build · Survive peacefully in the Skies!</p>
@@ -183,7 +180,7 @@
                 </div>
             </div>
         </section>
-    </main>
+    </div>
 
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
