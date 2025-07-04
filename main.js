@@ -24,7 +24,7 @@ const elements = {
     statusDot: document.getElementById('status-dot'),
     statusText: document.getElementById('status-text'),
     toast: document.getElementById('toast'),
-    discordButton: document.querySelector('.btn-secondary[href*="discord"]')
+    discordButton: document.getElementById('discord-join-button')
 };
 
 // Initialize when DOM is loaded
@@ -87,6 +87,7 @@ async function fetchDiscordData() {
         console.error('❌ Error fetching Discord data:', error);
         // Use fallback data if Discord API fails
         useFallbackDiscordData();
+        showToast('Failed to load Discord invite link. Using fallback.', 'warning');
     }
 }
 
@@ -164,6 +165,11 @@ function updateDiscordInfo(data) {
     // Update Discord invite link
     if (elements.discordButton && data.server_info?.generated_invite?.url) {
         elements.discordButton.href = data.server_info.generated_invite.url;
+        console.log(`🔗 Updated Discord invite link to: ${data.server_info.generated_invite.url}`);
+    } else if (elements.discordButton) {
+        // Fallback if no invite link is available
+        elements.discordButton.href = 'https://discord.gg/fallback-invite';
+        console.log('⚠️ Using fallback Discord invite link');
     }
 }
 
@@ -320,7 +326,7 @@ function handleVisibilityChange() {
         // Pause updates when tab is not visible
         if (updateInterval) {
             clearInterval(updateInterval);
-            console.log('⏸️ Updates paused (tab not visible)');
+            console.log('�每一 Updates paused (tab not visible)');
         }
     } else {
         // Resume updates when tab becomes visible
