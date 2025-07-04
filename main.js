@@ -23,7 +23,8 @@ const elements = {
     serverMotd: document.getElementById('server-motd'),
     statusDot: document.getElementById('status-dot'),
     statusText: document.getElementById('status-text'),
-    toast: document.getElementById('toast')
+    toast: document.getElementById('toast'),
+    discordButton: document.querySelector('.btn-secondary[href*="discord"]')
 };
 
 // Initialize when DOM is loaded
@@ -144,20 +145,25 @@ function updateDiscordInfo(data) {
     
     // Update Discord member count if elements exist
     const discordMemberCount = document.getElementById('discord-member-count');
-    if (discordMemberCount && data.memberCount) {
-        discordMemberCount.textContent = data.memberCount;
+    if (discordMemberCount && data.server_info?.server_member_count) {
+        discordMemberCount.textContent = data.server_info.server_member_count;
     }
     
     // Update Discord online count
     const discordOnlineCount = document.getElementById('discord-online-count');
-    if (discordOnlineCount && data.onlineCount) {
-        discordOnlineCount.textContent = data.onlineCount;
+    if (discordOnlineCount && data.server_info?.server_online_member_count) {
+        discordOnlineCount.textContent = data.server_info.server_online_member_count;
     }
     
     // Update Discord server name
     const discordServerName = document.getElementById('discord-server-name');
-    if (discordServerName && data.serverName) {
-        discordServerName.textContent = data.serverName;
+    if (discordServerName && data.server_info?.server_name) {
+        discordServerName.textContent = data.server_info.server_name;
+    }
+    
+    // Update Discord invite link
+    if (elements.discordButton && data.server_info?.generated_invite?.url) {
+        elements.discordButton.href = data.server_info.generated_invite.url;
     }
 }
 
@@ -200,9 +206,14 @@ function showOfflineStatus() {
 // Use fallback Discord data
 function useFallbackDiscordData() {
     const fallbackData = {
-        memberCount: '50+',
-        onlineCount: '15+',
-        serverName: 'Cloud SMP Discord'
+        server_info: {
+            server_member_count: '50+',
+            server_online_member_count: '15+',
+            server_name: 'Cloud SMP Discord',
+            generated_invite: {
+                url: 'https://discord.gg/fallback-invite'
+            }
+        }
     };
     
     updateDiscordInfo(fallbackData);
