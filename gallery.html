@@ -1,154 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloud SMP Media Gallery</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .media-container {
-      background-color: white;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-    img, video {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-    }
-    .error {
-      color: red;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .retry-button {
-      display: block;
-      margin: 10px auto;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .retry-button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .media-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+        .media-item img, .media-item video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <h1>Cloud SMP Media Gallery</h1>
-  <div class="gallery" id="gallery"></div>
-  <div id="error" class="error"></div>
-  <button id="retry" class="retry-button" style="display: none;">Retry Loading Media</button>
+    <h1>Media Gallery</h1>
+    <div class="gallery" id="gallery">
+        <!-- Media items will be inserted here -->
+    </div>
 
-  <script>
-    async function loadMedia() {
-      const gallery = document.getElementById('gallery');
-      const errorDiv = document.getElementById('error');
-      const retryButton = document.getElementById('retry');
-      const baseUrl = 'https://api-cloud-smp.mcboss.top/api/media';
-      const maxMedia = 6;
+    <script>
+        const API_BASE_URL = 'https://<your-vercel-app>.vercel.app'; // Replace with your Vercel app URL
+        const mediaIndices = [1, 2, 3, 4, 5, 6];
 
-      // Clear previous content
-      gallery.innerHTML = '';
-      errorDiv.textContent = '';
-      retryButton.style.display = 'none';
+        async function loadMedia() {
+            const gallery = document.getElementById('gallery');
 
-      // Check API health
-      try {
-        const healthResponse = await fetch('https://api-cloud-smp.mcboss.top/health');
-        if (!healthResponse.ok) {
-          errorDiv.textContent = 'API is down. Check server status or domain configuration.';
-          retryButton.style.display = 'block';
-          return;
-        }
-        const healthData = await healthResponse.json();
-        if (!healthData.bot_ready) {
-          errorDiv.textContent = `Discord bot not ready: ${healthData.bot_status.error || 'Unknown error'}. ${healthData.troubleshooting}`;
-          retryButton.style.display = 'block';
-          return;
-        }
-      } catch (error) {
-        errorDiv.textContent = 'Cannot connect to API. Check network or domain settings.';
-        retryButton.style.display = 'block';
-        console.error('Health check failed:', error);
-        return;
-      }
+            for (const index of mediaIndices) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/media${index}`, {
+                        headers: {
+                            'Origin': 'https://cloud-smp.mcboss.top' // Match your API's allowed origin
+                        }
+                    });
 
-      // Load latest 6 media items
-      for (let index = 1; index <= maxMedia; index++) {
-        try {
-          const response = await fetch(`${baseUrl}${index}`, {
-            headers: { 'Origin': 'https://cloud-smp.mcboss.top' }
-          });
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch media ${index}: ${response.statusText}`);
+                    }
 
-          if (!response.ok) {
-            if (response.status === 404) {
-              console.log(`No media at index ${index}`);
-              continue;
+                    const contentType = response.headers.get('content-type');
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+
+                    const mediaItem = document.createElement('div');
+                    mediaItem.className = 'media-item';
+
+                    if (contentType.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.alt = `Media ${index}`;
+                        mediaItem.appendChild(img);
+                    } else if (contentType.startsWith('video/')) {
+                        const video = document.createElement('video');
+                        video.src = url;
+                        video.controls = true;
+                        video.alt = `Media ${index}`;
+                        mediaItem.appendChild(video);
+                    } else {
+                        throw new Error(`Unsupported content type for media ${index}: ${contentType}`);
+                    }
+
+                    gallery.appendChild(mediaItem);
+                } catch (error) {
+                    console.error(error);
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'media-item error';
+                    errorDiv.textContent = `Error loading media ${index}: ${error.message}`;
+                    gallery.appendChild(errorDiv);
+                }
             }
-            const errorText = await response.text();
-            throw new Error(`HTTP ${response.status}: ${errorText}`);
-          }
-
-          const contentType = response.headers.get('content-type');
-          const mediaContainer = document.createElement('div');
-          mediaContainer.className = 'media-container';
-
-          if (contentType.startsWith('image/')) {
-            const img = document.createElement('img');
-            img.src = `${baseUrl}${index}`;
-            img.alt = `Media ${index}`;
-            mediaContainer.appendChild(img);
-          } else if (contentType.startsWith('video/')) {
-            const video = document.createElement('video');
-            video.src = `${baseUrl}${index}`;
-            video.controls = true;
-            mediaContainer.appendChild(video);
-          } else {
-            console.warn(`Unsupported content type at index ${index}: ${contentType}`);
-            continue;
-          }
-
-          gallery.appendChild(mediaContainer);
-        } catch (error) {
-          console.error(`Error loading media ${index}:`, error);
-          errorDiv.textContent = `Failed to load media ${index}: ${error.message}.`;
-          retryButton.style.display = 'block';
         }
-      }
 
-      if (gallery.children.length === 0) {
-        errorDiv.textContent = 'No media loaded. Ensure images/videos exist in the Discord channel.';
-        retryButton.style.display = 'block';
-      }
-    }
-
-    // Retry button event listener
-    document.getElementById('retry').addEventListener('click', loadMedia);
-
-    // Load media on page load
-    window.onload = loadMedia;
-  </script>
+        // Load media when the page loads
+        window.onload = loadMedia;
+    </script>
 </body>
 </html>
