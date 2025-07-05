@@ -842,7 +842,8 @@
 
         function goToCheckout() {
             if (currentItem && currentUser) {
-                const checkoutUrl = `/checkout/${currentItem.id}_${currentUser.user_id}`;
+                // Updated to use checkout.html with proper URL parameters
+                const checkoutUrl = `checkout.html?item=${encodeURIComponent(currentItem.id)}&user=${encodeURIComponent(currentUser.user_id)}`;
                 window.location.href = checkoutUrl;
             }
         }
