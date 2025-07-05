@@ -204,6 +204,36 @@
             border: 2px solid #404040;
         }
 
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: #87ceeb;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            border: 2px solid #404040;
+            border-radius: 10px;
+            background: #2a2a2a;
+            color: #ffffff;
+            font-size: 1rem;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #87ceeb;
+        }
+
         .checkout-btn {
             background: linear-gradient(135deg, #87ceeb, #4169e1);
             color: #ffffff;
@@ -248,6 +278,28 @@
         .back-btn:hover {
             background: linear-gradient(135deg, #495057, #6c757d);
             transform: scale(1.05);
+        }
+
+        .otp-section {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #87ceeb;
+            text-align: center;
+        }
+
+        .otp-section h3 {
+            color: #87ceeb;
+            margin-bottom: 15px;
+        }
+
+        .otp-input {
+            width: 200px !important;
+            text-align: center;
+            font-size: 1.5rem;
+            letter-spacing: 0.5rem;
+            margin: 10px 0;
         }
 
         .loading {
@@ -310,6 +362,36 @@
             border: 2px solid #404040;
         }
 
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .step {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: linear-gradient(135deg, #87ceeb, #4169e1);
+            color: #ffffff;
+        }
+
+        .step.completed {
+            background: #51cf66;
+            color: #ffffff;
+        }
+
+        .step.inactive {
+            background: #404040;
+            color: #a0a0a0;
+        }
+
         @media (max-width: 768px) {
             .checkout-container {
                 grid-template-columns: 1fr;
@@ -342,6 +424,11 @@
                 width: 100%;
                 max-width: 300px;
             }
+
+            .step-indicator {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -350,6 +437,13 @@
         <div class="header">
             <h1><i class="fas fa-shopping-cart"></i> Checkout</h1>
             <p>Complete your purchase securely</p>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active" id="step-1">1. Review Order</div>
+            <div class="step inactive" id="step-2">2. Enter Game Name</div>
+            <div class="step inactive" id="step-3">3. Verify Purchase</div>
+            <div class="step inactive" id="step-4">4. Complete</div>
         </div>
 
         <div id="loading" class="loading">
@@ -422,13 +516,38 @@
             </div>
 
             <div class="checkout-actions">
-                <div id="checkout-buttons">
-                    <button class="checkout-btn" id="confirm-purchase-btn" onclick="confirmPurchase()">
-                        <i class="fas fa-credit-card"></i> Confirm Purchase
+                <!-- Step 1: Review Order -->
+                <div id="step-1-content">
+                    <div class="input-group">
+                        <label for="ingame-name">
+                            <i class="fas fa-gamepad"></i> Your In-Game Name
+                        </label>
+                        <input type="text" id="ingame-name" placeholder="Enter your Minecraft username" maxlength="16">
+                    </div>
+                    <button class="checkout-btn" onclick="proceedToVerification()">
+                        <i class="fas fa-arrow-right"></i> Continue to Verification
                     </button>
                     <a href="shop.html" class="back-btn">
                         <i class="fas fa-arrow-left"></i> Back to Shop
                     </a>
+                </div>
+
+                <!-- Step 2: OTP Verification -->
+                <div id="step-2-content" style="display: none;">
+                    <div class="otp-section">
+                        <h3><i class="fas fa-shield-alt"></i> Verification Required</h3>
+                        <p>We've sent a verification code to your Discord DMs.</p>
+                        <p>Please check your messages and enter the 6-digit code below:</p>
+                        <div class="input-group">
+                            <input type="text" id="otp-input" class="otp-input" placeholder="000000" maxlength="6">
+                        </div>
+                        <button class="checkout-btn" onclick="completePurchase()">
+                            <i class="fas fa-credit-card"></i> Complete Purchase
+                        </button>
+                        <button class="back-btn" onclick="backToStep1()">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                    </div>
                 </div>
                 
                 <div id="purchase-status" style="display: none;"></div>
@@ -440,7 +559,7 @@
                 <i class="fas fa-check-circle"></i>
             </div>
             <h2>Purchase Successful!</h2>
-            <p>Your item has been successfully purchased and will be delivered in-game.</p>
+            <p>Your item has been successfully purchased and delivered in-game!</p>
             
             <div class="purchase-details">
                 <h3>Purchase Details:</h3>
@@ -457,12 +576,11 @@
 
     <script>
         const API_BASE = 'https://cloud-smp-shop-api.mcboss.top';
-        const DISCORD_API_BASE = 'https://dms-api.mcboss.top';
-        const DISCORD_API_KEY = 'dk05483CdnB6WBEfm7esQ3J7BvuIrLsC';
         
-        let checkoutData = null;
         let currentUser = null;
         let currentItem = null;
+        let currentItemId = null;
+        let currentUserId = null;
 
         // Load checkout data on page load
         window.onload = function() {
@@ -471,6 +589,8 @@
             const userId = urlParams.get('user');
             
             if (itemId && userId) {
+                currentItemId = itemId;
+                currentUserId = userId;
                 loadCheckoutData(itemId, userId);
             } else {
                 showError('Invalid checkout URL. Please return to the shop and try again.');
@@ -481,7 +601,7 @@
             try {
                 // Load item and user data in parallel
                 const [itemResponse, userResponse] = await Promise.all([
-                    fetch(`${API_BASE}/api/shop/items`),
+                    fetch(`${API_BASE}/api/item-info/${itemId}`),
                     fetch(`${API_BASE}/api/user/${userId}`)
                 ]);
 
@@ -489,26 +609,20 @@
                 const userData = await userResponse.json();
 
                 if (!itemResponse.ok) {
-                    throw new Error('Failed to load item data');
+                    throw new Error(itemData.error || 'Failed to load item data');
                 }
                 
                 if (!userResponse.ok) {
                     throw new Error(userData.error || 'Failed to load user data');
                 }
 
-                // Find the specific item
-                const item = itemData.items.find(i => i.item_id === itemId);
-                if (!item) {
-                    throw new Error('Item not found');
-                }
-
                 // Check if user has sufficient funds
-                if (userData.cloud_points < item.item_price) {
+                if (userData.cloud_points < itemData.item_price) {
                     showError('Insufficient funds. Please return to the shop to check your balance.');
                     return;
                 }
 
-                currentItem = item;
+                currentItem = itemData;
                 currentUser = userData;
                 
                 displayCheckoutInfo();
@@ -528,7 +642,7 @@
             document.getElementById('user-avatar').src = avatarUrl;
             document.getElementById('user-name').textContent = currentUser.username;
             document.getElementById('user-id').textContent = `ID: ${currentUser.user_id}`;
-            document.getElementById('user-joined').textContent = `Joined: ${new Date(currentUser.joined_at).toLocaleDateString()}`;
+            document.getElementById('user-joined').textContent = `Points: ${currentUser.cloud_points}`;
             
             // Update balance info
             document.getElementById('current-balance').textContent = currentUser.cloud_points.toLocaleString();
@@ -549,30 +663,116 @@
             checkoutContent.style.display = 'grid';
         }
 
-        async function confirmPurchase() {
-            const confirmBtn = document.getElementById('confirm-purchase-btn');
-            const purchaseStatus = document.getElementById('purchase-status');
+        function updateStep(stepNumber) {
+            // Update step indicators
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`step-${i}`);
+                if (i < stepNumber) {
+                    step.className = 'step completed';
+                } else if (i === stepNumber) {
+                    step.className = 'step active';
+                } else {
+                    step.className = 'step inactive';
+                }
+            }
+        }
+
+        async function proceedToVerification() {
+            const ingameName = document.getElementById('ingame-name').value.trim();
             
-            // Disable button and show loading
-            confirmBtn.disabled = true;
-            confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-            
+            if (!ingameName) {
+                alert('Please enter your in-game name');
+                return;
+            }
+
+            if (ingameName.length < 3 || ingameName.length > 16) {
+                alert('In-game name must be between 3 and 16 characters');
+                return;
+            }
+
+            // Validate Minecraft username format
+            const minecraftUsernameRegex = /^[a-zA-Z0-9_]{3,16}$/;
+            if (!minecraftUsernameRegex.test(ingameName)) {
+                alert('Invalid Minecraft username format. Only letters, numbers, and underscores are allowed.');
+                return;
+            }
+
             try {
-                const response = await fetch(`${API_BASE}/api/shop/purchase`, {
+                // Send OTP to Discord DM
+                const response = await fetch(`${API_BASE}/api/shop/${currentUserId}/send-otp-dm`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        item_id: currentItem.item_id,
-                        user_id: currentUser.user_id,
-                        item_price: currentItem.item_price
-                    })
+                    }
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
+                    // Move to step 2
+                    document.getElementById('step-1-content').style.display = 'none';
+                    document.getElementById('step-2-content').style.display = 'block';
+                    updateStep(2);
+                    
+                    // Show success message
+                    const statusDiv = document.getElementById('purchase-status');
+                    statusDiv.innerHTML = `
+                        <div class="success-message">
+                            <i class="fas fa-check-circle"></i>
+                            ${data.message}
+                            ${data.otp ? `<br><strong>OTP (for testing): ${data.otp}</strong>` : ''}
+                        </div>
+                    `;
+                    statusDiv.style.display = 'block';
+                    
+                } else {
+                    throw new Error(data.error || 'Failed to send OTP');
+                }
+
+            } catch (error) {
+                console.error('Error sending OTP:', error);
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        async function completePurchase() {
+            const otpInput = document.getElementById('otp-input').value.trim();
+            const ingameName = document.getElementById('ingame-name').value.trim();
+            
+            if (!otpInput || otpInput.length !== 6) {
+                alert('Please enter a valid 6-digit OTP');
+                return;
+            }
+
+            if (!otpInput.match(/^\d{6}$/)) {
+                alert('OTP must be 6 digits');
+                return;
+            }
+
+            try {
+                updateStep(3);
+                
+                // Show processing message
+                const statusDiv = document.getElementById('purchase-status');
+                statusDiv.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i> Processing your purchase...
+                    </div>
+                `;
+                statusDiv.style.display = 'block';
+
+                // Complete purchase
+                const response = await fetch(`${API_BASE}/api/shop/${currentUserId}/${otpInput}/item/${currentItemId}/${ingameName}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateStep(4);
                     showPurchaseSuccess(data);
                 } else {
                     throw new Error(data.error || 'Purchase failed');
@@ -580,18 +780,23 @@
 
             } catch (error) {
                 console.error('Purchase error:', error);
-                purchaseStatus.innerHTML = `
+                const statusDiv = document.getElementById('purchase-status');
+                statusDiv.innerHTML = `
                     <div class="error-message">
                         <i class="fas fa-exclamation-triangle"></i>
                         Purchase failed: ${error.message}
                     </div>
                 `;
-                purchaseStatus.style.display = 'block';
-                
-                // Re-enable button
-                confirmBtn.disabled = false;
-                confirmBtn.innerHTML = '<i class="fas fa-credit-card"></i> Confirm Purchase';
+                statusDiv.style.display = 'block';
+                updateStep(2); // Go back to step 2
             }
+        }
+
+        function backToStep1() {
+            document.getElementById('step-1-content').style.display = 'block';
+            document.getElementById('step-2-content').style.display = 'none';
+            document.getElementById('purchase-status').style.display = 'none';
+            updateStep(1);
         }
 
         function showPurchaseSuccess(data) {
@@ -603,12 +808,15 @@
             checkoutContent.style.display = 'none';
             
             // Show success details
+            const ingameName = document.getElementById('ingame-name').value.trim();
             successDetails.innerHTML = `
                 <p><strong>Item:</strong> ${currentItem.item_name}</p>
                 <p><strong>Price:</strong> ${currentItem.item_price.toLocaleString()} Cloud Points</p>
-                <p><strong>Purchase ID:</strong> ${data.purchase_id || 'N/A'}</p>
-                <p><strong>Status:</strong> Completed</p>
+                <p><strong>In-Game Name:</strong> ${ingameName}</p>
+                <p><strong>Status:</strong> ${data.success ? 'Completed' : 'Failed'}</p>
+                <p><strong>Remaining Points:</strong> ${data.remaining_points ? data.remaining_points.toLocaleString() : 'N/A'}</p>
                 <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+                ${data.command_executed ? `<p><strong>Command:</strong> ${data.command_executed}</p>` : ''}
             `;
             
             // Show success container
@@ -624,6 +832,27 @@
             errorText.textContent = message;
             errorContainer.style.display = 'block';
         }
+
+        // Auto-format OTP input
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpInput = document.getElementById('otp-input');
+            if (otpInput) {
+                otpInput.addEventListener('input', function(e) {
+                    // Only allow digits
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                    
+                    // Auto-submit if 6 digits entered
+                    if (e.target.value.length === 6) {
+                        setTimeout(() => {
+                            const completeBtn = document.querySelector('#step-2-content .checkout-btn');
+                            if (completeBtn && !completeBtn.disabled) {
+                                completeBtn.focus();
+                            }
+                        }, 100);
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
