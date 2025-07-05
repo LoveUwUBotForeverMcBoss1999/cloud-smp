@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud SMP Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,17 +13,18 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
+        /* Header */
         .header {
-            background: rgba(20, 20, 20, 0.9);
+            background: rgba(18, 18, 18, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 2px solid #87ceeb;
+            border-bottom: 1px solid rgba(135, 206, 235, 0.2);
             padding: 1rem 0;
             position: sticky;
             top: 0;
@@ -33,65 +34,113 @@
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 2rem;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #87ceeb;
-            text-shadow: 0 0 10px rgba(135, 206, 235, 0.3);
-        }
-
-        .user-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            color: #cccccc;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #87CEEB;
         }
 
-        .container {
+        .discord-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #87CEEB;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .discord-link:hover {
+            background: rgba(135, 206, 235, 0.1);
+            border-color: #87CEEB;
+        }
+
+        /* Main Content */
+        .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: 2rem;
         }
 
-        .shop-grid {
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #87CEEB, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+        }
+
+        /* Shop Items Grid */
+        .shop-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #87CEEB;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
-        .shop-item {
+        .item-card {
             background: rgba(30, 30, 30, 0.8);
-            border: 1px solid #444;
-            border-radius: 12px;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            border-radius: 1rem;
             padding: 1.5rem;
             text-align: center;
-            cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            cursor: pointer;
         }
 
-        .shop-item:hover {
-            border-color: #87ceeb;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.2);
+        .item-card:hover {
+            transform: translateY(-5px);
+            border-color: #87CEEB;
+            box-shadow: 0 10px 30px rgba(135, 206, 235, 0.1);
         }
 
-        .item-icon {
-            font-size: 3rem;
-            color: #87ceeb;
-            margin-bottom: 1rem;
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 0.5rem;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 2px solid rgba(135, 206, 235, 0.3);
         }
 
         .item-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
             color: #ffffff;
@@ -99,28 +148,51 @@
 
         .item-price {
             font-size: 1.1rem;
-            color: #87ceeb;
-            font-weight: bold;
+            color: #87CEEB;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
         }
 
-        .buy-btn {
-            background: linear-gradient(45deg, #87ceeb, #4682b4);
-            color: #000;
+        .buy-button {
+            background: linear-gradient(45deg, #87CEEB, #4682B4);
+            color: #000000;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.8rem 2rem;
+            border-radius: 0.5rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 1rem;
             transition: all 0.3s ease;
             width: 100%;
+            font-size: 1rem;
         }
 
-        .buy-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.4);
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
         }
 
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #87CEEB;
+        }
+
+        .loading i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -134,138 +206,165 @@
         }
 
         .modal-content {
-            background: rgba(25, 25, 25, 0.95);
-            border: 1px solid #444;
-            border-radius: 12px;
-            margin: 5% auto;
-            padding: 2rem;
+            background: #1a1a1a;
+            margin: 2% auto;
+            padding: 0;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            border-radius: 1rem;
             width: 90%;
             max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .close {
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #87ceeb;
         }
 
         .modal-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #87ceeb;
+            background: rgba(135, 206, 235, 0.1);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(135, 206, 235, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
             font-size: 1.5rem;
             font-weight: bold;
+            color: #87CEEB;
         }
 
-        .form-group {
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #87CEEB;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step-content {
+            text-align: center;
+        }
+
+        .step-item-info {
+            margin-bottom: 2rem;
+        }
+
+        .step-item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 0.5rem;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .step-item-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-item-price {
+            font-size: 1.2rem;
+            color: #87CEEB;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .input-group {
             margin-bottom: 1.5rem;
+            text-align: left;
         }
 
-        .form-label {
+        .input-label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #cccccc;
+            color: #b0b0b0;
             font-weight: bold;
         }
 
-        .form-input {
+        .input-field {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #444;
-            border-radius: 8px;
-            background: rgba(40, 40, 40, 0.8);
+            padding: 0.8rem;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            border-radius: 0.5rem;
+            background: rgba(30, 30, 30, 0.5);
             color: #ffffff;
             font-size: 1rem;
         }
 
-        .form-input:focus {
+        .input-field:focus {
             outline: none;
-            border-color: #87ceeb;
+            border-color: #87CEEB;
             box-shadow: 0 0 0 2px rgba(135, 206, 235, 0.2);
         }
 
-        .btn {
-            background: linear-gradient(45deg, #87ceeb, #4682b4);
-            color: #000;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.4);
-        }
-
-        .btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(40, 40, 40, 0.5);
-            border-radius: 8px;
+        .user-info {
+            background: rgba(30, 30, 30, 0.5);
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
         .user-avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background: #87ceeb;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 2px solid #87CEEB;
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-points {
+            font-size: 1.1rem;
+            color: #87CEEB;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: #000;
+            gap: 0.3rem;
         }
 
-        .user-details h3 {
-            color: #87ceeb;
-            margin-bottom: 0.25rem;
-        }
-
-        .user-details p {
-            color: #cccccc;
-            font-size: 0.9rem;
-        }
-
-        .balance-info {
-            background: rgba(40, 40, 40, 0.5);
+        .affordability {
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 0.5rem;
             margin-bottom: 1.5rem;
+            font-weight: bold;
             text-align: center;
         }
 
-        .balance-amount {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #87ceeb;
-        }
-
         .affordable {
-            color: #4caf50;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #00ff00;
         }
 
-        .unaffordable {
-            color: #f44336;
+        .not-affordable {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff0000;
         }
 
         .checkbox-group {
@@ -273,35 +372,93 @@
             align-items: flex-start;
             gap: 0.5rem;
             margin-bottom: 1.5rem;
+            text-align: left;
         }
 
         .checkbox-group input[type="checkbox"] {
-            margin-top: 0.25rem;
-            accent-color: #87ceeb;
+            margin-top: 0.2rem;
+            scale: 1.2;
         }
 
-        .checkbox-group label {
-            color: #cccccc;
+        .checkbox-label {
+            color: #b0b0b0;
             font-size: 0.9rem;
             line-height: 1.4;
         }
 
-        .success-screen {
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #87CEEB, #4682B4);
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(60, 60, 60, 0.8);
+            color: #ffffff;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(80, 80, 80, 0.8);
+            border-color: #87CEEB;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-content {
             text-align: center;
             padding: 2rem;
         }
 
         .success-icon {
             font-size: 4rem;
-            color: #4caf50;
+            color: #00ff00;
             margin-bottom: 1rem;
         }
 
+        .success-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #00ff00;
+        }
+
         .receipt {
-            background: rgba(40, 40, 40, 0.5);
+            background: rgba(30, 30, 30, 0.5);
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            border-radius: 0.5rem;
             padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1.5rem;
+            margin: 1.5rem 0;
             text-align: left;
         }
 
@@ -310,212 +467,214 @@
             justify-content: space-between;
             margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid rgba(135, 206, 235, 0.1);
         }
 
         .receipt-row:last-child {
             border-bottom: none;
             font-weight: bold;
-            color: #87ceeb;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .loading i {
-            font-size: 2rem;
-            color: #87ceeb;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            color: #87CEEB;
         }
 
         .error-message {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid #f44336;
-            color: #f44336;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff0000;
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 0.5rem;
             margin-bottom: 1rem;
             text-align: center;
         }
 
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .step {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-weight: bold;
-        }
-
-        .step.active {
-            background: #87ceeb;
-            color: #000;
-        }
-
-        .step.completed {
-            background: #4caf50;
-            color: #fff;
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .shop-grid {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .items-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .modal-content {
                 width: 95%;
-                margin: 2% auto;
-                padding: 1.5rem;
+                margin: 5% auto;
             }
-            
-            .header-content {
+
+            .action-buttons {
                 flex-direction: column;
-                gap: 1rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <div class="header">
         <div class="header-content">
             <div class="logo">
-                <i class="fas fa-cloud"></i> Cloud SMP Shop
+                <i class="fas fa-cloud"></i>
+                Cloud SMP Shop
             </div>
-            <div class="user-info">
-                <i class="fas fa-store"></i> Premium Minecraft Items
-            </div>
+            <a href="https://discord.gg/BbkVngNWSS" class="discord-link" target="_blank">
+                <i class="fab fa-discord"></i>
+                Join Discord
+            </a>
         </div>
     </div>
 
-    <div class="container">
-        <div class="shop-grid" id="shopGrid">
-            <!-- Items will be loaded here -->
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1 class="welcome-title">Welcome to Cloud SMP Shop</h1>
+            <p class="welcome-subtitle">
+                Earn Cloud Points by chatting in our Discord server and use them to purchase amazing items for your in-game experience!
+            </p>
+        </div>
+
+        <!-- Shop Items Section -->
+        <div class="shop-section">
+            <h2 class="section-title">
+                <i class="fas fa-shopping-cart"></i>
+                Shop Items
+            </h2>
+            <div id="shop-items-container">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Loading shop items...</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Purchase Modal -->
     <div id="purchaseModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closePurchaseModal()">&times;</span>
-            
-            <div class="step-indicator">
-                <div class="step active" id="step1">1</div>
-                <div class="step" id="step2">2</div>
-                <div class="step" id="step3">3</div>
-                <div class="step" id="step4">4</div>
+            <div class="modal-header">
+                <span class="modal-title">Purchase Item</span>
+                <button class="close-button" onclick="closePurchaseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-
-            <!-- Step 1: Item Info -->
-            <div id="stepItemInfo" class="step-content">
-                <div class="modal-header">Item Information</div>
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <div class="item-icon" id="modalItemIcon"></div>
-                    <h3 id="modalItemName"></h3>
-                    <p id="modalItemPrice"></p>
-                </div>
-                <button class="btn" onclick="goToStep(2)">Next</button>
-            </div>
-
-            <!-- Step 2: Discord ID -->
-            <div id="stepDiscordId" class="step-content" style="display: none;">
-                <div class="modal-header">Enter Discord User ID</div>
-                <div class="form-group">
-                    <label class="form-label">Discord User ID</label>
-                    <input type="text" id="discordUserId" class="form-input" placeholder="Your Discord User ID">
-                </div>
-                <button class="btn" onclick="loadUserInfo()">Next</button>
-            </div>
-
-            <!-- Step 3: User Info & Confirmation -->
-            <div id="stepUserInfo" class="step-content" style="display: none;">
-                <div class="modal-header">Confirm Purchase</div>
-                <div id="userProfileSection"></div>
-                <div id="balanceSection"></div>
-                <div id="affordabilitySection"></div>
-                <button class="btn" id="proceedToPurchase" onclick="goToStep(4)" disabled>Buy Now</button>
-            </div>
-
-            <!-- Step 4: OTP & IGN -->
-            <div id="stepOtpIgn" class="step-content" style="display: none;">
-                <div class="modal-header">Complete Purchase</div>
-                <div id="otpSection">
-                    <p style="margin-bottom: 1rem; color: #cccccc;">You need to verify your identity with an OTP sent to your Discord DM.</p>
-                    <button class="btn" onclick="sendOTP()" id="sendOtpBtn">Send OTP to DM</button>
-                </div>
-                <div id="otpInputSection" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Enter OTP</label>
-                        <input type="text" id="otpInput" class="form-input" placeholder="6-digit OTP">
+            <div class="modal-body">
+                <!-- Step 1: Item Information -->
+                <div id="step1" class="step active">
+                    <div class="step-content">
+                        <div class="step-item-info">
+                            <img id="modal-item-image" class="step-item-image" alt="Item">
+                            <div id="modal-item-name" class="step-item-name"></div>
+                            <div id="modal-item-price" class="step-item-price"></div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                            <button class="btn btn-secondary" onclick="closePurchaseModal()">Cancel</button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">In-Game Name</label>
-                        <input type="text" id="ignInput" class="form-input" placeholder="Your Minecraft username">
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="termsCheckbox">
-                        <label for="termsCheckbox">I understand that this purchase will be processed regardless of whether I'm online in the game. To receive the item, I must be in-game before completing this purchase.</label>
-                    </div>
-                    <button class="btn" onclick="completePurchase()" id="completePurchaseBtn" disabled>Complete Purchase</button>
                 </div>
-            </div>
 
-            <!-- Success Screen -->
-            <div id="stepSuccess" class="step-content" style="display: none;">
-                <div class="success-screen">
-                    <div class="success-icon">
-                        <i class="fas fa-check-circle"></i>
+                <!-- Step 2: Discord User ID -->
+                <div id="step2" class="step">
+                    <div class="step-content">
+                        <div class="input-group">
+                            <label class="input-label">Discord User ID</label>
+                            <input type="text" id="discord-user-id" class="input-field" placeholder="Enter your Discord User ID">
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="fetchUserInfo()">Next</button>
+                            <button class="btn btn-secondary" onclick="prevStep(1)">Back</button>
+                        </div>
                     </div>
-                    <h2 style="color: #4caf50; margin-bottom: 1rem;">Purchase Successful!</h2>
-                    <p style="color: #cccccc; margin-bottom: 1.5rem;">Your item has been delivered to your in-game account.</p>
-                    <div class="receipt" id="receiptSection">
-                        <!-- Receipt will be populated here -->
+                </div>
+
+                <!-- Step 3: User Info & Affordability -->
+                <div id="step3" class="step">
+                    <div class="step-content">
+                        <div class="user-info">
+                            <img id="user-avatar" class="user-avatar" alt="User Avatar">
+                            <div id="user-name" class="user-name"></div>
+                            <div id="user-points" class="user-points"></div>
+                        </div>
+                        <div id="affordability-status" class="affordability"></div>
+                        <div class="action-buttons">
+                            <button id="buy-button" class="btn btn-primary" onclick="nextStep(4)">Buy</button>
+                            <button class="btn btn-secondary" onclick="prevStep(2)">Back</button>
+                        </div>
                     </div>
-                    <button class="btn" onclick="closePurchaseModal()" style="margin-top: 1.5rem;">Close</button>
                 </div>
-            </div>
 
-            <!-- Loading Screen -->
-            <div id="stepLoading" class="step-content" style="display: none;">
-                <div class="loading">
-                    <i class="fas fa-spinner"></i>
-                    <p style="margin-top: 1rem;">Processing...</p>
+                <!-- Step 4: OTP & IGN -->
+                <div id="step4" class="step">
+                    <div class="step-content">
+                        <p style="margin-bottom: 1.5rem; color: #b0b0b0;">
+                            You need to get an OTP (One-Time Password) to complete your purchase.
+                        </p>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="sendOTP()">Send OTP</button>
+                            <button class="btn btn-secondary" onclick="prevStep(3)">Back</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Error Display -->
-            <div id="errorMessage" class="error-message" style="display: none;">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span id="errorText"></span>
+                <!-- Step 5: Enter OTP & IGN -->
+                <div id="step5" class="step">
+                    <div class="step-content">
+                        <div class="input-group">
+                            <label class="input-label">OTP (One-Time Password)</label>
+                            <input type="text" id="otp-input" class="input-field" placeholder="Enter 6-digit OTP">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">In-Game Name (IGN)</label>
+                            <input type="text" id="ign-input" class="input-field" placeholder="Enter your in-game name">
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="understand-checkbox">
+                            <label for="understand-checkbox" class="checkbox-label">
+                                I understand that this purchase will be completed whether I'm in the game or not. 
+                                To receive the item after purchase, I need to be in the game before I make the purchase.
+                            </label>
+                        </div>
+                        <div class="action-buttons">
+                            <button id="final-buy-button" class="btn btn-primary" onclick="completePurchase()" disabled>Buy</button>
+                            <button class="btn btn-secondary" onclick="prevStep(4)">Back</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6: Success -->
+                <div id="step6" class="step">
+                    <div class="success-content">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <h2 class="success-title">Purchase Successful!</h2>
+                        <div id="receipt" class="receipt"></div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="closePurchaseModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         const API_BASE = 'https://cloud-smp-shop-api.mcboss.top';
-        let currentItem = null;
+        let selectedItem = null;
         let currentUser = null;
-        let currentStep = 1;
+        let currentOTP = null;
 
         // Load shop items on page load
-        window.addEventListener('load', loadShopItems);
+        document.addEventListener('DOMContentLoaded', function() {
+            loadShopItems();
+        });
 
+        // Load shop items from API
         async function loadShopItems() {
             try {
                 const response = await fetch(`${API_BASE}/api/shop/items`);
@@ -527,334 +686,143 @@
                     showError('Failed to load shop items');
                 }
             } catch (error) {
-                showError('Error loading shop items: ' + error.message);
+                console.error('Error loading shop items:', error);
+                showError('Failed to load shop items');
             }
         }
 
+        // Display shop items in the grid
         function displayShopItems(items) {
-            const shopGrid = document.getElementById('shopGrid');
-            shopGrid.innerHTML = '';
+            const container = document.getElementById('shop-items-container');
+            
+            if (items.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #b0b0b0;">No items available</p>';
+                return;
+            }
 
-            items.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'shop-item';
-                itemElement.innerHTML = `
-                    <div class="item-icon">
-                        <i class="${item.item_icon}"></i>
-                    </div>
+            const itemsHTML = items.map(item => `
+                <div class="item-card" onclick="openPurchaseModal('${item.item_id}', '${item.item_name}', ${item.item_price}, '${item.item_icon}')">
+                    <img src="${item.item_icon}" alt="${item.item_name}" class="item-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMzMzIiByeD0iNCIvPgo8dGV4dCB4PSI0MCIgeT0iNDQiIGZpbGw9IiM4N0NFRUIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo='">
                     <div class="item-name">${item.item_name}</div>
                     <div class="item-price">
-                        <i class="fas fa-cloud"></i> ${item.item_price} Cloud Points
+                        <i class="fas fa-cloud"></i>
+                        ${item.item_price}
                     </div>
-                    <button class="buy-btn" onclick="openPurchaseModal('${item.item_id}')">
-                        <i class="fas fa-shopping-cart"></i> Buy Now
-                    </button>
-                `;
-                shopGrid.appendChild(itemElement);
-            });
+                    <button class="buy-button">Buy Now</button>
+                </div>
+            `).join('');
+
+            container.innerHTML = `<div class="items-grid">${itemsHTML}</div>`;
         }
 
-        async function openPurchaseModal(itemId) {
-            try {
-                const response = await fetch(`${API_BASE}/api/item-info/${itemId}`);
-                const item = await response.json();
-                
-                if (item.error) {
-                    showError(item.error);
-                    return;
-                }
-
-                currentItem = item;
-                
-                // Reset modal to step 1
-                resetModal();
-                
-                // Populate item info
-                document.getElementById('modalItemIcon').innerHTML = `<i class="${item.item_icon}"></i>`;
-                document.getElementById('modalItemName').textContent = item.item_name;
-                document.getElementById('modalItemPrice').innerHTML = `<i class="fas fa-cloud"></i> ${item.item_price} Cloud Points`;
-                
-                // Show modal
-                document.getElementById('purchaseModal').style.display = 'block';
-                
-            } catch (error) {
-                showError('Error loading item information: ' + error.message);
-            }
+        // Open purchase modal
+        function openPurchaseModal(itemId, itemName, itemPrice, itemIcon) {
+            selectedItem = { id: itemId, name: itemName, price: itemPrice, icon: itemIcon };
+            
+            document.getElementById('modal-item-image').src = itemIcon;
+            document.getElementById('modal-item-name').textContent = itemName;
+            document.getElementById('modal-item-price').innerHTML = `<i class="fas fa-cloud"></i> ${itemPrice}`;
+            
+            document.getElementById('purchaseModal').style.display = 'block';
+            showStep(1);
         }
 
+        // Close purchase modal
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+            resetModal();
+        }
+
+        // Reset modal to initial state
         function resetModal() {
-            currentStep = 1;
+            selectedItem = null;
             currentUser = null;
-            
+            currentOTP = null;
+            document.getElementById('discord-user-id').value = '';
+            document.getElementById('otp-input').value = '';
+            document.getElementById('ign-input').value = '';
+            document.getElementById('understand-checkbox').checked = false;
+            document.getElementById('final-buy-button').disabled = true;
+            showStep(1);
+        }
+
+        // Show specific step
+        function showStep(stepNumber) {
             // Hide all steps
-            document.querySelectorAll('.step-content').forEach(step => {
-                step.style.display = 'none';
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
             });
             
-            // Show step 1
-            document.getElementById('stepItemInfo').style.display = 'block';
-            
-            // Reset step indicators
-            document.querySelectorAll('.step').forEach((step, index) => {
-                step.className = 'step';
-                if (index === 0) step.className = 'step active';
-            });
-            
-            // Clear inputs
-            document.getElementById('discordUserId').value = '';
-            document.getElementById('otpInput').value = '';
-            document.getElementById('ignInput').value = '';
-            document.getElementById('termsCheckbox').checked = false;
-            
-            // Hide error
-            document.getElementById('errorMessage').style.display = 'none';
+            // Show selected step
+            document.getElementById(`step${stepNumber}`).classList.add('active');
         }
 
-        function goToStep(stepNumber) {
-            if (stepNumber === currentStep + 1) {
-                currentStep = stepNumber;
-                
-                // Hide all steps
-                document.querySelectorAll('.step-content').forEach(step => {
-                    step.style.display = 'none';
-                });
-                
-                // Update step indicators
-                document.querySelectorAll('.step').forEach((step, index) => {
-                    step.className = 'step';
-                    if (index < currentStep - 1) step.className = 'step completed';
-                    if (index === currentStep - 1) step.className = 'step active';
-                });
-                
-                // Show current step
-                const stepMap = {
-                    1: 'stepItemInfo',
-                    2: 'stepDiscordId',
-                    3: 'stepUserInfo',
-                    4: 'stepOtpIgn'
-                };
-                
-                document.getElementById(stepMap[stepNumber]).style.display = 'block';
-            }
+        // Next step
+        function nextStep(stepNumber) {
+            showStep(stepNumber);
         }
 
-        async function loadUserInfo() {
-            const userId = document.getElementById('discordUserId').value.trim();
+        // Previous step
+        function prevStep(stepNumber) {
+            showStep(stepNumber);
+        }
+
+        // Fetch user info from API
+        async function fetchUserInfo() {
+            const userId = document.getElementById('discord-user-id').value.trim();
             
             if (!userId) {
                 showError('Please enter your Discord User ID');
                 return;
             }
 
-            showLoading();
-            
+            if (!userId.match(/^\d{10,}$/)) {
+                showError('Invalid Discord User ID format');
+                return;
+            }
+
             try {
                 const response = await fetch(`${API_BASE}/api/user/${userId}`);
-                const user = await response.json();
+                const data = await response.json();
                 
-                hideLoading();
-                
-                if (user.error) {
-                    showError(user.error);
-                    return;
-                }
-
-                currentUser = user;
-                
-                // Display user profile
-                const profileSection = document.getElementById('userProfileSection');
-                profileSection.innerHTML = `
-                    <div class="user-profile">
-                        <div class="user-avatar">
-                            ${user.discord_avatar ? `<img src="${user.discord_avatar}" width="50" height="50" style="border-radius: 50%;">` : '<i class="fas fa-user"></i>'}
-                        </div>
-                        <div class="user-details">
-                            <h3>${user.username}</h3>
-                            <p>User ID: ${user.user_id}</p>
-                            <p>Messages: ${user.messages_sent}</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Display balance
-                const balanceSection = document.getElementById('balanceSection');
-                balanceSection.innerHTML = `
-                    <div class="balance-info">
-                        <div>Your Cloud Points Balance</div>
-                        <div class="balance-amount">
-                            <i class="fas fa-cloud"></i> ${user.cloud_points}
-                        </div>
-                    </div>
-                `;
-                
-                // Check affordability
-                const canAfford = user.cloud_points >= currentItem.item_price;
-                const affordabilitySection = document.getElementById('affordabilitySection');
-                const proceedBtn = document.getElementById('proceedToPurchase');
-                
-                if (canAfford) {
-                    affordabilitySection.innerHTML = `
-                        <div style="text-align: center; color: #4caf50; margin-bottom: 1rem;">
-                            <i class="fas fa-check-circle"></i> You can afford this item!
-                        </div>
-                    `;
-                    proceedBtn.disabled = false;
+                if (response.ok) {
+                    currentUser = data;
+                    displayUserInfo(data);
+                    checkAffordability();
+                    nextStep(3);
                 } else {
-                    affordabilitySection.innerHTML = `
-                        <div style="text-align: center; color: #f44336; margin-bottom: 1rem;">
-                            <i class="fas fa-times-circle"></i> Insufficient Cloud Points
-                        </div>
-                    `;
-                    proceedBtn.disabled = true;
+                    showError(data.error || 'Failed to fetch user info');
                 }
-                
-                goToStep(3);
-                
             } catch (error) {
-                hideLoading();
-                showError('Error loading user information: ' + error.message);
+                console.error('Error fetching user info:', error);
+                showError('Failed to fetch user info');
             }
         }
 
+        // Display user info
+        function displayUserInfo(user) {
+            document.getElementById('user-avatar').src = user.discord_avatar || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMzAiIGZpbGw9IiM4N0NFRUIiLz4KPHN2ZyB4PSIxNSIgeT0iMTUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDAwIj4KPHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPgo8L3N2Zz4KPC9zdmc+Cg==';
+            document.getElementById('user-name').textContent = user.username;
+            document.getElementById('user-points').innerHTML = `<i class="fas fa-cloud"></i> ${user.cloud_points} Cloud Points`;
+        }
+
+        // Check if user can afford the item
+        function checkAffordability() {
+            const affordabilityDiv = document.getElementById('affordability-status');
+            const buyButton = document.getElementById('buy-button');
+            
+            if (currentUser.cloud_points >= selectedItem.price) {
+                affordabilityDiv.className = 'affordability affordable';
+                affordabilityDiv.innerHTML = '<i class="fas fa-check-circle"></i> You can afford this item!';
+                buyButton.disabled = false;
+            } else {
+                affordabilityDiv.className = 'affordability not-affordable';
+                affordabilityDiv.innerHTML = '<i class="fas fa-times-circle"></i> Insufficient Cloud Points';
+                buyButton.disabled = true;
+            }
+        }
+
+        // Send OTP
         async function sendOTP() {
-            showLoading();
-            
             try {
-                const response = await fetch(`${API_BASE}/api/shop/${currentUser.user_id}/send-otp-dm`, {
-                    method: 'POST'
-                });
-                const result = await response.json();
-                
-                hideLoading();
-                
-                if (result.success) {
-                    document.getElementById('otpSection').style.display = 'none';
-                    document.getElementById('otpInputSection').style.display = 'block';
-                    
-                    // Enable form validation
-                    document.getElementById('termsCheckbox').addEventListener('change', validatePurchaseForm);
-                    document.getElementById('otpInput').addEventListener('input', validatePurchaseForm);
-                    document.getElementById('ignInput').addEventListener('input', validatePurchaseForm);
-                    
-                } else {
-                    showError(result.message || 'Failed to send OTP');
-                }
-                
-            } catch (error) {
-                hideLoading();
-                showError('Error sending OTP: ' + error.message);
-            }
-        }
-
-        function validatePurchaseForm() {
-            const otp = document.getElementById('otpInput').value.trim();
-            const ign = document.getElementById('ignInput').value.trim();
-            const termsChecked = document.getElementById('termsCheckbox').checked;
-            
-            const isValid = otp.length === 6 && ign.length > 0 && termsChecked;
-            document.getElementById('completePurchaseBtn').disabled = !isValid;
-        }
-
-        async function completePurchase() {
-            const otp = document.getElementById('otpInput').value.trim();
-            const ign = document.getElementById('ignInput').value.trim();
-            
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_BASE}/api/shop/${currentUser.user_id}/${otp}/item/${currentItem.item_id}/${ign}`, {
-                    method: 'POST'
-                });
-                const result = await response.json();
-                
-                hideLoading();
-                
-                if (result.success) {
-                    // Show success screen
-                    document.querySelectorAll('.step-content').forEach(step => {
-                        step.style.display = 'none';
-                    });
-                    
-                    // Update all steps to completed
-                    document.querySelectorAll('.step').forEach(step => {
-                        step.className = 'step completed';
-                    });
-                    
-                    // Generate receipt
-                    const receiptSection = document.getElementById('receiptSection');
-                    receiptSection.innerHTML = `
-                        <div class="receipt-row">
-                            <span>Item:</span>
-                            <span>${result.item}</span>
-                        </div>
-                        <div class="receipt-row">
-                            <span>Price:</span>
-                            <span><i class="fas fa-cloud"></i> ${result.price}</span>
-                        </div>
-                        <div class="receipt-row">
-                            <span>In-Game Name:</span>
-                            <span>${ign}</span>
-                        </div>
-                        <div class="receipt-row">
-                            <span>Purchase ID:</span>
-                            <span>${Date.now()}</span>
-                        </div>
-                        <div class="receipt-row">
-                            <span>Remaining Balance:</span>
-                            <span><i class="fas fa-cloud"></i> ${result.remaining_points}</span>
-                        </div>
-                    `;
-                    
-                    document.getElementById('stepSuccess').style.display = 'block';
-                    
-                } else {
-                    showError(result.error || 'Purchase failed');
-                }
-                
-            } catch (error) {
-                hideLoading();
-                showError('Error completing purchase: ' + error.message);
-            }
-        }
-
-        function showLoading() {
-            document.querySelectorAll('.step-content').forEach(step => {
-                step.style.display = 'none';
-            });
-            document.getElementById('stepLoading').style.display = 'block';
-        }
-
-        function hideLoading() {
-            document.getElementById('stepLoading').style.display = 'none';
-            const stepMap = {
-                1: 'stepItemInfo',
-                2: 'stepDiscordId',
-                3: 'stepUserInfo',
-                4: 'stepOtpIgn'
-            };
-            document.getElementById(stepMap[currentStep]).style.display = 'block';
-        }
-
-        function showError(message) {
-            document.getElementById('errorText').textContent = message;
-            document.getElementById('errorMessage').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('errorMessage').style.display = 'none';
-            }, 5000);
-        }
-
-        function closePurchaseModal() {
-            document.getElementById('purchaseModal').style.display = 'none';
-            resetModal();
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('purchaseModal');
-            if (event.target === modal) {
-                closePurchaseModal();
-            }
-        }
-    </script>
-</body>
-</html>
+                const response = await fetch(`${API_BASE}/api/shop/${currentUser
