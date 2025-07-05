@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud SMP Shop</title>
+    <title>Cloud SMP Shop - Trade Cloud Points for Items</title>
+    <meta name="description" content="Official Cloud SMP Shop - Trade your Cloud Points for amazing in-game items! Join our Discord community with thousands of players.">
+    <meta property="og:title" content="Cloud SMP Shop">
+    <meta property="og:description" content="Trade your Cloud Points for amazing in-game items! Join our Discord community.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cloud-smp.mcboss.top/shop">
+    <meta property="og:image" content="" id="meta-image">
+    <link rel="icon" href="" id="favicon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -35,7 +42,23 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .header h1 {
+        .server-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .server-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #87ceeb;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 0.3);
+        }
+
+        .server-details h1 {
             font-size: 3.5rem;
             font-weight: 700;
             color: #87ceeb;
@@ -43,9 +66,37 @@
             text-shadow: 0 0 20px rgba(135, 206, 235, 0.5);
         }
 
+        .server-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px 25px;
+            background: rgba(135, 206, 235, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #87ceeb;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+
         .header p {
             font-size: 1.2rem;
             color: #a0a0a0;
+            margin-top: 15px;
         }
 
         .loading {
@@ -164,30 +215,44 @@
             color: #ffffff;
         }
 
-        .modal-step {
-            display: none;
-            text-align: center;
-        }
-
-        .modal-step.active {
-            display: block;
-        }
-
-        .modal-step h3 {
+        .modal h3 {
             color: #87ceeb;
             margin-bottom: 20px;
             font-size: 1.8rem;
+            text-align: center;
         }
 
-        .modal-step p {
-            color: #a0a0a0;
+        .modal-item-info {
+            display: flex;
+            align-items: center;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
             margin-bottom: 20px;
-            line-height: 1.6;
+            border: 2px solid #404040;
+        }
+
+        .modal-item-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            margin-right: 20px;
+            border: 2px solid #404040;
+        }
+
+        .modal-item-details h4 {
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .modal-item-details p {
+            color: #87ceeb;
+            font-weight: 700;
+            margin: 0;
         }
 
         .input-group {
             margin: 20px 0;
-            text-align: left;
         }
 
         .input-group label {
@@ -205,6 +270,7 @@
             background: #2a2a2a;
             color: #ffffff;
             font-size: 1rem;
+            transition: border-color 0.3s ease;
         }
 
         .input-group input:focus {
@@ -212,14 +278,23 @@
             border-color: #87ceeb;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
+        .user-preview {
+            display: none;
             background: #2a2a2a;
             padding: 20px;
             border-radius: 15px;
             margin: 20px 0;
-            border: 2px solid #404040;
+            border: 2px solid #51cf66;
+        }
+
+        .user-preview.show {
+            display: block;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
         .user-avatar {
@@ -242,40 +317,21 @@
 
         .points-balance {
             text-align: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: #2a2a2a;
-            border-radius: 15px;
-            border: 2px solid #404040;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            border: 2px solid #51cf66;
         }
 
-        .points-balance h4 {
+        .points-balance h5 {
             color: #87ceeb;
             margin-bottom: 10px;
         }
 
         .points-balance .balance {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #ffffff;
-        }
-
-        .insufficient-funds {
-            color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #ff6b6b;
-        }
-
-        .sufficient-funds {
             color: #51cf66;
-            background: rgba(81, 207, 102, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #51cf66;
         }
 
         .modal-btn {
@@ -289,72 +345,95 @@
             cursor: pointer;
             margin: 10px;
             min-width: 120px;
+            transition: all 0.3s ease;
         }
 
         .modal-btn:hover {
             background: linear-gradient(135deg, #4169e1, #87ceeb);
+            transform: scale(1.05);
         }
 
         .modal-btn:disabled {
             background: #404040;
             cursor: not-allowed;
+            transform: none;
         }
 
-        .back-btn {
-            background: #404040;
-            color: #ffffff;
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 20px;
+            padding: 40px 0;
+            margin-top: 60px;
+            border: 2px solid #404040;
         }
 
-        .back-btn:hover {
-            background: #505050;
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            margin: 20px 0;
-            text-align: left;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 10px;
-            margin-top: 3px;
-            width: auto;
-        }
-
-        .checkbox-group label {
-            color: #a0a0a0;
-            line-height: 1.4;
-            font-size: 0.9rem;
-            margin-bottom: 0;
-        }
-
-        .receipt {
-            background: #2a2a2a;
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid #51cf66;
-            margin: 20px 0;
-        }
-
-        .receipt h3 {
-            color: #51cf66;
+        .footer-section h4 {
+            color: #87ceeb;
             margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: #87ceeb;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #404040;
+            color: #a0a0a0;
+        }
+
+        .discord-widget {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #404040;
             text-align: center;
         }
 
-        .receipt-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            padding: 10px 0;
-            border-bottom: 1px solid #404040;
+        .discord-join-btn {
+            background: #5865f2;
+            color: #ffffff;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
         }
 
-        .receipt-item:last-child {
-            border-bottom: none;
-            font-weight: 700;
-            color: #87ceeb;
+        .discord-join-btn:hover {
+            background: #4752c4;
+            transform: scale(1.05);
         }
 
         .error-message {
@@ -367,19 +446,29 @@
             text-align: center;
         }
 
-        .success-message {
-            color: #51cf66;
-            background: rgba(81, 207, 102, 0.1);
+        .insufficient-funds {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
             padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
-            border: 2px solid #51cf66;
+            border: 2px solid #ff6b6b;
             text-align: center;
         }
 
         @media (max-width: 768px) {
-            .header h1 {
+            .server-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .server-details h1 {
                 font-size: 2.5rem;
+            }
+            
+            .server-stats {
+                flex-direction: column;
+                gap: 15px;
             }
             
             .shop-grid {
@@ -391,12 +480,12 @@
                 padding: 20px;
             }
             
-            .user-info {
+            .modal-item-info {
                 flex-direction: column;
                 text-align: center;
             }
             
-            .user-avatar {
+            .modal-item-icon {
                 margin-right: 0;
                 margin-bottom: 15px;
             }
@@ -406,7 +495,22 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-cloud"></i> Cloud SMP Shop</h1>
+            <div class="server-info">
+                <img id="server-logo" class="server-logo" src="" alt="Server Logo">
+                <div class="server-details">
+                    <h1 id="server-name">Cloud SMP Shop</h1>
+                    <div class="server-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="member-count">-</div>
+                            <div class="stat-label">Members</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="online-count">-</div>
+                            <div class="stat-label">Online</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p>Trade your Cloud Points for amazing in-game items!</p>
         </div>
 
@@ -424,6 +528,34 @@
                 <span id="error-text">Failed to load shop items. Please try again later.</span>
             </div>
         </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-server"></i> Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/"><i class="fas fa-home"></i> Cloud SMP</a></li>
+                        <li><a href="/vote"><i class="fas fa-vote-yea"></i> Vote Sites</a></li>
+                        <li><a href="/feedback"><i class="fas fa-comment"></i> Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fab fa-discord"></i> Discord Community</h4>
+                    <div class="discord-widget">
+                        <p>Join our amazing Discord community!</p>
+                        <div>
+                            <strong id="footer-member-count">-</strong> members
+                        </div>
+                        <a href="#" id="discord-invite-btn" class="discord-join-btn">
+                            <i class="fab fa-discord"></i> Join Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cloud SMP. All rights reserved. | Trade your Cloud Points for amazing items!</p>
+            </div>
+        </footer>
     </div>
 
     <!-- Purchase Modal -->
@@ -431,96 +563,106 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             
-            <!-- Step 1: Item Info -->
-            <div id="step1" class="modal-step active">
-                <h3><i class="fas fa-info-circle"></i> Item Information</h3>
-                <img id="modal-item-icon" class="item-icon" src="" alt="Item Icon">
-                <h4 id="modal-item-name"></h4>
-                <p id="modal-item-price"></p>
-                <p>Are you sure you want to purchase this item?</p>
-                <button class="modal-btn" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+            <h3><i class="fas fa-shopping-cart"></i> Purchase Item</h3>
+            
+            <div class="modal-item-info">
+                <img id="modal-item-icon" class="modal-item-icon" src="" alt="Item Icon">
+                <div class="modal-item-details">
+                    <h4 id="modal-item-name"></h4>
+                    <p id="modal-item-price"></p>
+                </div>
             </div>
 
-            <!-- Step 2: Discord ID -->
-            <div id="step2" class="modal-step">
-                <h3><i class="fab fa-discord"></i> Discord User ID</h3>
-                <p>Enter your Discord User ID to verify your account and check your Cloud Points balance.</p>
-                <div class="input-group">
-                    <label for="discord-id">Discord User ID:</label>
-                    <input type="text" id="discord-id" placeholder="e.g., 123456789012345678">
-                </div>
-                <div id="discord-error" class="error-message" style="display: none;"></div>
-                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-                <button class="modal-btn" onclick="verifyDiscordId()">Verify <i class="fas fa-check"></i></button>
+            <div class="input-group">
+                <label for="discord-id">Discord User ID:</label>
+                <input type="text" id="discord-id" placeholder="e.g., 123456789012345678" oninput="checkDiscordId()">
             </div>
 
-            <!-- Step 3: User Info & Balance -->
-            <div id="step3" class="modal-step">
-                <h3><i class="fas fa-user"></i> Account Information</h3>
-                <div id="user-info-container">
-                    <!-- User info will be loaded here -->
+            <div id="discord-error" class="error-message" style="display: none;"></div>
+
+            <div id="user-preview" class="user-preview">
+                <div class="user-info">
+                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                    <div class="user-details">
+                        <h4 id="user-name"></h4>
+                        <p id="user-id"></p>
+                    </div>
                 </div>
-                <div id="balance-check">
-                    <!-- Balance check will be shown here -->
+                <div class="points-balance">
+                    <h5><i class="fas fa-cloud"></i> Cloud Points Balance</h5>
+                    <div class="balance" id="user-balance">0</div>
                 </div>
-                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-                <button class="modal-btn" id="proceed-btn" onclick="proceedToPurchase()" disabled>Buy Now <i class="fas fa-shopping-cart"></i></button>
             </div>
 
-            <!-- Step 4: OTP Request -->
-            <div id="step4" class="modal-step">
-                <h3><i class="fas fa-key"></i> Verification Required</h3>
-                <p>To complete your purchase, you need to verify your identity with a One-Time Password (OTP).</p>
-                <p>Click the button below to receive an OTP in your Discord DMs.</p>
-                <div id="otp-status" class="success-message" style="display: none;"></div>
-                <div id="otp-error" class="error-message" style="display: none;"></div>
-                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-                <button class="modal-btn" onclick="sendOTP()">Send OTP <i class="fas fa-paper-plane"></i></button>
-            </div>
+            <div id="balance-status" style="display: none;"></div>
 
-            <!-- Step 5: OTP Entry & IGN -->
-            <div id="step5" class="modal-step">
-                <h3><i class="fas fa-gamepad"></i> Final Step</h3>
-                <p>Enter the OTP you received and your in-game name to complete the purchase.</p>
-                <div class="input-group">
-                    <label for="otp-code">OTP Code:</label>
-                    <input type="text" id="otp-code" placeholder="Enter 6-digit OTP" maxlength="6">
-                </div>
-                <div class="input-group">
-                    <label for="ign">In-Game Name:</label>
-                    <input type="text" id="ign" placeholder="Your Minecraft username" maxlength="16">
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="terms-checkbox">
-                    <label for="terms-checkbox">I understand that this purchase will be completed regardless of whether I'm currently in the game. To receive the item after purchase, I need to be in the game before making the purchase.</label>
-                </div>
-                <div id="final-error" class="error-message" style="display: none;"></div>
-                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-                <button class="modal-btn" id="final-buy-btn" onclick="completePurchase()" disabled>Complete Purchase <i class="fas fa-credit-card"></i></button>
-            </div>
-
-            <!-- Step 6: Success -->
-            <div id="step6" class="modal-step">
-                <h3><i class="fas fa-check-circle"></i> Purchase Successful!</h3>
-                <div id="receipt-container">
-                    <!-- Receipt will be generated here -->
-                </div>
-                <button class="modal-btn" onclick="closeModal()">Close <i class="fas fa-times"></i></button>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="modal-btn" id="checkout-btn" onclick="goToCheckout()" disabled>
+                    <i class="fas fa-credit-card"></i> Checkout
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         const API_BASE = 'https://cloud-smp-shop-api.mcboss.top';
-        let currentStep = 1;
+        const DISCORD_API_BASE = 'https://dms-api.mcboss.top';
+        const DISCORD_API_KEY = 'dk05483CdnB6WBEfm7esQ3J7BvuIrLsC';
+        
         let currentItem = null;
         let currentUser = null;
-        let currentOTP = null;
+        let discordServerInfo = null;
 
-        // Load shop items on page load
+        // Load everything on page load
         window.onload = function() {
+            loadDiscordServerInfo();
             loadShopItems();
         };
+
+        async function loadDiscordServerInfo() {
+            try {
+                const response = await fetch(`${DISCORD_API_BASE}/api/${DISCORD_API_KEY}/server-info`);
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    discordServerInfo = data.server_info;
+                    updateServerInfo(data.server_info);
+                } else {
+                    console.error('Failed to load Discord server info:', data);
+                }
+            } catch (error) {
+                console.error('Error loading Discord server info:', error);
+            }
+        }
+
+        function updateServerInfo(serverInfo) {
+            // Update header
+            if (serverInfo.server_icon_url) {
+                document.getElementById('server-logo').src = serverInfo.server_icon_url;
+                document.getElementById('favicon').href = serverInfo.server_icon_url;
+                document.getElementById('meta-image').content = serverInfo.server_icon_url;
+            }
+            
+            if (serverInfo.server_name) {
+                document.getElementById('server-name').textContent = serverInfo.server_name;
+                document.title = `${serverInfo.server_name} Shop - Trade Cloud Points for Items`;
+            }
+            
+            document.getElementById('member-count').textContent = serverInfo.server_member_count?.toLocaleString() || '-';
+            document.getElementById('online-count').textContent = serverInfo.server_online_member_count?.toLocaleString() || '-';
+            
+            // Update footer
+            document.getElementById('footer-member-count').textContent = serverInfo.server_member_count?.toLocaleString() || '-';
+            
+            // Update Discord invite link
+            let inviteUrl = '#';
+            if (serverInfo.generated_invite?.url) {
+                inviteUrl = serverInfo.generated_invite.url;
+            } else if (serverInfo.invite_links?.length > 0) {
+                inviteUrl = serverInfo.invite_links[0];
+            }
+            document.getElementById('discord-invite-btn').href = inviteUrl;
+        }
 
         async function loadShopItems() {
             try {
@@ -594,241 +736,115 @@
         }
 
         function resetModal() {
-            currentStep = 1;
             currentUser = null;
-            currentOTP = null;
-            
-            // Reset all form fields
             document.getElementById('discord-id').value = '';
-            document.getElementById('otp-code').value = '';
-            document.getElementById('ign').value = '';
-            document.getElementById('terms-checkbox').checked = false;
-            
-            // Show only step 1
-            for (let i = 1; i <= 6; i++) {
-                document.getElementById(`step${i}`).classList.remove('active');
-            }
-            document.getElementById('step1').classList.add('active');
-            
-            // Clear error messages
-            clearErrors();
+            document.getElementById('user-preview').classList.remove('show');
+            document.getElementById('checkout-btn').disabled = true;
+            document.getElementById('discord-error').style.display = 'none';
+            document.getElementById('balance-status').style.display = 'none';
         }
 
-        function nextStep() {
-            if (currentStep < 6) {
-                document.getElementById(`step${currentStep}`).classList.remove('active');
-                currentStep++;
-                document.getElementById(`step${currentStep}`).classList.add('active');
-            }
-        }
-
-        function prevStep() {
-            if (currentStep > 1) {
-                document.getElementById(`step${currentStep}`).classList.remove('active');
-                currentStep--;
-                document.getElementById(`step${currentStep}`).classList.add('active');
-            }
-        }
-
-        async function verifyDiscordId() {
+        // Check Discord ID as user types
+        let discordCheckTimeout;
+        async function checkDiscordId() {
             const discordId = document.getElementById('discord-id').value.trim();
             const errorDiv = document.getElementById('discord-error');
+            const userPreview = document.getElementById('user-preview');
+            const checkoutBtn = document.getElementById('checkout-btn');
             
+            // Clear previous timeout
+            if (discordCheckTimeout) {
+                clearTimeout(discordCheckTimeout);
+            }
+            
+            // Hide user preview if input is empty
             if (!discordId) {
-                showError('Please enter your Discord User ID.', errorDiv);
+                userPreview.classList.remove('show');
+                checkoutBtn.disabled = true;
+                errorDiv.style.display = 'none';
                 return;
             }
             
+            // Validate format
             if (!discordId.match(/^\d{10,}$/)) {
-                showError('Invalid Discord User ID format.', errorDiv);
+                errorDiv.textContent = 'Invalid Discord User ID format.';
+                errorDiv.style.display = 'block';
+                userPreview.classList.remove('show');
+                checkoutBtn.disabled = true;
                 return;
             }
             
-            try {
-                const response = await fetch(`${API_BASE}/api/user/${discordId}`);
-                const data = await response.json();
-                
-                if (response.ok) {
-                    currentUser = data;
-                    displayUserInfo(data);
-                    nextStep();
-                } else {
-                    showError(data.error || 'Failed to verify Discord ID.', errorDiv);
+            // Hide error if format is valid
+            errorDiv.style.display = 'none';
+            
+            // Debounce API call
+            discordCheckTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`${API_BASE}/api/user/${discordId}`);
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        currentUser = data;
+                        displayUserPreview(data);
+                        checkBalance(data);
+                    } else {
+                        errorDiv.textContent = data.error || 'Failed to find Discord user.';
+                        errorDiv.style.display = 'block';
+                        userPreview.classList.remove('show');
+                        checkoutBtn.disabled = true;
+                    }
+                } catch (error) {
+                    errorDiv.textContent = 'Error loading user information.';
+                    errorDiv.style.display = 'block';
+                    userPreview.classList.remove('show');
+                    checkoutBtn.disabled = true;
                 }
-            } catch (error) {
-                showError('Error verifying Discord ID. Please try again.', errorDiv);
-            }
+            }, 500);
         }
 
-        function displayUserInfo(user) {
-            const container = document.getElementById('user-info-container');
-            const balanceCheck = document.getElementById('balance-check');
-            
+        function displayUserPreview(user) {
+            const userPreview = document.getElementById('user-preview');
             const avatarUrl = user.discord_avatar || 'https://cdn.discordapp.com/embed/avatars/0.png';
             
-            container.innerHTML = `
-                <div class="user-info">
-                    <img src="${avatarUrl}" alt="Avatar" class="user-avatar">
-                    <div class="user-details">
-                        <h4>${user.username}</h4>
-                        <p>User ID: ${user.user_id}</p>
-                        <p>Messages Sent: ${user.messages_sent}</p>
-                    </div>
-                </div>
-                <div class="points-balance">
-                    <h4><i class="fas fa-cloud"></i> Cloud Points Balance</h4>
-                    <div class="balance">${user.cloud_points}</div>
-                </div>
-            `;
+            document.getElementById('user-avatar').src = avatarUrl;
+            document.getElementById('user-name').textContent = user.username;
+            document.getElementById('user-id').textContent = `ID: ${user.user_id}`;
+            document.getElementById('user-balance').textContent = user.cloud_points.toLocaleString();
+            
+            userPreview.classList.add('show');
+        }
+
+        function checkBalance(user) {
+            const balanceStatus = document.getElementById('balance-status');
+            const checkoutBtn = document.getElementById('checkout-btn');
             
             const canAfford = user.cloud_points >= currentItem.price;
-            const proceedBtn = document.getElementById('proceed-btn');
             
             if (canAfford) {
-                balanceCheck.innerHTML = `
-                    <div class="sufficient-funds">
+                balanceStatus.innerHTML = `
+                    <div style="color: #51cf66; background: rgba(81, 207, 102, 0.1); padding: 15px; border-radius: 10px; border: 2px solid #51cf66; text-align: center;">
                         <i class="fas fa-check-circle"></i> You have sufficient funds to purchase this item!
                     </div>
                 `;
-                proceedBtn.disabled = false;
+                checkoutBtn.disabled = false;
             } else {
-                balanceCheck.innerHTML = `
+                balanceStatus.innerHTML = `
                     <div class="insufficient-funds">
                         <i class="fas fa-exclamation-triangle"></i> 
-                        Insufficient funds! You need ${currentItem.price - user.cloud_points} more Cloud Points.
+                        Insufficient funds! You need ${(currentItem.price - user.cloud_points).toLocaleString()} more Cloud Points.
                     </div>
                 `;
-                proceedBtn.disabled = true;
-            }
-        }
-
-        function proceedToPurchase() {
-            nextStep();
-        }
-
-        async function sendOTP() {
-            const statusDiv = document.getElementById('otp-status');
-            const errorDiv = document.getElementById('otp-error');
-            
-            clearErrors();
-            
-            try {
-                const response = await fetch(`${API_BASE}/api/shop/${currentUser.user_id}/send-otp-dm`, {
-                    method: 'POST'
-                });
-                const data = await response.json();
-                
-                if (response.ok) {
-                    if (data.otp) {
-                        // OTP provided in response (DM failed)
-                        currentOTP = data.otp;
-                        showSuccess(`OTP: ${data.otp} (DM delivery failed, showing here for testing)`, statusDiv);
-                    } else {
-                        showSuccess('OTP sent to your Discord DMs!', statusDiv);
-                    }
-                    nextStep();
-                } else {
-                    showError(data.error || 'Failed to send OTP.', errorDiv);
-                }
-            } catch (error) {
-                showError('Error sending OTP. Please try again.', errorDiv);
-            }
-        }
-
-        function validateFinalStep() {
-            const otp = document.getElementById('otp-code').value.trim();
-            const ign = document.getElementById('ign').value.trim();
-            const terms = document.getElementById('terms-checkbox').checked;
-            const finalBtn = document.getElementById('final-buy-btn');
-            
-            finalBtn.disabled = !(otp.length === 6 && ign.length > 0 && terms);
-        }
-
-        // Add event listeners for final step validation
-        document.getElementById('otp-code').addEventListener('input', validateFinalStep);
-        document.getElementById('ign').addEventListener('input', validateFinalStep);
-        document.getElementById('terms-checkbox').addEventListener('change', validateFinalStep);
-
-        async function completePurchase() {
-            const otp = document.getElementById('otp-code').value.trim();
-            const ign = document.getElementById('ign').value.trim();
-            const errorDiv = document.getElementById('final-error');
-            
-            clearErrors();
-            
-            if (!otp || !ign) {
-                showError('Please fill in all fields.', errorDiv);
-                return;
+                checkoutBtn.disabled = true;
             }
             
-            try {
-                const response = await fetch(`${API_BASE}/api/shop/${currentUser.user_id}/${otp}/item/${currentItem.id}/${ign}`, {
-                    method: 'POST'
-                });
-                const data = await response.json();
-                
-                if (response.ok) {
-                    displayReceipt(data);
-                    nextStep();
-                } else {
-                    showError(data.error || 'Purchase failed. Please try again.', errorDiv);
-                }
-            } catch (error) {
-                showError('Error completing purchase. Please try again.', errorDiv);
+            balanceStatus.style.display = 'block';
+        }
+
+        function goToCheckout() {
+            if (currentItem && currentUser) {
+                const checkoutUrl = `/checkout/${currentItem.id}_${currentUser.user_id}`;
+                window.location.href = checkoutUrl;
             }
-        }
-
-        function displayReceipt(purchaseData) {
-            const container = document.getElementById('receipt-container');
-            
-            container.innerHTML = `
-                <div class="receipt">
-                    <h3><i class="fas fa-receipt"></i> Purchase Receipt</h3>
-                    <div class="receipt-item">
-                        <span>Item:</span>
-                        <span>${currentItem.name}</span>
-                    </div>
-                    <div class="receipt-item">
-                        <span>Price:</span>
-                        <span>${currentItem.price} Cloud Points</span>
-                    </div>
-                    <div class="receipt-item">
-                        <span>Player:</span>
-                        <span>${currentUser.username}</span>
-                    </div>
-                    <div class="receipt-item">
-                        <span>In-Game Name:</span>
-                        <span>${document.getElementById('ign').value}</span>
-                    </div>
-                    <div class="receipt-item">
-                        <span>Remaining Balance:</span>
-                        <span>${purchaseData.remaining_points} Cloud Points</span>
-                    </div>
-                </div>
-                <div class="success-message">
-                    <i class="fas fa-check-circle"></i>
-                    Your purchase has been completed successfully! The item has been delivered to your in-game account.
-                </div>
-            `;
-        }
-
-        function showError(message, element) {
-            if (element) {
-                element.textContent = message;
-                element.style.display = 'block';
-            }
-        }
-
-        function showSuccess(message, element) {
-            if (element) {
-                element.textContent = message;
-                element.style.display = 'block';
-            }
-        }
-
-        function clearErrors() {
-            const errorElements = document.querySelectorAll('.error-message');
-            errorElements.forEach(el => el.style.display = 'none');
         }
 
         // Close modal when clicking outside

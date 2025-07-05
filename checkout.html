@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Cloud SMP Shop</title>
+    <meta name="description" content="Complete your Cloud SMP Shop purchase - Secure checkout for in-game items">
+    <meta property="og:title" content="Checkout - Cloud SMP Shop">
+    <meta property="og:description" content="Complete your purchase securely">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cloud-smp.mcboss.top/checkout">
+    <meta property="og:image" content="" id="meta-image">
+    <link rel="icon" href="" id="favicon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #404040;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #87ceeb;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(135, 206, 235, 0.5);
+        }
+
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(135, 206, 235, 0.1);
+            color: #87ceeb;
+            border: 2px solid #87ceeb;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: #87ceeb;
+            color: #ffffff;
+            transform: translateX(-5px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #87ceeb;
+            font-size: 1.5rem;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .checkout-container {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .checkout-section {
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid #404040;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #87ceeb;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .item-details {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .item-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            display: block;
+            border: 3px solid #87ceeb;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 0.3);
+        }
+
+        .item-name {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .item-price {
+            font-size: 1.5rem;
+            color: #87ceeb;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .item-description {
+            color: #a0a0a0;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .user-info {
+            margin-bottom: 30px;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #404040;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 3px solid #87ceeb;
+        }
+
+        .user-details h3 {
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: #a0a0a0;
+            margin: 0;
+        }
+
+        .balance-info {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #51cf66;
+        }
+
+        .balance-info h4 {
+            color: #87ceeb;
+            margin-bottom: 10px;
+        }
+
+        .current-balance {
+            font-size: 1.8rem;
+            color: #51cf66;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .balance-after {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+        }
+
+        .balance-after .after-amount {
+            color: #87ceeb;
+            font-weight: 600;
+        }
+
+        .purchase-summary {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #404040;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px 0;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 15px;
+            border-top: 2px solid #404040;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .summary-label {
+            color: #a0a0a0;
+        }
+
+        .summary-value {
+            color: #87ceeb;
+            font-weight: 600;
+        }
+
+        .purchase-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #87ceeb, #4169e1);
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(135deg, #4169e1, #87ceeb);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .action-btn:disabled {
+            background: #404040;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .action-btn.cancel {
+            background: linear-gradient(135deg, #666, #555);
+        }
+
+        .action-btn.cancel:hover {
+            background: linear-gradient(135deg, #555, #666);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #ff6b6b;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .transaction-id {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid #404040;
+            text-align: center;
+        }
+
+        .transaction-id strong {
+            color: #87ceeb;
+        }
+
+        .insufficient-funds {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #ff6b6b;
+            text-align: center;
+        }
+
+        .insufficient-funds h3 {
+            margin-bottom: 10px;
+        }
+
+        .insufficient-funds p {
+            margin: 5px 0;
+        }
+
+        .vote-links {
+            margin-top: 20px;
+        }
+
+        .vote-btn {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .vote-btn:hover {
+            background: linear-gradient(135deg, #40c057, #51cf66);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .purchase-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+            
+            .user-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="shop.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Shop
+        </a>
+
+        <div class="header">
+            <h1><i class="fas fa-shopping-cart"></i> Checkout</h1>
+            <p>Complete your purchase securely</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner"></i> Loading checkout information...
+        </div>
+
+        <div id="error-container" class="error-message">
+            <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
+            <p id="error-text"></p>
+            <div style="margin-top: 15px;">
+                <a href="shop.html" class="vote-btn">
+                    <i class="fas fa-arrow-left"></i> Return to Shop
+                </a>
+            </div>
+        </div>
+
+        <div id="checkout-container" class="checkout-container">
+            <!-- Item Details Section -->
+            <div class="checkout-section">
+                <h2 class="section-title">
+                    <i class="fas fa-box"></i> Item Details
+                </h2>
+                
+                <div class="item-details">
+                    <img id="item-icon" class="item-icon" src="" alt="Item Icon">
+                    <div class="item-name" id="item-name"></div>
+                    <div class="item-price" id="item-price"></div>
+                    <div class="item-description" id="item-description">
+                        This item will be delivered to your in-game inventory within 24 hours of purchase.
+                    </div>
+                </div>
+
+                <div class="purchase-summary">
+                    <h4 style="color: #87ceeb; margin-bottom: 15px; text-align: center;">
+                        <i class="fas fa-receipt"></i> Purchase Summary
+                    </h4>
+                    <div class="summary-row">
+                        <span class="summary-label">Item:</span>
+                        <span class="summary-value" id="summary-item"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Price:</span>
+                        <span class="summary-value" id="summary-price"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Total:</span>
+                        <span class="summary-value" id="summary-total"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User & Payment Section -->
+            <div class="checkout-section">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i> Account Details
+                </h2>
+                
+                <div class="user-info">
+                    <div class="user-card">
+                        <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                        <div class="user-details">
+                            <h3 id="user-name"></h3>
+                            <p id="user-id"></p>
+                        </div>
+                    </div>
+
+                    <div class="balance-info" id="balance-info">
+                        <h4><i class="fas fa-cloud"></i> Cloud Points Balance</h4>
+                        <div class="current-balance" id="current-balance">0</div>
+                        <div class="balance-after">
+                            After purchase: <span class="after-amount" id="balance-after">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="insufficient-funds-notice" class="insufficient-funds" style="display: none;">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Insufficient Funds</h3>
+                    <p>You don't have enough Cloud Points for this purchase.</p>
+                    <p>You need <strong id="needed-points">0</strong> more Cloud Points.</p>
+                    <div class="vote-links">
+                        <p style="margin-bottom: 10px;">Earn more Cloud Points by voting:</p>
+                        <a href="/vote" class="vote-btn">
+                            <i class="fas fa-vote-yea"></i> Vote for Server
+                        </a>
+                    </div>
+                </div>
+
+                <div class="purchase-actions">
+                    <button class="action-btn cancel" onclick="cancelPurchase()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button class="action-btn" id="confirm-btn" onclick="confirmPurchase()" disabled>
+                        <i class="fas fa-check"></i> Confirm Purchase
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-message" class="success-message">
+            <h3><i class="fas fa-check-circle"></i> Purchase Successful!</h3>
+            <p>Your item has been purchased successfully. It will be delivered to your in-game inventory within 24 hours.</p>
+            <div class="transaction-id">
+                <strong>Transaction ID:</strong> <span id="transaction-id"></span>
+            </div>
+            <div style="margin-top: 20px;">
+                <a href="shop.html" class="vote-btn">
+                    <i class="fas fa-shopping-cart"></i> Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://cloud-smp-shop-api.mcboss.top';
+        
+        let itemData = null;
+        let userData = null;
+        let urlParams = null;
+
+        // Load checkout data on page load
+        window.onload = function() {
+            parseUrlParams();
+            loadCheckoutData();
+        };
+
+        function parseUrlParams() {
+            urlParams = new URLSearchParams(window.location.search);
+            
+            // Check if we have the required parameters
+            if (!urlParams.get('item') || !urlParams.get('user')) {
+                showError('Missing required parameters. Please return to the shop and try again.');
+                return;
+            }
+        }
+
+        async function loadCheckoutData() {
+            try {
+                const itemId = urlParams.get('item');
+                const userId = urlParams.get('user');
+                
+                if (!itemId || !userId) {
+                    showError('Invalid checkout parameters.');
+                    return;
+                }
+
+                // Load item data
+                const itemResponse = await fetch(`${API_BASE}/api/shop/item/${itemId}`);
+                if (!itemResponse.ok) {
+                    throw new Error('Failed to load item data');
+                }
+                itemData = await itemResponse.json();
+
+                // Load user data
+                const userResponse = await fetch(`${API_BASE}/api/user/${userId}`);
+                if (!userResponse.ok) {
+                    throw new Error('Failed to load user data');
+                }
+                userData = await userResponse.json();
+
+                // Display checkout information
+                displayCheckoutInfo();
+                checkPurchaseEligibility();
+                
+            } catch (error) {
+                console.error('Error loading checkout data:', error);
+                showError('Failed to load checkout information. Please try again.');
+            }
+        }
+
+        function displayCheckoutInfo() {
+            const loading = document.getElementById('loading');
+            const checkoutContainer = document.getElementById('checkout-container');
+            
+            // Hide loading
+            loading.style.display = 'none';
+            
+            // Display item information
+            document.getElementById('item-icon').src = itemData.item_icon;
+            document.getElementById('item-name').textContent = itemData.item_name;
+            document.getElementById('item-price').textContent = `${itemData.item_price} Cloud Points`;
+            
+            // Display summary
+            document.getElementById('summary-item').textContent = itemData.item_name;
+            document.getElementById('summary-price').textContent = `${itemData.item_price} Cloud Points`;
+            document.getElementById('summary-total').textContent = `${itemData.item_price} Cloud Points`;
+            
+            // Display user information
+            const avatarUrl = userData.discord_avatar || 'https://cdn.discordapp.com/embed/avatars/0.png';
+            document.getElementById('user-avatar').src = avatarUrl;
+            document.getElementById('user-name').textContent = userData.username;
+            document.getElementById('user-id').textContent = `ID: ${userData.user_id}`;
+            
+            // Display balance information
+            document.getElementById('current-balance').textContent = userData.cloud_points.toLocaleString();
+            
+            const balanceAfter = userData.cloud_points - itemData.item_price;
+            document.getElementById('balance-after').textContent = balanceAfter.toLocaleString();
+            
+            // Show checkout container
+            checkoutContainer.style.display = 'grid';
+        }
+
+        function checkPurchaseEligibility() {
+            const confirmBtn = document.getElementById('confirm-btn');
+            const insufficientFundsNotice = document.getElementById('insufficient-funds-notice');
+            const balanceInfo = document.getElementById('balance-info');
+            
+            if (userData.cloud_points >= itemData.item_price) {
+                // User has sufficient funds
+                confirmBtn.disabled = false;
+                insufficientFundsNotice.style.display = 'none';
+                balanceInfo.style.borderColor = '#51cf66';
+            } else {
+                // Insufficient funds
+                confirmBtn.disabled = true;
+                insufficientFundsNotice.style.display = 'block';
+                balanceInfo.style.borderColor = '#ff6b6b';
+                
+                const neededPoints = itemData.item_price - userData.cloud_points;
+                document.getElementById('needed-points').textContent = neededPoints.toLocaleString();
+            }
+        }
+
+        async function confirmPurchase() {
+            const confirmBtn = document.getElementById('confirm-btn');
+            const originalText = confirmBtn.innerHTML;
+            
+            // Disable button and show loading
+            confirmBtn.disabled = true;
+            confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/shop/purchase`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        item_id: itemData.item_id,
+                        user_id: userData.user_id,
+                        price: itemData.item_price
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Purchase successful
+                    showSuccess(result.transaction_id || 'N/A');
+                } else {
+                    // Purchase failed
+                    showError(result.error || 'Purchase failed. Please try again.');
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = originalText;
+                }
+                
+            } catch (error) {
+                console.error('Error processing purchase:', error);
+                showError('Network error. Please check your connection and try again.');
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = originalText;
+            }
+        }
+
+        function showSuccess(transactionId) {
+            const checkoutContainer = document.getElementById('checkout-container');
+            const successMessage = document.getElementById('success-message');
+            
+            document.getElementById('transaction-id').textContent = transactionId;
+            checkoutContainer.style.display = 'none';
+            successMessage.classList.add('show');
+        }
+
+        function showError(message) {
+            const loading = document.getElementById('loading');
+            const errorContainer = document.getElementById('error-container');
+            const errorText = document.getElementById('error-text');
+            
+            loading.style.display = 'none';
+            errorText.textContent = message;
+            errorContainer.classList.add('show');
+        }
+
+        function cancelPurchase() {
+            if (confirm('Are you sure you want to cancel this purchase?')) {
+                window.location.href = 'shop.html';
+            }
+        }
+    </script>
+</body>
+</html>
