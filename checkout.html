@@ -677,7 +677,7 @@
             }
         }
 
-        async function proceedToVerification() {
+async function proceedToVerification() {
             const ingameName = document.getElementById('ingame-name').value.trim();
             
             if (!ingameName) {
@@ -698,6 +698,12 @@
             }
 
             try {
+                // Show loading state
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending OTP...';
+                btn.disabled = true;
+
                 // Send OTP to Discord DM
                 const response = await fetch(`${API_BASE}/api/shop/${currentUserId}/send-otp-dm`, {
                     method: 'POST',
@@ -731,7 +737,21 @@
 
             } catch (error) {
                 console.error('Error sending OTP:', error);
-                alert(`Error: ${error.message}`);
+                
+                // Reset button
+                const btn = document.querySelector('#step-1-content .checkout-btn');
+                btn.innerHTML = '<i class="fas fa-arrow-right"></i> Continue to Verification';
+                btn.disabled = false;
+                
+                // Show error message
+                const statusDiv = document.getElementById('purchase-status');
+                statusDiv.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Error: ${error.message}
+                    </div>
+                `;
+                statusDiv.style.display = 'block';
             }
         }
 
