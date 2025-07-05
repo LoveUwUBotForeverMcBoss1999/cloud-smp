@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud SMP Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .item-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 15px;
+            display: block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .item-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .item-price {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .user-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .points-display {
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .error {
+            color: #e74c3c;
+            background: #ffeaea;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success {
+            color: #27ae60;
+            background: #eafaf1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .step.completed {
+            background: #27ae60;
+            color: white;
+        }
+
+        .otp-input {
+            text-align: center;
+            font-size: 1.5em;
+            letter-spacing: 0.2em;
+            font-weight: bold;
+        }
+
+        .selected-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .selected-item-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 10px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .selected-item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .selected-item-price {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>☁️ Cloud SMP Shop</h1>
+            <p>Purchase items with your Cloud Points</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            Loading items...
+        </div>
+
+        <div id="error-container" class="error" style="display: none;"></div>
+
+        <div id="shop-grid" class="shop-grid" style="display: none;">
+            <!-- Items will be loaded here -->
+        </div>
+
+        <!-- Purchase Modal -->
+        <div id="purchaseModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Purchase Item</h2>
+                </div>
+
+                <div class="step-indicator">
+                    <div class="step active" id="step1">1</div>
+                    <div class="step" id="step2">2</div>
+                    <div class="step" id="step3">3</div>
+                    <div class="step" id="step4">4</div>
+                </div>
+
+                <div id="modal-error" class="error" style="display: none;"></div>
+                <div id="modal-success" class="success" style="display: none;"></div>
+
+                <!-- Step 1: Enter Discord ID -->
+                <div id="step-1" class="step-content active">
+                    <div class="form-group">
+                        <label for="discordId">Discord User ID:</label>
+                        <input type="text" id="discordId" placeholder="Enter your Discord ID" />
+                    </div>
+                </div>
+
+                <!-- Step 2: Show User Points -->
+                <div id="step-2" class="step-content">
+                    <div class="user-info">
+                        <img id="userAvatar" class="user-avatar" style="display: none;" />
+                        <h3 id="username">Loading...</h3>
+                        <div class="points-display" id="userPoints">0 Cloud Points</div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Send OTP -->
+                <div id="step-3" class="step-content">
+                    <div class="selected-item">
+                        <div class="selected-item-icon" id="selectedItemIcon"></div>
+                        <div class="selected-item-name" id="selectedItemName"></div>
+                        <div class="selected-item-price" id="selectedItemPrice"></div>
+                    </div>
+                    <p>Click "Send OTP" to receive a verification code in your Discord DMs.</p>
+                </div>
+
+                <!-- Step 4: Enter OTP and IGN -->
+                <div id="step-4" class="step-content">
+                    <div class="form-group">
+                        <label for="otpCode">Verification Code:</label>
+                        <input type="text" id="otpCode" placeholder="Enter 6-digit code" class="otp-input" maxlength="6" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ingameName">In-Game Name:</label>
+                        <input type="text" id="ingameName" placeholder="Enter your Minecraft username" />
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="cancelBtn" class="modal-btn btn-secondary">Cancel</button>
+                    <button id="nextBtn" class="modal-btn btn-primary">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://cloud-smp-shop-api.vercel.app/api';
+        
+        let currentStep = 1;
+        let selectedItem = null;
+        let userData = null;
+        let itemData = null;
+        let isLoading = false;
+
+        // Load items on page load
+        document.addEventListener('DOMContentLoaded', loadItems);
+
+        async function loadItems() {
+            try {
+                showLoading('Loading items...');
+                
+                const response = await fetch(`${API_BASE}/shop/items`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    displayItems(data.items);
+                    hideLoading();
+                } else {
+                    throw new Error('No items found');
+                }
+            } catch (error) {
+                console.error('Error loading items:', error);
+                showError('Failed to load items. Please refresh the page to try again.');
+                hideLoading();
+            }
+        }
+
+        function displayItems(items) {
+            const grid = document.getElementById('shop-grid');
+            grid.innerHTML = '';
+
+            items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+                
+                const iconElement = item.item_icon.startsWith('http') 
+                    ? `<div class="item-icon" style="background-image: url('${item.item_icon}');"></div>`
+                    : `<div class="item-icon" style="font-size: 3em; text-align: center; line-height: 64px;">${item.item_icon}</div>`;
+                
+                itemCard.innerHTML = `
+                    ${iconElement}
+                    <div class="item-name">${item.item_name}</div>
+                    <div class="item-price">${item.item_price} Cloud Points</div>
+                    <button class="buy-btn" onclick="openPurchaseModal('${item.item_id}')">Buy Now</button>
+                `;
+                grid.appendChild(itemCard);
+            });
+        }
+
+        function openPurchaseModal(itemId) {
+            selectedItem = itemId;
+            document.getElementById('purchaseModal').style.display = 'block';
+            resetModal();
+        }
+
+        function resetModal() {
+            currentStep = 1;
+            userData = null;
+            itemData = null;
+            updateStepDisplay();
+            clearModalMessages();
+            
+            // Reset form inputs
+            document.getElementById('discordId').value = '';
+            document.getElementById('otpCode').value = '';
+            document.getElementById('ingameName').value = '';
+            
+            // Reset button
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.textContent = 'Next';
+            nextBtn.classList.remove('disabled');
+            nextBtn.disabled = false;
+        }
+
+        function updateStepDisplay() {
+            // Update step indicators
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                if (i < currentStep) {
+                    step.className = 'step completed';
+                } else if (i === currentStep) {
+                    step.className = 'step active';
+                } else {
+                    step.className = 'step';
+                }
+            }
+            
+            // Show current step content
+            for (let i = 1; i <= 4; i++) {
+                const stepContent = document.getElementById(`step-${i}`);
+                if (i === currentStep) {
+                    stepContent.classList.add('active');
+                } else {
+                    stepContent.classList.remove('active');
+                }
+            }
+            
+            // Update button text
+            const nextBtn = document.getElementById('nextBtn');
+            switch (currentStep) {
+                case 1:
+                    nextBtn.textContent = 'Next';
+                    break;
+                case 2:
+                    nextBtn.textContent = 'Next';
+                    break;
+                case 3:
+                    nextBtn.textContent = 'Send OTP';
+                    break;
+                case 4:
+                    nextBtn.textContent = 'Buy Item';
+                    break;
+            }
+        }
+
+        async function handleNext() {
+            if (isLoading) return;
+            
+            try {
+                setLoading(true);
+                clearModalMessages();
+                
+                switch (currentStep) {
+                    case 1:
+                        await handleDiscordIdStep();
+                        break;
+                    case 2:
+                        await handleUserPointsStep();
+                        break;
+                    case 3:
+                        await handleOtpStep();
+                        break;
+                    case 4:
+                        await handlePurchaseStep();
+                        break;
+                }
+            } catch (error) {
+                showModalError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function handleDiscordIdStep() {
+            const discordId = document.getElementById('discordId').value.trim();
+            
+            if (!discordId) {
+                throw new Error('Please enter your Discord ID');
+            }
+            
+            if (!/^\d+$/.test(discordId)) {
+                throw new Error('Discord ID must be numbers only');
+            }
+
+            // Fetch user data
+            const response = await fetch(`${API_BASE}/user/${discordId}`);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'User not found');
+            }
+            
+            userData = await response.json();
+            
+            // Display user info
+            document.getElementById('username').textContent = userData.username;
+            document.getElementById('userPoints').textContent = `${userData.cloud_points} Cloud Points`;
+            
+            if (userData.discord_avatar) {
+                const avatarImg = document.getElementById('userAvatar');
+                avatarImg.src = userData.discord_avatar;
+                avatarImg.style.display = 'block';
+            }
+
+            currentStep = 2;
+            updateStepDisplay();
+        }
+
+        async function handleUserPointsStep() {
+            // Fetch item details
+            const response = await fetch(`${API_BASE}/item-info/${selectedItem}`);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Item not found');
+            }
+            
+            itemData = await response.json();
+            
+            // Display selected item
+            const iconElement = document.getElementById('selectedItemIcon');
+            if (itemData.item_icon.startsWith('http')) {
+                iconElement.style.backgroundImage = `url('${itemData.item_icon}')`;
+            } else {
+                iconElement.style.fontSize = '2em';
+                iconElement.textContent = itemData.item_icon;
+            }
+            
+            document.getElementById('selectedItemName').textContent = itemData.item_name;
+            document.getElementById('selectedItemPrice').textContent = `${itemData.item_price} Cloud Points`;
+
+            currentStep = 3;
+            updateStepDisplay();
+        }
+
+        async function handleOtpStep() {
+            const discordId = document.getElementById('discordId').value.trim();
+            
+            // Send OTP
+            const response = await fetch(`${API_BASE}/shop/${discordId}/send-otp-dm`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to send OTP');
+            }
+            
+            const data = await response.json();
+
+            if (data.success) {
+                showModalSuccess('OTP sent to your Discord DMs!');
+                
+                // If DM failed but OTP was generated, show it
+                if (data.otp) {
+                    showModalError(`DM delivery failed. Your OTP is: ${data.otp}`);
+                }
+                
+                currentStep = 4;
+                updateStepDisplay();
+            } else {
+                throw new Error(data.message || 'Failed to send OTP');
+            }
+        }
+
+        async function handlePurchaseStep() {
+            const discordId = document.getElementById('discordId').value.trim();
+            const otpCode = document.getElementById('otpCode').value.trim();
+            const ingameName = document.getElementById('ingameName').value.trim();
+
+            if (!otpCode || otpCode.length !== 6) {
+                throw new Error('Please enter a valid 6-digit OTP code');
+            }
+
+            if (!ingameName) {
+                throw new Error('Please enter your in-game name');
+            }
+
+            // Check if user has enough points
+            if (userData.cloud_points < itemData.item_price) {
+                throw new Error('Not enough Cloud Points to purchase this item!');
+            }
+
+            // Make purchase
+            const response = await fetch(`${API_BASE}/shop/${discordId}/${otpCode}/item/${selectedItem}/${ingameName}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                if (errorData.error === 'Insufficient cloud points') {
+                    throw new Error('Not enough Cloud Points to purchase this item!');
+                }
+                throw new Error(errorData.error || 'Purchase failed');
+            }
+            
+            const data = await response.json();
+
+            if (data.success) {
+                showModalSuccess(`🎉 Successfully purchased ${data.item}! The item has been delivered to your in-game account.`);
+                
+                // Hide the next button and show close option
+                const nextBtn = document.getElementById('nextBtn');
+                nextBtn.textContent = 'Close';
+                nextBtn.onclick = closeModal;
+                
+                // Auto-close after 5 seconds
+                setTimeout(() => {
+                    closeModal();
+                }, 5000);
+            } else {
+                throw new Error('Purchase failed');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+            
+            // Reset the next button
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.onclick = handleNext;
+        }
+
+        function setLoading(loading) {
+            isLoading = loading;
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (loading) {
+                nextBtn.innerHTML = '<div class="loading-spinner"></div>Loading...';
+                nextBtn.classList.add('disabled');
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.classList.remove('disabled');
+                nextBtn.disabled = false;
+                updateStepDisplay(); // This will reset the button text
+            }
+        }
+
+        function showLoading(message) {
+            const loadingDiv = document.getElementById('loading');
+            loadingDiv.innerHTML = `<div class="loading-spinner"></div>${message}`;
+            loadingDiv.style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('shop-grid').style.display = 'grid';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-container');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showModalError(message) {
+            const errorDiv = document.getElementById('modal-error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showModalSuccess(message) {
+            const successDiv = document.getElementById('modal-success');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function clearModalMessages() {
+            document.getElementById('modal-error').style.display = 'none';
+            document.getElementById('modal-success').style.display = 'none';
+        }
+
+        // Event listeners
+        document.getElementById('nextBtn').addEventListener('click', handleNext);
+        document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+        // Close modal when clicking outside
+        document.getElementById('purchaseModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Auto-format OTP input
+        document.getElementById('otpCode').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Enter key support
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && document.getElementById('purchaseModal').style.display === 'block') {
+                handleNext();
+            }
+        });
+    </script>
+</body>
+</html>
