@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud SMP - Peaceful Minecraft Server</title>
+    <title>Cloud SMP - Peaceful Minecraft Experience</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -13,8 +13,8 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0a0a0a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0a;
             color: #ffffff;
             line-height: 1.6;
             overflow-x: hidden;
@@ -28,12 +28,13 @@
 
         /* Header */
         header {
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #1a1a1a 0%, #282828 100%);
+            padding: 1rem 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid #444;
         }
 
@@ -41,7 +42,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
         }
 
         .logo {
@@ -70,7 +70,7 @@
         .nav-links a {
             color: #cccccc;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
@@ -79,99 +79,108 @@
 
         /* Hero Section */
         .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('http://cloud-smp.mcboss.top/media/bg1.png');
+            background-size: cover;
+            background-position: center;
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('http://cloud-smp.mcboss.top/media/bg1.png') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            position: relative;
+            margin-top: 80px;
         }
 
-        .hero-content h2 {
-            font-size: 3.5rem;
+        .hero-content {
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
             margin-bottom: 1rem;
             color: #87ceeb;
         }
 
-        .hero-content p {
+        .hero p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
             color: #cccccc;
         }
 
-        .cta-button {
-            background: linear-gradient(45deg, #87ceeb, #4682b4);
-            color: #ffffff;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(135, 206, 235, 0.3);
-        }
-
-        /* Server Status */
-        .server-status {
-            background: #1a1a1a;
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .status-card {
-            background: #282828;
-            padding: 2rem;
+        .server-ip {
+            background: rgba(40, 40, 40, 0.8);
+            padding: 1rem;
             border-radius: 10px;
+            margin: 2rem 0;
             border: 1px solid #444;
-            transition: transform 0.3s;
         }
 
-        .status-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .status-card i {
-            font-size: 2rem;
-            color: #87ceeb;
-            margin-bottom: 1rem;
-        }
-
-        .status-card h3 {
+        .ip-display {
+            font-size: 1.5rem;
+            font-weight: bold;
             color: #87ceeb;
             margin-bottom: 0.5rem;
         }
 
-        .status-card p {
-            color: #cccccc;
-            font-size: 1.5rem;
+        .copy-btn {
+            background: linear-gradient(45deg, #87ceeb, #4682b4);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .server-status {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .status-item {
+            background: rgba(40, 40, 40, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid #444;
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 2rem;
             font-weight: bold;
+            color: #87ceeb;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #87ceeb;
         }
 
         /* Features Section */
         .features {
-            padding: 4rem 0;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('http://cloud-smp.mcboss.top/media/bg2.jpg') center/cover;
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #87ceeb;
+            background: linear-gradient(135deg, #1a1a1a 0%, #282828 100%);
         }
 
         .features-grid {
@@ -181,80 +190,99 @@
         }
 
         .feature-card {
-            background: rgba(26, 26, 26, 0.9);
+            background: rgba(40, 40, 40, 0.8);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 15px;
             border: 1px solid #444;
-            transition: transform 0.3s;
+            text-align: center;
+            transition: transform 0.3s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
         }
 
-        .feature-card i {
-            font-size: 2.5rem;
+        .feature-icon {
+            font-size: 3rem;
             color: #87ceeb;
             margin-bottom: 1rem;
         }
 
         .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #87ceeb;
+        }
+
+        /* World Generation Section */
+        .world-gen {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('http://cloud-smp.mcboss.top/media/bg2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .world-gen-content {
+            background: rgba(26, 26, 26, 0.9);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        /* Discord Section */
+        .discord {
+            background: linear-gradient(135deg, #1a1a1a 0%, #282828 100%);
+        }
+
+        .discord-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .discord-stats {
+            background: rgba(40, 40, 40, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #444;
+        }
+
+        .discord-stats h3 {
             color: #87ceeb;
             margin-bottom: 1rem;
         }
 
-        /* Discord Section */
-        .discord-section {
-            background: #1a1a1a;
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .discord-card {
-            background: #282828;
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid #444;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .discord-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .discord-info img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-        }
-
-        .discord-stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 2rem 0;
-        }
-
-        .discord-stats div {
-            text-align: center;
-        }
-
-        .discord-stats h4 {
+        .discord-value {
+            font-size: 2rem;
+            font-weight: bold;
             color: #87ceeb;
-            font-size: 1.5rem;
         }
 
-        .discord-stats p {
-            color: #cccccc;
+        .join-btn {
+            background: linear-gradient(45deg, #87ceeb, #4682b4);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
         }
 
         /* Shop Section */
-        .shop-section {
-            background: #0a0a0a;
-            padding: 4rem 0;
+        .shop {
+            background: linear-gradient(135deg, #1e1e1e 0%, #282828 100%);
+        }
+
+        .shop-content {
             text-align: center;
         }
 
@@ -266,30 +294,29 @@
         }
 
         .shop-feature {
-            background: #1a1a1a;
+            background: rgba(40, 40, 40, 0.8);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 15px;
             border: 1px solid #444;
         }
 
         .shop-feature i {
             font-size: 2rem;
-            color: #4caf50;
+            color: #87ceeb;
             margin-bottom: 1rem;
         }
 
         /* Feedback Section */
-        .feedback-section {
-            background: #1a1a1a;
-            padding: 4rem 0;
+        .feedback {
+            background: linear-gradient(135deg, #1a1a1a 0%, #282828 100%);
         }
 
         .feedback-form {
             max-width: 600px;
             margin: 0 auto;
-            background: #282828;
+            background: rgba(40, 40, 40, 0.8);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 15px;
             border: 1px solid #444;
         }
 
@@ -307,265 +334,277 @@
         .form-group textarea {
             width: 100%;
             padding: 0.8rem;
-            background: #1a1a1a;
             border: 1px solid #444;
             border-radius: 5px;
+            background: rgba(26, 26, 26, 0.8);
             color: #ffffff;
-            font-size: 1rem;
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
 
         .submit-btn {
             background: linear-gradient(45deg, #87ceeb, #4682b4);
-            color: #ffffff;
-            padding: 12px 30px;
+            color: white;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-size: 1rem;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            width: 100%;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
         }
 
         /* Footer */
         footer {
             background: #0a0a0a;
-            padding: 2rem 0;
             text-align: center;
+            padding: 2rem 0;
             border-top: 1px solid #444;
         }
 
-        footer p {
-            color: #999999;
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            .hero h2 {
+                font-size: 2rem;
             }
-
-            .hero-content h2 {
-                font-size: 2.5rem;
+            
+            .hero p {
+                font-size: 1rem;
             }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .discord-info {
+            
+            .server-status {
                 flex-direction: column;
-                text-align: center;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
             }
         }
 
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Loading State */
+        /* Loading Animation */
         .loading {
-            color: #87ceeb;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #444;
+            border-radius: 50%;
+            border-top-color: #87ceeb;
+            animation: spin 1s ease-in-out infinite;
         }
 
-        .error {
-            color: #f44336;
-        }
-
-        .success {
-            color: #4caf50;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <nav class="container">
             <div class="logo">
-                <img id="server-logo" src="https://via.placeholder.com/40" alt="Cloud SMP Logo">
+                <img id="server-logo" src="" alt="Cloud SMP Logo" style="display: none;">
                 <h1>Cloud SMP</h1>
             </div>
             <ul class="nav-links">
-                <li><a href="/shop"><i class="fas fa-shopping-cart"></i> Shop</a></li>
-                <li><a href="/vote"><i class="fas fa-vote-yea"></i> Vote</a></li>
-                <li><a href="#discord"><i class="fab fa-discord"></i> Discord</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#discord">Discord</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#feedback">Feedback</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <section id="home" class="hero">
         <div class="hero-content">
             <h2>Welcome to Cloud SMP</h2>
-            <p>A Peaceful Minecraft Server Experience</p>
-            <p>Version 1.10x - 1.21x | Grief Prevention | Custom World Generation</p>
-            <a href="#apply" class="cta-button">
-                <i class="fas fa-paper-plane"></i> Apply to Join
-            </a>
-        </div>
-    </section>
-
-    <!-- Server Status -->
-    <section class="server-status">
-        <div class="container">
-            <h2>Server Status</h2>
-            <div class="status-grid">
-                <div class="status-card">
-                    <i class="fas fa-server"></i>
-                    <h3>Server Status</h3>
-                    <p id="server-status" class="loading">Loading...</p>
+            <p>A Peaceful Minecraft Experience for Everyone</p>
+            
+            <div class="server-ip">
+                <div class="ip-display">mc-cloudsmp.mcboss.top</div>
+                <button class="copy-btn" onclick="copyIP()">
+                    <i class="fas fa-copy"></i> Copy IP
+                </button>
+            </div>
+            
+            <div class="server-status">
+                <div class="status-item">
+                    <div class="status-value" id="player-count">
+                        <div class="loading"></div>
+                    </div>
+                    <div>Players Online</div>
                 </div>
-                <div class="status-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Players Online</h3>
-                    <p id="players-online" class="loading">Loading...</p>
-                </div>
-                <div class="status-card">
-                    <i class="fas fa-gamepad"></i>
-                    <h3>Max Players</h3>
-                    <p id="max-players" class="loading">Loading...</p>
-                </div>
-                <div class="status-card">
-                    <i class="fas fa-code-branch"></i>
-                    <h3>Version</h3>
-                    <p id="server-version" class="loading">Loading...</p>
+                <div class="status-item">
+                    <div class="status-value" id="server-status">
+                        <div class="loading"></div>
+                    </div>
+                    <div>Server Status</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
+    <section id="features" class="features">
         <div class="container">
-            <h2>Server Features</h2>
+            <h2 class="section-title">Server Features</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>Grief Prevention</h3>
-                    <p>Protect your builds with our advanced grief prevention system. Your creations are safe from griefers and raiders.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-vote-yea"></i>
-                    <h3>Vote Rewards</h3>
-                    <p>Vote for our server and earn 100 Claim Blocks! Help us grow while protecting more of your territory.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-mountain"></i>
-                    <h3>Custom World Generation</h3>
-                    <p>Explore unique landscapes with our custom world generation. Discover new biomes and terrain features.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-peace"></i>
+                    <i class="fas fa-dove feature-icon"></i>
                     <h3>Peaceful Environment</h3>
-                    <p>Focus on building and creativity in our peaceful server environment. No PvP stress, just pure fun.</p>
+                    <p>Enjoy a completely peaceful Minecraft experience with grief prevention and a welcoming community.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3>Grief Prevention</h3>
+                    <p>Your builds are protected with our advanced grief prevention system. Vote to earn claim blocks!</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users feature-icon"></i>
+                    <h3>Whitelist Application</h3>
+                    <p>Easy whitelist application process through our Discord server. Everyone is welcome to apply!</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cog feature-icon"></i>
+                    <h3>Version 1.10 - 1.21</h3>
+                    <p>Compatible with a wide range of Minecraft versions for maximum accessibility.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-vote-yea feature-icon"></i>
+                    <h3>Vote Rewards</h3>
+                    <p>Vote for our server and receive 100 claim blocks to expand your protected area!</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-balance-scale feature-icon"></i>
+                    <h3>No Pay-to-Win</h3>
+                    <p>Fair gameplay for everyone. Success comes from creativity and effort, not purchases.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Discord Section -->
-    <section class="discord-section" id="discord">
+    <section id="world-gen" class="world-gen">
         <div class="container">
-            <h2>Join Our Discord Community</h2>
-            <div class="discord-card">
-                <div class="discord-info">
-                    <img id="discord-icon" src="https://via.placeholder.com/80" alt="Discord Server Icon">
-                    <div>
-                        <h3 id="discord-name" class="loading">Loading...</h3>
-                        <p id="discord-description" class="loading">Loading server info...</p>
+            <div class="world-gen-content">
+                <h2 class="section-title">Custom World Generation</h2>
+                <p>Explore unique and beautiful landscapes with our custom world generation. Every corner of Cloud SMP offers something special to discover, from towering mountains to serene valleys.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="discord" class="discord">
+        <div class="container">
+            <h2 class="section-title">Join Our Discord Community</h2>
+            <div class="discord-content">
+                <div class="discord-stats">
+                    <h3>Discord Members</h3>
+                    <div class="discord-value" id="discord-members">
+                        <div class="loading"></div>
                     </div>
                 </div>
                 <div class="discord-stats">
-                    <div>
-                        <h4 id="discord-members" class="loading">...</h4>
-                        <p>Total Members</p>
-                    </div>
-                    <div>
-                        <h4 id="discord-online" class="loading">...</h4>
-                        <p>Online Now</p>
+                    <h3>Online Members</h3>
+                    <div class="discord-value" id="discord-online">
+                        <div class="loading"></div>
                     </div>
                 </div>
-                <a id="discord-invite" href="#" class="cta-button">
-                    <i class="fab fa-discord"></i> Join Discord
+                <div class="discord-stats">
+                    <h3>Apply for Whitelist</h3>
+                    <a href="https://discord.com/channels/1378299000901472377/1378335940535255081" class="join-btn">
+                        <i class="fab fa-discord"></i> Apply Now
+                    </a>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="#" id="discord-invite" class="join-btn">
+                    <i class="fab fa-discord"></i> Join Discord Server
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Shop Section -->
-    <section class="shop-section">
+    <section id="shop" class="shop">
         <div class="container">
-            <h2>The Shop System</h2>
-            <p>Earn Cloud Points by chatting in Discord and spend them in our shop!</p>
-            <div class="shop-features">
-                <div class="shop-feature">
-                    <i class="fas fa-comments"></i>
-                    <h3>Chat to Earn</h3>
-                    <p>Every Discord message = 1 Cloud Point<br>Every 10 points saved to your Discord ID</p>
+            <h2 class="section-title">Cloud Points Shop</h2>
+            <div class="shop-content">
+                <p>Earn Cloud Points by chatting in our Discord server and spend them in our shop!</p>
+                <div class="shop-features">
+                    <div class="shop-feature">
+                        <i class="fas fa-comments"></i>
+                        <h3>Earn Points</h3>
+                        <p>Get 1 Cloud Point for every message in Discord. Every 10 points are saved to your Discord ID.</p>
+                    </div>
+                    <div class="shop-feature">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Shop Items</h3>
+                        <p>Use your Discord ID like a credit card to purchase items and perks.</p>
+                    </div>
+                    <div class="shop-feature">
+                        <i class="fas fa-gift"></i>
+                        <h3>Fair System</h3>
+                        <p>No pay-to-win mechanics. Earn everything through community participation!</p>
+                    </div>
                 </div>
-                <div class="shop-feature">
-                    <i class="fas fa-credit-card"></i>
-                    <h3>Discord ID Payment</h3>
-                    <p>Use your Discord ID like a credit card to purchase items from our shop</p>
-                </div>
-                <div class="shop-feature">
-                    <i class="fas fa-balance-scale"></i>
-                    <h3>No Pay to Win</h3>
-                    <p>Fair gameplay for everyone. Earn your rewards through community participation</p>
+                <div style="margin-top: 2rem;">
+                    <a href="http://cloud-smp.mcboss.top/shop" class="join-btn">
+                        <i class="fas fa-shopping-bag"></i> Visit Shop
+                    </a>
                 </div>
             </div>
-            <a href="/shop" class="cta-button">
-                <i class="fas fa-shopping-cart"></i> Visit Shop
-            </a>
         </div>
     </section>
 
-    <!-- Apply Section -->
-    <section class="server-status" id="apply">
+    <section id="feedback" class="feedback">
         <div class="container">
-            <h2>Ready to Join?</h2>
-            <p>Anyone can apply to our whitelist!</p>
-            <p>Use the <strong>/apply</strong> command in our Discord server to get started.</p>
-            <a id="apply-discord" href="#" class="cta-button">
-                <i class="fab fa-discord"></i> Apply Now
-            </a>
+            <h2 class="section-title">Send Feedback</h2>
+            <div class="feedback-form">
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (Optional)</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Share your thoughts, suggestions, or report issues..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Send Feedback
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
 
-    <!-- Feedback Section -->
-    <section class="feedback-section">
-        <div class="container">
-            <h2>Send Us Feedback</h2>
-            <form class="feedback-form" id="feedback-form">
-                <div class="form-group">
-                    <label for="feedback-email">Email:</label>
-                    <input type="email" id="feedback-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="feedback-message">Message:</label>
-                    <textarea id="feedback-message" required placeholder="Share your thoughts, suggestions, or report issues..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Send Feedback
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
         <div class="container">
             <p>&copy; <span id="current-year"></span> Cloud SMP. All rights reserved.</p>
@@ -576,126 +615,138 @@
         // Set current year
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // API Configuration
-        const API_KEY = 'dk05483CdnB6WBEfm7esQ3J7BvuIrLsC';
-        const DISCORD_API_URL = `https://dms-api.mcboss.top/api/${API_KEY}/server-info`;
-        const MINECRAFT_API_URL = 'https://api.mcsrvstat.us/3/mc-cloudsmp.mcboss.top';
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-        // Load server status
-        async function loadServerStatus() {
+        // Intersection Observer for section animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Copy IP function
+        function copyIP() {
+            const ip = 'mc-cloudsmp.mcboss.top';
+            navigator.clipboard.writeText(ip).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.style.background = 'linear-gradient(45deg, #4caf50, #45a049)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = 'linear-gradient(45deg, #87ceeb, #4682b4)';
+                }, 2000);
+            });
+        }
+
+        // Fetch server status
+        async function fetchServerStatus() {
             try {
-                const response = await fetch(MINECRAFT_API_URL);
+                const response = await fetch('https://api.mcsrvstat.us/3/mc-cloudsmp.mcboss.top');
                 const data = await response.json();
                 
-                if (data.online) {
-                    document.getElementById('server-status').textContent = 'Online';
-                    document.getElementById('server-status').className = 'success';
-                    document.getElementById('players-online').textContent = data.players.online;
-                    document.getElementById('max-players').textContent = data.players.max;
-                    document.getElementById('server-version').textContent = data.version;
-                } else {
-                    document.getElementById('server-status').textContent = 'Offline';
-                    document.getElementById('server-status').className = 'error';
-                    document.getElementById('players-online').textContent = '0';
-                    document.getElementById('max-players').textContent = '0';
-                    document.getElementById('server-version').textContent = 'Unknown';
-                }
+                document.getElementById('player-count').textContent = data.players ? data.players.online : '0';
+                document.getElementById('server-status').textContent = data.online ? 'Online' : 'Offline';
+                document.getElementById('server-status').style.color = data.online ? '#4caf50' : '#f44336';
             } catch (error) {
-                console.error('Error loading server status:', error);
-                document.getElementById('server-status').textContent = 'Error';
-                document.getElementById('server-status').className = 'error';
+                console.error('Error fetching server status:', error);
+                document.getElementById('player-count').textContent = '0';
+                document.getElementById('server-status').textContent = 'Unknown';
             }
         }
 
-        // Load Discord info
-        async function loadDiscordInfo() {
+        // Fetch Discord info
+        async function fetchDiscordInfo() {
             try {
-                const response = await fetch(DISCORD_API_URL);
+                const response = await fetch('https://dms-api.mcboss.top/api/dk05483CdnB6WBEfm7esQ3J7BvuIrLsC/server-info');
                 const data = await response.json();
                 
-                if (data.status === 'success') {
-                    const serverInfo = data.server_info;
-                    
-                    // Update Discord section
-                    document.getElementById('discord-name').textContent = serverInfo.server_name;
-                    document.getElementById('discord-description').textContent = serverInfo.server_description || 'Cloud SMP Discord Server';
-                    document.getElementById('discord-members').textContent = serverInfo.server_member_count.toLocaleString();
-                    document.getElementById('discord-online').textContent = serverInfo.server_online_member_count.toLocaleString();
-                    
-                    // Update server logo
-                    if (serverInfo.server_icon_url) {
-                        document.getElementById('server-logo').src = serverInfo.server_icon_url;
-                        document.getElementById('discord-icon').src = serverInfo.server_icon_url;
-                    }
-                    
-                    // Update invite links
-                    if (serverInfo.generated_invite && serverInfo.generated_invite.url) {
-                        document.getElementById('discord-invite').href = serverInfo.generated_invite.url;
-                        document.getElementById('apply-discord').href = serverInfo.generated_invite.url;
-                    }
-                    
-                    // Remove loading classes
-                    document.getElementById('discord-name').className = '';
-                    document.getElementById('discord-description').className = '';
-                    document.getElementById('discord-members').className = '';
-                    document.getElementById('discord-online').className = '';
-                } else {
-                    console.error('Discord API error:', data.error);
+                if (data.server_icon_url) {
+                    const logoImg = document.getElementById('server-logo');
+                    logoImg.src = data.server_icon_url;
+                    logoImg.style.display = 'block';
+                }
+                
+                if (data.invite_url) {
+                    document.getElementById('discord-invite').href = data.invite_url;
+                }
+                
+                // Update Discord stats if available
+                if (data.member_count) {
+                    document.getElementById('discord-members').textContent = data.member_count;
+                }
+                if (data.online_members) {
+                    document.getElementById('discord-online').textContent = data.online_members;
                 }
             } catch (error) {
-                console.error('Error loading Discord info:', error);
+                console.error('Error fetching Discord info:', error);
+                document.getElementById('discord-members').textContent = '0';
+                document.getElementById('discord-online').textContent = '0';
             }
         }
 
-        // Handle feedback form
-        document.getElementById('feedback-form').addEventListener('submit', async function(e) {
+        // Feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('feedback-email').value;
-            const message = document.getElementById('feedback-message').value;
-            const submitBtn = document.querySelector('.submit-btn');
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            const formData = new FormData(this);
+            const feedbackData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+            };
             
             try {
-                const response = await fetch(`https://dms-api.mcboss.top/api/${API_KEY}/send`, {
+                const response = await fetch('https://dms-api.mcboss.top/api/dk05483CdnB6WBEfm7esQ3J7BvuIrLsC/feedback', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Origin': 'https://cloud-smp.mcboss.top'
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        email: email,
-                        message: `Feedback from ${email}: ${message}`
-                    })
+                    body: JSON.stringify(feedbackData)
                 });
                 
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    alert('Feedback sent successfully! Thank you for your input.');
-                    document.getElementById('feedback-form').reset();
+                if (response.ok) {
+                    alert('Thank you for your feedback! We appreciate your input.');
+                    this.reset();
                 } else {
-                    alert('Error sending feedback: ' + data.error);
+                    alert('Sorry, there was an error sending your feedback. Please try again later.');
                 }
             } catch (error) {
                 console.error('Error sending feedback:', error);
-                alert('Error sending feedback. Please try again later.');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Feedback';
+                alert('Sorry, there was an error sending your feedback. Please try again later.');
             }
         });
 
-        // Load data on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadServerStatus();
-            loadDiscordInfo();
-        });
-
+        // Initialize data fetching
+        fetchServerStatus();
+        fetchDiscordInfo();
+        
         // Refresh server status every 30 seconds
-        setInterval(loadServerStatus, 30000);
+        setInterval(fetchServerStatus, 30000);
     </script>
 </body>
 </html>
