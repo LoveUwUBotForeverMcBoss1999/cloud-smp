@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud SMP Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -14,177 +14,50 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Header */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .header {
-            background: rgba(18, 18, 18, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(135, 206, 235, 0.2);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #87CEEB;
-        }
-
-        .discord-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #87CEEB;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid rgba(135, 206, 235, 0.3);
-            border-radius: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .discord-link:hover {
-            background: rgba(135, 206, 235, 0.1);
-            border-color: #87CEEB;
-        }
-
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .welcome-section {
             text-align: center;
-            margin-bottom: 3rem;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .welcome-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #87CEEB, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #87ceeb;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(135, 206, 235, 0.5);
         }
 
-        .welcome-subtitle {
-            font-size: 1.1rem;
-            color: #b0b0b0;
-            margin-bottom: 2rem;
-        }
-
-        /* Shop Items Grid */
-        .shop-section {
-            margin-bottom: 3rem;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: #87CEEB;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .item-card {
-            background: rgba(30, 30, 30, 0.8);
-            border: 1px solid rgba(135, 206, 235, 0.2);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .item-card:hover {
-            transform: translateY(-5px);
-            border-color: #87CEEB;
-            box-shadow: 0 10px 30px rgba(135, 206, 235, 0.1);
-        }
-
-        .item-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 0.5rem;
-            margin: 0 auto 1rem;
-            display: block;
-            border: 2px solid rgba(135, 206, 235, 0.3);
-        }
-
-        .item-name {
+        .header p {
             font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
+            color: #a0a0a0;
         }
 
-        .item-price {
-            font-size: 1.1rem;
-            color: #87CEEB;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.3rem;
-        }
-
-        .buy-button {
-            background: linear-gradient(45deg, #87CEEB, #4682B4);
-            color: #000000;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            font-size: 1rem;
-        }
-
-        .buy-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
-        }
-
-        /* Loading State */
         .loading {
             text-align: center;
-            padding: 3rem;
-            color: #87CEEB;
+            padding: 50px;
+            color: #87ceeb;
+            font-size: 1.5rem;
         }
 
         .loading i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
             animation: spin 1s linear infinite;
+            margin-right: 10px;
         }
 
         @keyframes spin {
@@ -192,7 +65,69 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Modal Styles */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .shop-item {
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #404040;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(135, 206, 235, 0.2);
+            border-color: #87ceeb;
+        }
+
+        .item-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            display: block;
+            border: 3px solid #404040;
+        }
+
+        .item-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            color: #87ceeb;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, #87ceeb, #4169e1);
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .buy-btn:hover {
+            background: linear-gradient(135deg, #4169e1, #87ceeb);
+            transform: scale(1.05);
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -201,356 +136,292 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(5px);
         }
 
         .modal-content {
-            background: #1a1a1a;
-            margin: 2% auto;
-            padding: 0;
-            border: 1px solid rgba(135, 206, 235, 0.3);
-            border-radius: 1rem;
-            width: 90%;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
             max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
+            width: 90%;
             position: relative;
+            border: 2px solid #404040;
         }
 
-        .modal-header {
-            background: rgba(135, 206, 235, 0.1);
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(135, 206, 235, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #87CEEB;
-        }
-
-        .close-button {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #87CEEB;
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 30px;
             cursor: pointer;
-            padding: 0.5rem;
+            color: #87ceeb;
         }
 
-        .modal-body {
-            padding: 2rem;
+        .close:hover {
+            color: #ffffff;
         }
 
-        .step {
+        .modal-step {
             display: none;
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        .step-content {
             text-align: center;
         }
 
-        .step-item-info {
-            margin-bottom: 2rem;
-        }
-
-        .step-item-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 0.5rem;
-            margin: 0 auto 1rem;
+        .modal-step.active {
             display: block;
-            border: 2px solid rgba(135, 206, 235, 0.3);
         }
 
-        .step-item-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+        .modal-step h3 {
+            color: #87ceeb;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
 
-        .step-item-price {
-            font-size: 1.2rem;
-            color: #87CEEB;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.3rem;
+        .modal-step p {
+            color: #a0a0a0;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         .input-group {
-            margin-bottom: 1.5rem;
+            margin: 20px 0;
             text-align: left;
         }
 
-        .input-label {
+        .input-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: #b0b0b0;
-            font-weight: bold;
+            color: #87ceeb;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
 
-        .input-field {
+        .input-group input {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid rgba(135, 206, 235, 0.3);
-            border-radius: 0.5rem;
-            background: rgba(30, 30, 30, 0.5);
+            padding: 12px;
+            border: 2px solid #404040;
+            border-radius: 10px;
+            background: #2a2a2a;
             color: #ffffff;
             font-size: 1rem;
         }
 
-        .input-field:focus {
+        .input-group input:focus {
             outline: none;
-            border-color: #87CEEB;
-            box-shadow: 0 0 0 2px rgba(135, 206, 235, 0.2);
+            border-color: #87ceeb;
         }
 
         .user-info {
-            background: rgba(30, 30, 30, 0.5);
-            border: 1px solid rgba(135, 206, 235, 0.2);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #404040;
         }
 
         .user-avatar {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: block;
-            border: 2px solid #87CEEB;
+            margin-right: 20px;
+            border: 3px solid #87ceeb;
         }
 
-        .user-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+        .user-details h4 {
+            color: #ffffff;
+            margin-bottom: 5px;
         }
 
-        .user-points {
-            font-size: 1.1rem;
-            color: #87CEEB;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.3rem;
+        .user-details p {
+            color: #a0a0a0;
+            margin: 0;
         }
 
-        .affordability {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
+        .points-balance {
             text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 15px;
+            border: 2px solid #404040;
         }
 
-        .affordable {
-            background: rgba(0, 255, 0, 0.1);
-            border: 1px solid rgba(0, 255, 0, 0.3);
-            color: #00ff00;
+        .points-balance h4 {
+            color: #87ceeb;
+            margin-bottom: 10px;
         }
 
-        .not-affordable {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            color: #ff0000;
+        .points-balance .balance {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .insufficient-funds {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ff6b6b;
+        }
+
+        .sufficient-funds {
+            color: #51cf66;
+            background: rgba(81, 207, 102, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #51cf66;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #87ceeb, #4169e1);
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            min-width: 120px;
+        }
+
+        .modal-btn:hover {
+            background: linear-gradient(135deg, #4169e1, #87ceeb);
+        }
+
+        .modal-btn:disabled {
+            background: #404040;
+            cursor: not-allowed;
+        }
+
+        .back-btn {
+            background: #404040;
+            color: #ffffff;
+        }
+
+        .back-btn:hover {
+            background: #505050;
         }
 
         .checkbox-group {
             display: flex;
             align-items: flex-start;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin: 20px 0;
             text-align: left;
         }
 
         .checkbox-group input[type="checkbox"] {
-            margin-top: 0.2rem;
-            scale: 1.2;
+            margin-right: 10px;
+            margin-top: 3px;
+            width: auto;
         }
 
-        .checkbox-label {
-            color: #b0b0b0;
-            font-size: 0.9rem;
+        .checkbox-group label {
+            color: #a0a0a0;
             line-height: 1.4;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            min-width: 120px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #87CEEB, #4682B4);
-            color: #000000;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(60, 60, 60, 0.8);
-            color: #ffffff;
-            border: 1px solid rgba(135, 206, 235, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(80, 80, 80, 0.8);
-            border-color: #87CEEB;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn:disabled:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .success-content {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .success-icon {
-            font-size: 4rem;
-            color: #00ff00;
-            margin-bottom: 1rem;
-        }
-
-        .success-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: #00ff00;
+            font-size: 0.9rem;
+            margin-bottom: 0;
         }
 
         .receipt {
-            background: rgba(30, 30, 30, 0.5);
-            border: 1px solid rgba(135, 206, 235, 0.2);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            text-align: left;
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #51cf66;
+            margin: 20px 0;
         }
 
-        .receipt-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(135, 206, 235, 0.1);
-        }
-
-        .receipt-row:last-child {
-            border-bottom: none;
-            font-weight: bold;
-            color: #87CEEB;
-        }
-
-        .error-message {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            color: #ff0000;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
+        .receipt h3 {
+            color: #51cf66;
+            margin-bottom: 20px;
             text-align: center;
         }
 
-        /* Responsive Design */
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #404040;
+        }
+
+        .receipt-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            color: #87ceeb;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #ff6b6b;
+            text-align: center;
+        }
+
+        .success-message {
+            color: #51cf66;
+            background: rgba(81, 207, 102, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #51cf66;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
-            .header-content {
-                padding: 0 1rem;
+            .header h1 {
+                font-size: 2.5rem;
             }
-
-            .main-content {
-                padding: 1rem;
-            }
-
-            .welcome-title {
-                font-size: 2rem;
-            }
-
-            .items-grid {
+            
+            .shop-grid {
                 grid-template-columns: 1fr;
             }
-
+            
             .modal-content {
-                width: 95%;
-                margin: 5% auto;
+                margin: 10% auto;
+                padding: 20px;
             }
-
-            .action-buttons {
+            
+            .user-info {
                 flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <i class="fas fa-cloud"></i>
-                Cloud SMP Shop
-            </div>
-            <a href="https://discord.gg/BbkVngNWSS" class="discord-link" target="_blank">
-                <i class="fab fa-discord"></i>
-                Join Discord
-            </a>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Welcome Section -->
-        <div class="welcome-section">
-            <h1 class="welcome-title">Welcome to Cloud SMP Shop</h1>
-            <p class="welcome-subtitle">
-                Earn Cloud Points by chatting in our Discord server and use them to purchase amazing items for your in-game experience!
-            </p>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-cloud"></i> Cloud SMP Shop</h1>
+            <p>Trade your Cloud Points for amazing in-game items!</p>
         </div>
 
-        <!-- Shop Items Section -->
-        <div class="shop-section">
-            <h2 class="section-title">
-                <i class="fas fa-shopping-cart"></i>
-                Shop Items
-            </h2>
-            <div id="shop-items-container">
-                <div class="loading">
-                    <i class="fas fa-spinner"></i>
-                    <p>Loading shop items...</p>
-                </div>
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner"></i> Loading shop items...
+        </div>
+
+        <div id="shop-container" class="shop-grid" style="display: none;">
+            <!-- Shop items will be loaded here -->
+        </div>
+
+        <div id="error-container" style="display: none;">
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="error-text">Failed to load shop items. Please try again later.</span>
             </div>
         </div>
     </div>
@@ -558,271 +429,415 @@
     <!-- Purchase Modal -->
     <div id="purchaseModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <span class="modal-title">Purchase Item</span>
-                <button class="close-button" onclick="closePurchaseModal()">
-                    <i class="fas fa-times"></i>
-                </button>
+            <span class="close" onclick="closeModal()">&times;</span>
+            
+            <!-- Step 1: Item Info -->
+            <div id="step1" class="modal-step active">
+                <h3><i class="fas fa-info-circle"></i> Item Information</h3>
+                <img id="modal-item-icon" class="item-icon" src="" alt="Item Icon">
+                <h4 id="modal-item-name"></h4>
+                <p id="modal-item-price"></p>
+                <p>Are you sure you want to purchase this item?</p>
+                <button class="modal-btn" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
             </div>
-            <div class="modal-body">
-                <!-- Step 1: Item Information -->
-                <div id="step1" class="step active">
-                    <div class="step-content">
-                        <div class="step-item-info">
-                            <img id="modal-item-image" class="step-item-image" alt="Item">
-                            <div id="modal-item-name" class="step-item-name"></div>
-                            <div id="modal-item-price" class="step-item-price"></div>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="nextStep(2)">Next</button>
-                            <button class="btn btn-secondary" onclick="closePurchaseModal()">Cancel</button>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Step 2: Discord User ID -->
-                <div id="step2" class="step">
-                    <div class="step-content">
-                        <div class="input-group">
-                            <label class="input-label">Discord User ID</label>
-                            <input type="text" id="discord-user-id" class="input-field" placeholder="Enter your Discord User ID">
-                        </div>
-                        <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="fetchUserInfo()">Next</button>
-                            <button class="btn btn-secondary" onclick="prevStep(1)">Back</button>
-                        </div>
-                    </div>
+            <!-- Step 2: Discord ID -->
+            <div id="step2" class="modal-step">
+                <h3><i class="fab fa-discord"></i> Discord User ID</h3>
+                <p>Enter your Discord User ID to verify your account and check your Cloud Points balance.</p>
+                <div class="input-group">
+                    <label for="discord-id">Discord User ID:</label>
+                    <input type="text" id="discord-id" placeholder="e.g., 123456789012345678">
                 </div>
+                <div id="discord-error" class="error-message" style="display: none;"></div>
+                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="modal-btn" onclick="verifyDiscordId()">Verify <i class="fas fa-check"></i></button>
+            </div>
 
-                <!-- Step 3: User Info & Affordability -->
-                <div id="step3" class="step">
-                    <div class="step-content">
-                        <div class="user-info">
-                            <img id="user-avatar" class="user-avatar" alt="User Avatar">
-                            <div id="user-name" class="user-name"></div>
-                            <div id="user-points" class="user-points"></div>
-                        </div>
-                        <div id="affordability-status" class="affordability"></div>
-                        <div class="action-buttons">
-                            <button id="buy-button" class="btn btn-primary" onclick="nextStep(4)">Buy</button>
-                            <button class="btn btn-secondary" onclick="prevStep(2)">Back</button>
-                        </div>
-                    </div>
+            <!-- Step 3: User Info & Balance -->
+            <div id="step3" class="modal-step">
+                <h3><i class="fas fa-user"></i> Account Information</h3>
+                <div id="user-info-container">
+                    <!-- User info will be loaded here -->
                 </div>
+                <div id="balance-check">
+                    <!-- Balance check will be shown here -->
+                </div>
+                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="modal-btn" id="proceed-btn" onclick="proceedToPurchase()" disabled>Buy Now <i class="fas fa-shopping-cart"></i></button>
+            </div>
 
-                <!-- Step 4: OTP & IGN -->
-                <div id="step4" class="step">
-                    <div class="step-content">
-                        <p style="margin-bottom: 1.5rem; color: #b0b0b0;">
-                            You need to get an OTP (One-Time Password) to complete your purchase.
-                        </p>
-                        <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="sendOTP()">Send OTP</button>
-                            <button class="btn btn-secondary" onclick="prevStep(3)">Back</button>
-                        </div>
-                    </div>
-                </div>
+            <!-- Step 4: OTP Request -->
+            <div id="step4" class="modal-step">
+                <h3><i class="fas fa-key"></i> Verification Required</h3>
+                <p>To complete your purchase, you need to verify your identity with a One-Time Password (OTP).</p>
+                <p>Click the button below to receive an OTP in your Discord DMs.</p>
+                <div id="otp-status" class="success-message" style="display: none;"></div>
+                <div id="otp-error" class="error-message" style="display: none;"></div>
+                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="modal-btn" onclick="sendOTP()">Send OTP <i class="fas fa-paper-plane"></i></button>
+            </div>
 
-                <!-- Step 5: Enter OTP & IGN -->
-                <div id="step5" class="step">
-                    <div class="step-content">
-                        <div class="input-group">
-                            <label class="input-label">OTP (One-Time Password)</label>
-                            <input type="text" id="otp-input" class="input-field" placeholder="Enter 6-digit OTP">
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">In-Game Name (IGN)</label>
-                            <input type="text" id="ign-input" class="input-field" placeholder="Enter your in-game name">
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="understand-checkbox">
-                            <label for="understand-checkbox" class="checkbox-label">
-                                I understand that this purchase will be completed whether I'm in the game or not. 
-                                To receive the item after purchase, I need to be in the game before I make the purchase.
-                            </label>
-                        </div>
-                        <div class="action-buttons">
-                            <button id="final-buy-button" class="btn btn-primary" onclick="completePurchase()" disabled>Buy</button>
-                            <button class="btn btn-secondary" onclick="prevStep(4)">Back</button>
-                        </div>
-                    </div>
+            <!-- Step 5: OTP Entry & IGN -->
+            <div id="step5" class="modal-step">
+                <h3><i class="fas fa-gamepad"></i> Final Step</h3>
+                <p>Enter the OTP you received and your in-game name to complete the purchase.</p>
+                <div class="input-group">
+                    <label for="otp-code">OTP Code:</label>
+                    <input type="text" id="otp-code" placeholder="Enter 6-digit OTP" maxlength="6">
                 </div>
+                <div class="input-group">
+                    <label for="ign">In-Game Name:</label>
+                    <input type="text" id="ign" placeholder="Your Minecraft username" maxlength="16">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms-checkbox">
+                    <label for="terms-checkbox">I understand that this purchase will be completed regardless of whether I'm currently in the game. To receive the item after purchase, I need to be in the game before making the purchase.</label>
+                </div>
+                <div id="final-error" class="error-message" style="display: none;"></div>
+                <button class="modal-btn back-btn" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="modal-btn" id="final-buy-btn" onclick="completePurchase()" disabled>Complete Purchase <i class="fas fa-credit-card"></i></button>
+            </div>
 
-                <!-- Step 6: Success -->
-                <div id="step6" class="step">
-                    <div class="success-content">
-                        <i class="fas fa-check-circle success-icon"></i>
-                        <h2 class="success-title">Purchase Successful!</h2>
-                        <div id="receipt" class="receipt"></div>
-                        <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="closePurchaseModal()">Close</button>
-                        </div>
-                    </div>
+            <!-- Step 6: Success -->
+            <div id="step6" class="modal-step">
+                <h3><i class="fas fa-check-circle"></i> Purchase Successful!</h3>
+                <div id="receipt-container">
+                    <!-- Receipt will be generated here -->
                 </div>
+                <button class="modal-btn" onclick="closeModal()">Close <i class="fas fa-times"></i></button>
             </div>
         </div>
     </div>
 
     <script>
         const API_BASE = 'https://cloud-smp-shop-api.mcboss.top';
-        let selectedItem = null;
+        let currentStep = 1;
+        let currentItem = null;
         let currentUser = null;
         let currentOTP = null;
 
         // Load shop items on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        window.onload = function() {
             loadShopItems();
-        });
+        };
 
-        // Load shop items from API
         async function loadShopItems() {
             try {
                 const response = await fetch(`${API_BASE}/api/shop/items`);
                 const data = await response.json();
                 
-                if (data.items) {
+                if (data.items && data.items.length > 0) {
                     displayShopItems(data.items);
                 } else {
-                    showError('Failed to load shop items');
+                    showError('No items available in the shop.');
                 }
             } catch (error) {
                 console.error('Error loading shop items:', error);
-                showError('Failed to load shop items');
+                showError('Failed to load shop items. Please try again later.');
             }
         }
 
-        // Display shop items in the grid
         function displayShopItems(items) {
-            const container = document.getElementById('shop-items-container');
+            const container = document.getElementById('shop-container');
+            const loading = document.getElementById('loading');
             
-            if (items.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #b0b0b0;">No items available</p>';
-                return;
-            }
-
-            const itemsHTML = items.map(item => `
-                <div class="item-card" onclick="openPurchaseModal('${item.item_id}', '${item.item_name}', ${item.item_price}, '${item.item_icon}')">
-                    <img src="${item.item_icon}" alt="${item.item_name}" class="item-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMzMzIiByeD0iNCIvPgo8dGV4dCB4PSI0MCIgeT0iNDQiIGZpbGw9IiM4N0NFRUIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo='">
+            container.innerHTML = '';
+            
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'shop-item';
+                itemDiv.innerHTML = `
+                    <img src="${item.item_icon}" alt="${item.item_name}" class="item-icon">
                     <div class="item-name">${item.item_name}</div>
-                    <div class="item-price">
-                        <i class="fas fa-cloud"></i>
-                        ${item.item_price}
-                    </div>
-                    <button class="buy-button">Buy Now</button>
-                </div>
-            `).join('');
-
-            container.innerHTML = `<div class="items-grid">${itemsHTML}</div>`;
+                    <div class="item-price"><i class="fas fa-cloud"></i> ${item.item_price} Cloud Points</div>
+                    <button class="buy-btn" onclick="openPurchaseModal('${item.item_id}', '${item.item_name}', ${item.item_price}, '${item.item_icon}')">
+                        <i class="fas fa-shopping-cart"></i> Buy Now
+                    </button>
+                `;
+                container.appendChild(itemDiv);
+            });
+            
+            loading.style.display = 'none';
+            container.style.display = 'grid';
         }
 
-        // Open purchase modal
-        function openPurchaseModal(itemId, itemName, itemPrice, itemIcon) {
-            selectedItem = { id: itemId, name: itemName, price: itemPrice, icon: itemIcon };
+        function showError(message) {
+            const loading = document.getElementById('loading');
+            const errorContainer = document.getElementById('error-container');
+            const errorText = document.getElementById('error-text');
             
-            document.getElementById('modal-item-image').src = itemIcon;
+            loading.style.display = 'none';
+            errorText.textContent = message;
+            errorContainer.style.display = 'block';
+        }
+
+        function openPurchaseModal(itemId, itemName, itemPrice, itemIcon) {
+            currentItem = {
+                id: itemId,
+                name: itemName,
+                price: itemPrice,
+                icon: itemIcon
+            };
+            
+            document.getElementById('modal-item-icon').src = itemIcon;
             document.getElementById('modal-item-name').textContent = itemName;
-            document.getElementById('modal-item-price').innerHTML = `<i class="fas fa-cloud"></i> ${itemPrice}`;
+            document.getElementById('modal-item-price').textContent = `${itemPrice} Cloud Points`;
             
             document.getElementById('purchaseModal').style.display = 'block';
-            showStep(1);
+            resetModal();
         }
 
-        // Close purchase modal
-        function closePurchaseModal() {
+        function closeModal() {
             document.getElementById('purchaseModal').style.display = 'none';
             resetModal();
         }
 
-        // Reset modal to initial state
         function resetModal() {
-            selectedItem = null;
+            currentStep = 1;
             currentUser = null;
             currentOTP = null;
-            document.getElementById('discord-user-id').value = '';
-            document.getElementById('otp-input').value = '';
-            document.getElementById('ign-input').value = '';
-            document.getElementById('understand-checkbox').checked = false;
-            document.getElementById('final-buy-button').disabled = true;
-            showStep(1);
-        }
-
-        // Show specific step
-        function showStep(stepNumber) {
-            // Hide all steps
-            document.querySelectorAll('.step').forEach(step => {
-                step.classList.remove('active');
-            });
             
-            // Show selected step
-            document.getElementById(`step${stepNumber}`).classList.add('active');
-        }
-
-        // Next step
-        function nextStep(stepNumber) {
-            showStep(stepNumber);
-        }
-
-        // Previous step
-        function prevStep(stepNumber) {
-            showStep(stepNumber);
-        }
-
-        // Fetch user info from API
-        async function fetchUserInfo() {
-            const userId = document.getElementById('discord-user-id').value.trim();
+            // Reset all form fields
+            document.getElementById('discord-id').value = '';
+            document.getElementById('otp-code').value = '';
+            document.getElementById('ign').value = '';
+            document.getElementById('terms-checkbox').checked = false;
             
-            if (!userId) {
-                showError('Please enter your Discord User ID');
+            // Show only step 1
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`step${i}`).classList.remove('active');
+            }
+            document.getElementById('step1').classList.add('active');
+            
+            // Clear error messages
+            clearErrors();
+        }
+
+        function nextStep() {
+            if (currentStep < 6) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep++;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep--;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+            }
+        }
+
+        async function verifyDiscordId() {
+            const discordId = document.getElementById('discord-id').value.trim();
+            const errorDiv = document.getElementById('discord-error');
+            
+            if (!discordId) {
+                showError('Please enter your Discord User ID.', errorDiv);
                 return;
             }
-
-            if (!userId.match(/^\d{10,}$/)) {
-                showError('Invalid Discord User ID format');
+            
+            if (!discordId.match(/^\d{10,}$/)) {
+                showError('Invalid Discord User ID format.', errorDiv);
                 return;
             }
-
+            
             try {
-                const response = await fetch(`${API_BASE}/api/user/${userId}`);
+                const response = await fetch(`${API_BASE}/api/user/${discordId}`);
                 const data = await response.json();
                 
                 if (response.ok) {
                     currentUser = data;
                     displayUserInfo(data);
-                    checkAffordability();
-                    nextStep(3);
+                    nextStep();
                 } else {
-                    showError(data.error || 'Failed to fetch user info');
+                    showError(data.error || 'Failed to verify Discord ID.', errorDiv);
                 }
             } catch (error) {
-                console.error('Error fetching user info:', error);
-                showError('Failed to fetch user info');
+                showError('Error verifying Discord ID. Please try again.', errorDiv);
             }
         }
 
-        // Display user info
         function displayUserInfo(user) {
-            document.getElementById('user-avatar').src = user.discord_avatar || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMzAiIGZpbGw9IiM4N0NFRUIiLz4KPHN2ZyB4PSIxNSIgeT0iMTUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDAwIj4KPHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPgo8L3N2Zz4KPC9zdmc+Cg==';
-            document.getElementById('user-name').textContent = user.username;
-            document.getElementById('user-points').innerHTML = `<i class="fas fa-cloud"></i> ${user.cloud_points} Cloud Points`;
-        }
-
-        // Check if user can afford the item
-        function checkAffordability() {
-            const affordabilityDiv = document.getElementById('affordability-status');
-            const buyButton = document.getElementById('buy-button');
+            const container = document.getElementById('user-info-container');
+            const balanceCheck = document.getElementById('balance-check');
             
-            if (currentUser.cloud_points >= selectedItem.price) {
-                affordabilityDiv.className = 'affordability affordable';
-                affordabilityDiv.innerHTML = '<i class="fas fa-check-circle"></i> You can afford this item!';
-                buyButton.disabled = false;
+            const avatarUrl = user.discord_avatar || 'https://cdn.discordapp.com/embed/avatars/0.png';
+            
+            container.innerHTML = `
+                <div class="user-info">
+                    <img src="${avatarUrl}" alt="Avatar" class="user-avatar">
+                    <div class="user-details">
+                        <h4>${user.username}</h4>
+                        <p>User ID: ${user.user_id}</p>
+                        <p>Messages Sent: ${user.messages_sent}</p>
+                    </div>
+                </div>
+                <div class="points-balance">
+                    <h4><i class="fas fa-cloud"></i> Cloud Points Balance</h4>
+                    <div class="balance">${user.cloud_points}</div>
+                </div>
+            `;
+            
+            const canAfford = user.cloud_points >= currentItem.price;
+            const proceedBtn = document.getElementById('proceed-btn');
+            
+            if (canAfford) {
+                balanceCheck.innerHTML = `
+                    <div class="sufficient-funds">
+                        <i class="fas fa-check-circle"></i> You have sufficient funds to purchase this item!
+                    </div>
+                `;
+                proceedBtn.disabled = false;
             } else {
-                affordabilityDiv.className = 'affordability not-affordable';
-                affordabilityDiv.innerHTML = '<i class="fas fa-times-circle"></i> Insufficient Cloud Points';
-                buyButton.disabled = true;
+                balanceCheck.innerHTML = `
+                    <div class="insufficient-funds">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Insufficient funds! You need ${currentItem.price - user.cloud_points} more Cloud Points.
+                    </div>
+                `;
+                proceedBtn.disabled = true;
             }
         }
 
-        // Send OTP
+        function proceedToPurchase() {
+            nextStep();
+        }
+
         async function sendOTP() {
+            const statusDiv = document.getElementById('otp-status');
+            const errorDiv = document.getElementById('otp-error');
+            
+            clearErrors();
+            
             try {
-                const response = await fetch(`${API_BASE}/api/shop/${currentUser
+                const response = await fetch(`${API_BASE}/api/shop/${currentUser.user_id}/send-otp-dm`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    if (data.otp) {
+                        // OTP provided in response (DM failed)
+                        currentOTP = data.otp;
+                        showSuccess(`OTP: ${data.otp} (DM delivery failed, showing here for testing)`, statusDiv);
+                    } else {
+                        showSuccess('OTP sent to your Discord DMs!', statusDiv);
+                    }
+                    nextStep();
+                } else {
+                    showError(data.error || 'Failed to send OTP.', errorDiv);
+                }
+            } catch (error) {
+                showError('Error sending OTP. Please try again.', errorDiv);
+            }
+        }
+
+        function validateFinalStep() {
+            const otp = document.getElementById('otp-code').value.trim();
+            const ign = document.getElementById('ign').value.trim();
+            const terms = document.getElementById('terms-checkbox').checked;
+            const finalBtn = document.getElementById('final-buy-btn');
+            
+            finalBtn.disabled = !(otp.length === 6 && ign.length > 0 && terms);
+        }
+
+        // Add event listeners for final step validation
+        document.getElementById('otp-code').addEventListener('input', validateFinalStep);
+        document.getElementById('ign').addEventListener('input', validateFinalStep);
+        document.getElementById('terms-checkbox').addEventListener('change', validateFinalStep);
+
+        async function completePurchase() {
+            const otp = document.getElementById('otp-code').value.trim();
+            const ign = document.getElementById('ign').value.trim();
+            const errorDiv = document.getElementById('final-error');
+            
+            clearErrors();
+            
+            if (!otp || !ign) {
+                showError('Please fill in all fields.', errorDiv);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/shop/${currentUser.user_id}/${otp}/item/${currentItem.id}/${ign}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayReceipt(data);
+                    nextStep();
+                } else {
+                    showError(data.error || 'Purchase failed. Please try again.', errorDiv);
+                }
+            } catch (error) {
+                showError('Error completing purchase. Please try again.', errorDiv);
+            }
+        }
+
+        function displayReceipt(purchaseData) {
+            const container = document.getElementById('receipt-container');
+            
+            container.innerHTML = `
+                <div class="receipt">
+                    <h3><i class="fas fa-receipt"></i> Purchase Receipt</h3>
+                    <div class="receipt-item">
+                        <span>Item:</span>
+                        <span>${currentItem.name}</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Price:</span>
+                        <span>${currentItem.price} Cloud Points</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Player:</span>
+                        <span>${currentUser.username}</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>In-Game Name:</span>
+                        <span>${document.getElementById('ign').value}</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Remaining Balance:</span>
+                        <span>${purchaseData.remaining_points} Cloud Points</span>
+                    </div>
+                </div>
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    Your purchase has been completed successfully! The item has been delivered to your in-game account.
+                </div>
+            `;
+        }
+
+        function showError(message, element) {
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+        }
+
+        function showSuccess(message, element) {
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(el => el.style.display = 'none');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('purchaseModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
