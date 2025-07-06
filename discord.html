@@ -172,12 +172,41 @@
         }
 
         .discord-info {
-            background: rgba(26, 26, 26, 0.9);
-            padding: 30px;
+            position: relative;
+            background: url('https://cloud-smp.mcboss.top/media/15741247_l.webp') center/cover;
+            padding: 40px;
             border-radius: 20px;
             margin-bottom: 30px;
             border: 1px solid rgba(135, 206, 235, 0.3);
             backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .discord-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1;
+            animation: overlayPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes overlayPulse {
+            0%, 100% {
+                background: rgba(26, 26, 26, 0.85);
+            }
+            50% {
+                background: rgba(26, 26, 26, 0.75);
+            }
+        }
+
+        .discord-info > * {
+            position: relative;
+            z-index: 2;
         }
 
         .discord-header {
@@ -408,7 +437,7 @@
             }
 
             .discord-stats {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .cloud-points-grid {
@@ -487,7 +516,7 @@
                 <!-- Discord Server Info -->
                 <div class="discord-info animate-in">
                     <div class="discord-header">
-                        <img id="discord-server-icon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iNDAiIGZpbGw9IiM4N2NlZWIiLz4KPHN2ZyB4PSIxNiIgeT0iMTYiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA8LjI2TDEyIDJaIiBmaWxsPSIjMWExYTFhIi8+Cjwvc3ZnPgo8L3N2Zz4=" alt="Discord Server" class="discord-server-icon">
+                        <img id="discord-server-icon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iNDAiIGZpbGw9IiM4N2NlZWIiLz4KPHN2ZyB4PSIxNiIgeT0iMTYiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjMWExYTFhIi8+Cjwvc3ZnPgo8L3N2Zz4=" alt="Discord Server" class="discord-server-icon">
                         <div class="discord-server-info">
                             <h2 id="discord-server-name">Cloud SMP</h2>
                             <p id="discord-server-desc">Loading server information...</p>
@@ -504,16 +533,6 @@
                             <i class="fas fa-circle" style="color: #4caf50;"></i>
                             <div class="number" id="discord-online">Loading...</div>
                             <div class="label">Online Now</div>
-                        </div>
-                        <div class="discord-stat">
-                            <i class="fas fa-hashtag"></i>
-                            <div class="number" id="discord-channels">Loading...</div>
-                            <div class="label">Channels</div>
-                        </div>
-                        <div class="discord-stat">
-                            <i class="fas fa-at"></i>
-                            <div class="number" id="discord-roles">Loading...</div>
-                            <div class="label">Roles</div>
                         </div>
                     </div>
                 </div>
@@ -648,10 +667,6 @@
                     document.getElementById('discord-members').textContent = serverInfo.server_member_count || '0';
                     document.getElementById('discord-online').textContent = serverInfo.server_online_member_count || '0';
                     
-                    // Update channel and role counts (if available)
-                    document.getElementById('discord-channels').textContent = serverInfo.server_channel_count || '?';
-                    document.getElementById('discord-roles').textContent = serverInfo.server_role_count || '?';
-                    
                     // Update Discord invite URL
                     if (serverInfo.generated_invite && serverInfo.generated_invite.url) {
                         discordInviteUrl = serverInfo.generated_invite.url;
@@ -663,8 +678,6 @@
                 // Set fallback values
                 document.getElementById('discord-members').textContent = '?';
                 document.getElementById('discord-online').textContent = '?';
-                document.getElementById('discord-channels').textContent = '?';
-                document.getElementById('discord-roles').textContent = '?';
             }
         }
 

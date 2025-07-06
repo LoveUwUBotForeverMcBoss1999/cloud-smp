@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Cloud SMP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #87ceeb;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(135, 206, 235, 0.1);
+            border: 1px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .nav-links a:hover {
+            color: #87ceeb;
+            background: rgba(135, 206, 235, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 0 50px;
+        }
+
+        .error-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .error-section {
+            background: rgba(26, 26, 26, 0.9);
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .error-icon {
+            font-size: 8rem;
+            color: #87ceeb;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(135, 206, 235, 0.5);
+        }
+
+        .error-code {
+            font-size: 6rem;
+            font-weight: bold;
+            color: #7289da;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(114, 137, 218, 0.5);
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            color: #87ceeb;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: rgba(135, 206, 235, 0.2);
+            color: #87ceeb;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .action-button:hover {
+            background: rgba(135, 206, 235, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.2);
+        }
+
+        .action-button.primary {
+            background: rgba(114, 137, 218, 0.3);
+            color: #7289da;
+            border-color: rgba(114, 137, 218, 0.5);
+        }
+
+        .action-button.primary:hover {
+            background: rgba(114, 137, 218, 0.5);
+        }
+
+        /* Quick Links Section */
+        .quick-links-section {
+            background: rgba(26, 26, 26, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-links-title {
+            font-size: 1.8rem;
+            color: #87ceeb;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .quick-link-card {
+            background: rgba(40, 40, 40, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(114, 137, 218, 0.3);
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+            background: rgba(40, 40, 40, 0.9);
+        }
+
+        .quick-link-card i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #7289da;
+        }
+
+        .quick-link-card h4 {
+            color: #87ceeb;
+            margin-bottom: 5px;
+        }
+
+        .quick-link-card p {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.9);
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: #87ceeb;
+            margin-bottom: 20px;
+        }
+
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #87ceeb;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(135, 206, 235, 0.3);
+            padding-top: 20px;
+            color: #999999;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 4rem;
+            }
+
+            .error-title {
+                font-size: 2rem;
+            }
+
+            .error-icon {
+                font-size: 6rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .quick-links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiM4N2NlZWIiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAyTDEzLjA5IDguMjZMMjAgOUwxMy4wOSAxNS43NEwxMiAyMkwxMC45MSAxNS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iIzFhMWExYSIvPgo8L3N2Zz4KPC9zdmc+" alt="Cloud SMP">
+                <span>Cloud SMP</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/shop"><i class="fas fa-shopping-cart"></i> Shop</a></li>
+                <li><a href="/vote"><i class="fas fa-vote-yea"></i> Vote</a></li>
+                <li><a href="/discord"><i class="fab fa-discord"></i> Discord</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="error-container">
+                <!-- Error Section -->
+                <div class="error-section animate-in">
+                    <div class="error-icon float-animation">
+                        <i class="fas fa-cloud-rain"></i>
+                    </div>
+                    <div class="error-code">404</div>
+                    <h1 class="error-title">Page Not Found</h1>
+                    <p class="error-message">
+                        Oops! It looks like this page has drifted away like a cloud in the sky. 
+                        The page you're looking for might have been moved, deleted, or doesn't exist.
+                    </p>
+                    <div class="error-actions">
+                        <a href="/" class="action-button primary">
+                            <i class="fas fa-home"></i>
+                            Go Home
+                        </a>
+                        <a href="javascript:history.back()" class="action-button">
+                            <i class="fas fa-arrow-left"></i>
+                            Go Back
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links Section -->
+                <div class="quick-links-section animate-in">
+                    <h2 class="quick-links-title">Popular Pages</h2>
+                    <div class="quick-links-grid">
+                        <a href="/shop" class="quick-link-card">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h4>Server Shop</h4>
+                            <p>Browse items & perks</p>
+                        </a>
+                        <a href="/vote" class="quick-link-card">
+                            <i class="fas fa-vote-yea"></i>
+                            <h4>Vote</h4>
+                            <p>Support our server</p>
+                        </a>
+                        <a href="/discord" class="quick-link-card">
+                            <i class="fab fa-discord"></i>
+                            <h4>Discord</h4>
+                            <p>Join our community</p>
+                        </a>
+                        <a href="/rules" class="quick-link-card">
+                            <i class="fas fa-scroll"></i>
+                            <h4>Server Rules</h4>
+                            <p>Read our guidelines</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Cloud SMP</h3>
+                    <a href="/shop">Shop</a>
+                    <a href="/vote">Vote for Server</a>
+                    <a href="/discord">Discord Community</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Server Info</h3>
+                    <a href="#">Server Rules</a>
+                    <a href="#">How to Apply</a>
+                    <a href="#">Getting Started</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <a href="#">Player Gallery</a>
+                    <a href="#">Events</a>
+                    <a href="#">News & Updates</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Cloud SMP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(26, 26, 26, 0.98)';
+                header.style.backdropFilter = 'blur(15px)';
+            } else {
+                header.style.background = 'rgba(26, 26, 26, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            }
+        });
+
+        // Add animation delays for staggered effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-in');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+
+        // Add focus management for accessibility
+        document.addEventListener('focusin', (e) => {
+            if (e.target.matches('button, a, input, textarea, select')) {
+                e.target.style.outline = '2px solid #87ceeb';
+                e.target.style.outlineOffset = '2px';
+            }
+        });
+
+        document.addEventListener('focusout', (e) => {
+            if (e.target.matches('button, a, input, textarea, select')) {
+                e.target.style.outline = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
