@@ -20,6 +20,79 @@
     <link rel="icon" type="image/x-icon" href="https://cloud-smp.mcboss.top/media/logo.png">
 
     <style>
+        :root {
+            /* Color Palette */
+            --primary-bg: #02070b;
+            --secondary-bg: rgba(2, 7, 11, 0.9);
+            --accent-color: #00d4ff;
+            --accent-secondary: #0099cc;
+            --accent-light: #66e6ff;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #666666;
+            --border-color: #333333;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(45deg, var(--accent-color), var(--accent-secondary));
+            --gradient-hero-text: linear-gradient(45deg, var(--accent-color), var(--text-primary));
+            --gradient-earth: linear-gradient(to right, #31eb0b, #00aaff);
+            --gradient-overlay: linear-gradient(rgba(2, 7, 11, 0.5), rgba(2, 7, 11, 0.5));
+            --gradient-cta-overlay: linear-gradient(rgba(2, 7, 11, 0.6), rgba(2, 7, 11, 0.6));
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            --spacing-4xl: 5rem;
+            
+            /* Font Sizes */
+            --font-size-sm: 1rem;
+            --font-size-md: 1.1rem;
+            --font-size-lg: 1.2rem;
+            --font-size-xl: 1.5rem;
+            --font-size-2xl: 2rem;
+            --font-size-3xl: 2.5rem;
+            --font-size-4xl: 3rem;
+            --font-size-5xl: 4rem;
+            
+            /* Border Radius */
+            --border-radius-sm: 10px;
+            --border-radius-md: 25px;
+            --border-radius-lg: 30px;
+            
+            /* Shadows */
+            --shadow-primary: 0 4px 15px rgba(0, 212, 255, 0.3);
+            --shadow-primary-hover: 0 6px 20px rgba(0, 212, 255, 0.5);
+            --shadow-cta: 0 4px 15px rgba(0, 212, 255, 0.3);
+            --shadow-cta-hover: 0 10px 30px rgba(0, 212, 255, 0.5);
+            --shadow-text: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            
+            /* Layout */
+            --max-width: 1200px;
+            --nav-height: 4rem;
+            --hero-height: 100vh;
+            --feature-image-height: 300px;
+            --feature-image-height-mobile: 200px;
+            
+            /* Transitions */
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.6s ease;
+            --transition-slow: 1s ease;
+            
+            /* Background Images */
+            --bg-hero: url('https://cloud-smp.mcboss.top/media/rotating-earth.gif');
+            --bg-cta: url('https://cloud-smp.mcboss.top/media/world.jpg');
+            
+            /* Z-Index */
+            --z-mobile-menu: 999;
+            --z-header: 1000;
+            --z-cta-content: 1;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -28,37 +101,37 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #0a0a0a;
-            color: #ffffff;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
         /* Header */
         header {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 1rem 0;
+            background: var(--secondary-bg);
+            padding: var(--spacing-md) 0;
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1000;
+            z-index: var(--z-header);
             backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
         }
 
         nav {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
+            padding: 0 var(--spacing-xl);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--spacing-sm);
         }
 
         .logo-img {
@@ -68,22 +141,22 @@
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: var(--font-size-xl);
             font-weight: bold;
-            color: #00d4ff;
+            color: var(--accent-color);
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
-            transition: all 0.3s ease;
+            gap: var(--spacing-xl);
+            transition: all var(--transition-fast);
         }
 
         .nav-links a {
-            color: #ffffff;
+            color: var(--text-primary);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color var(--transition-fast);
             position: relative;
         }
 
@@ -94,8 +167,8 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #00d4ff;
-            transition: width 0.3s ease;
+            background: var(--accent-color);
+            transition: width var(--transition-fast);
         }
 
         .nav-links a:hover::after {
@@ -103,25 +176,25 @@
         }
 
         .nav-links a:hover {
-            color: #00d4ff;
+            color: var(--accent-color);
         }
 
         .play-btn {
-            background: linear-gradient(45deg, #00d4ff, #0099cc);
-            color: white;
-            padding: 0.75rem 1.5rem;
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            padding: 0.75rem var(--spacing-lg);
             border: none;
-            border-radius: 25px;
+            border-radius: var(--border-radius-md);
             text-decoration: none;
             font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-primary);
             display: inline-block;
         }
 
         .play-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+            box-shadow: var(--shadow-primary-hover);
         }
 
         /* Hamburger Menu */
@@ -135,8 +208,8 @@
         .hamburger span {
             width: 25px;
             height: 3px;
-            background: #ffffff;
-            transition: all 0.3s ease;
+            background: var(--text-primary);
+            transition: all var(--transition-fast);
             transform-origin: center;
         }
 
@@ -159,15 +232,15 @@
             left: -100%;
             width: 100%;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(2, 7, 11, 0.95);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
-            transition: left 0.3s ease;
-            z-index: 999;
+            gap: var(--spacing-xl);
+            transition: left var(--transition-fast);
+            z-index: var(--z-mobile-menu);
         }
 
         .mobile-menu.active {
@@ -175,20 +248,20 @@
         }
 
         .mobile-menu a {
-            color: #ffffff;
+            color: var(--text-primary);
             text-decoration: none;
-            font-size: 1.5rem;
-            transition: color 0.3s;
+            font-size: var(--font-size-xl);
+            transition: color var(--transition-fast);
         }
 
         .mobile-menu a:hover {
-            color: #00d4ff;
+            color: var(--accent-color);
         }
 
         /* Hero Section */
         .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://cloud-smp.mcboss.top/media/rotating-earth.gif');
+            height: var(--hero-height);
+            background: var(--gradient-overlay), var(--bg-hero);
             background-size: cover;
             background-position: center;
             display: flex;
@@ -197,13 +270,13 @@
         }
 
         .hero-content {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 var(--spacing-xl);
             width: 100%;
             opacity: 0;
             transform: translateY(30px);
-            animation: fadeInUp 1s ease forwards;
+            animation: fadeInUp var(--transition-slow) forwards;
         }
 
         .hero-text {
@@ -211,40 +284,40 @@
         }
 
         .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00d4ff, #ffffff);
+            font-size: var(--font-size-5xl);
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-hero-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: slideInLeft 1s ease 0.3s both;
+            animation: slideInLeft var(--transition-slow) 0.3s both;
         }
 
         .hero h2 {
-            font-size: 1.5rem;
-            color: #cccccc;
-            margin-bottom: 1rem;
-            animation: slideInLeft 1s ease 0.5s both;
+            font-size: var(--font-size-xl);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            animation: slideInLeft var(--transition-slow) 0.5s both;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: #cccccc;
-            animation: slideInLeft 1s ease 0.7s both;
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-xl);
+            color: var(--text-secondary);
+            animation: slideInLeft var(--transition-slow) 0.7s both;
         }
 
         .server-info {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
+            background: rgba(2, 7, 11, 0.7);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: var(--spacing-xl);
             backdrop-filter: blur(10px);
-            animation: slideInLeft 1s ease 0.9s both;
+            animation: slideInLeft var(--transition-slow) 0.9s both;
         }
 
         .server-info strong {
-            color: #00d4ff;
+            color: var(--accent-color);
         }
 
         /* Animations */
@@ -294,20 +367,20 @@
 
         /* Feature Sections */
         .section {
-            padding: 5rem 0;
-            max-width: 1200px;
+            padding: var(--spacing-4xl) 0;
+            max-width: var(--max-width);
             margin: 0 auto;
         }
 
         .section-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: var(--spacing-2xl);
             align-items: center;
-            padding: 0 2rem;
+            padding: 0 var(--spacing-xl);
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.6s ease;
+            transition: all var(--transition-medium);
         }
 
         .section-content.animate {
@@ -320,38 +393,38 @@
         }
 
         .section h3 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: #00d4ff;
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-lg);
+            color: var(--accent-color);
         }
 
         .section p {
-            font-size: 1.1rem;
-            color: #cccccc;
-            margin-bottom: 1rem;
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
         }
 
         .section a {
-            color: #00d4ff;
+            color: var(--accent-color);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color var(--transition-fast);
         }
 
         .section a:hover {
-            color: #66e6ff;
+            color: var(--accent-light);
         }
 
         .feature-image {
             width: 100%;
-            height: 300px;
+            height: var(--feature-image-height);
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: var(--border-radius-sm);
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             pointer-events: none;
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-fast);
         }
 
         .feature-image:hover {
@@ -360,21 +433,21 @@
 
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://cloud-smp.mcboss.top/media/world.jpg');
+            background: var(--gradient-cta-overlay), var(--bg-cta);
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            padding: 5rem 0;
+            padding: var(--spacing-4xl) 0;
             text-align: center;
             position: relative;
         }
 
         .cta-content {
             position: relative;
-            z-index: 1;
+            z-index: var(--z-cta-content);
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.6s ease;
+            transition: all var(--transition-medium);
         }
 
         .cta-content.animate {
@@ -383,66 +456,66 @@
         }
 
         .cta-section h3 {
-            font-size: 3rem;
-            margin-bottom: 2rem;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--spacing-xl);
+            color: var(--text-primary);
+            text-shadow: var(--shadow-text);
         }
 
         .cta-btn {
-            background: linear-gradient(45deg, #00d4ff, #0099cc);
-            color: white;
-            padding: 1rem 2rem;
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            padding: var(--spacing-md) var(--spacing-xl);
             border: none;
-            border-radius: 30px;
+            border-radius: var(--border-radius-lg);
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: var(--font-size-lg);
             font-weight: bold;
             display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-cta);
         }
 
         .cta-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
+            box-shadow: var(--shadow-cta-hover);
         }
 
         /* Footer */
         footer {
-            background: #000000;
-            padding: 3rem 0;
+            background: var(--primary-bg);
+            padding: var(--spacing-2xl) 0;
             text-align: center;
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 var(--spacing-xl);
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
             flex-wrap: wrap;
         }
 
         .footer-links a {
-            color: #cccccc;
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color var(--transition-fast);
         }
 
         .footer-links a:hover {
-            color: #00d4ff;
+            color: var(--accent-color);
         }
 
         .footer-bottom {
-            border-top: 1px solid #333;
-            padding-top: 2rem;
-            color: #666;
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--spacing-xl);
+            color: var(--text-muted);
         }
 
         /* Mobile Responsive */
@@ -456,20 +529,20 @@
             }
 
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: var(--font-size-3xl);
             }
 
             .hero h2 {
-                font-size: 1.2rem;
+                font-size: var(--font-size-lg);
             }
 
             .hero p {
-                font-size: 1rem;
+                font-size: var(--font-size-sm);
             }
 
             .section-content {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: var(--spacing-xl);
             }
 
             .section:nth-child(even) .section-content {
@@ -477,11 +550,11 @@
             }
 
             .section h3 {
-                font-size: 2rem;
+                font-size: var(--font-size-2xl);
             }
 
             .cta-section h3 {
-                font-size: 2rem;
+                font-size: var(--font-size-2xl);
             }
 
             .cta-section {
@@ -490,11 +563,11 @@
 
             .footer-links {
                 flex-direction: column;
-                gap: 1rem;
+                gap: var(--spacing-md);
             }
 
             .feature-image {
-                height: 200px;
+                height: var(--feature-image-height-mobile);
             }
         }
 
@@ -536,7 +609,7 @@
         <nav>
             <div class="logo-container">
                 <img src="https://cloud-smp.mcboss.top/media/logo.png" alt="Cloud SMP Logo" class="logo-img">
-                <div class="logo"><a href="/" style="text-decoration: none; color: #ffffff">Cloud SMP</a></div>
+                <div class="logo"><a href="/" style="text-decoration: none; color: var(--text-primary)">Cloud SMP</a></div>
             </div>
             <ul class="nav-links">
                 <li><a href="/community">Community</a></li>
@@ -565,7 +638,7 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Cloud SMP</h1>
-                <h2>The Minecraft <strong style="background: linear-gradient(to right, #31eb0b, #00aaff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">EARTH</strong> smp</h2>
+                <h2>The Minecraft <strong style="background: var(--gradient-earth); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">EARTH</strong> smp</h2>
                 <p>Explore a realistic Minecraft Earth map and journey across familiar landscapes, from bustling cities to remote wilderness—all recreated in stunning detail</p>
                 <div class="server-info">
                     <strong><a href="/play" style="text-decoration: none; color: #0af0dd;">IP: mc-cloudsmp.mcboss.top</a></strong>
@@ -723,9 +796,9 @@
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             if (window.scrollY > 100) {
-                header.style.background = 'rgba(0, 0, 0, 0.95)';
+                header.style.background = 'rgba(2, 7, 11, 0.95)';
             } else {
-                header.style.background = 'rgba(0, 0, 0, 0.9)';
+                header.style.background = 'rgba(2, 7, 11, 0.9)';
             }
         });
 
