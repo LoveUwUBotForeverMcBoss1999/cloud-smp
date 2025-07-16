@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store - Cloud SMP</title>
+    
+    <!-- Meta Preview Tags -->
+    <meta name="description" content="Cloud SMP Store - Buy ranks and items with Cloud Points or real money!">
+    <meta property="og:title" content="Store - Cloud SMP">
+    <meta property="og:description" content="Cloud SMP Store - Buy ranks and items with Cloud Points or real money!">
+    <meta property="og:image" content="https://cloud-smp.mcboss.top/media/logo.png">
+    <meta property="og:url" content="https://cloud-smp.mcboss.top/store">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" type="image/x-icon" href="https://cloud-smp.mcboss.top/media/logo.png">
+
+    <style>
+        :root {
+            --primary-bg: #02070b;
+            --secondary-bg: rgba(2, 7, 11, 0.9);
+            --accent-color: #00d4ff;
+            --accent-secondary: #0099cc;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #666666;
+            --border-color: #333333;
+            --gradient-primary: linear-gradient(45deg, var(--accent-color), var(--accent-secondary));
+            --gradient-hero-text: linear-gradient(45deg, var(--accent-color), var(--text-primary));
+            --gradient-overlay: linear-gradient(rgba(2, 7, 11, 0.5), rgba(2, 7, 11, 0.5));
+            --shadow-primary: 0 4px 15px rgba(0, 212, 255, 0.3);
+            --shadow-primary-hover: 0 6px 20px rgba(0, 212, 255, 0.5);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.6s ease;
+            --bg-hero: url('https://cloud-smp.mcboss.top/media/2rotating-earth.gif');
+            --border-radius-sm: 10px;
+            --border-radius-md: 25px;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            --spacing-4xl: 5rem;
+            --font-size-md: 1.1rem;
+            --font-size-lg: 1.2rem;
+            --font-size-xl: 1.5rem;
+            --font-size-2xl: 2rem;
+            --font-size-3xl: 2.5rem;
+            --font-size-4xl: 3rem;
+            --max-width: 1200px;
+            --nav-height: 4rem;
+            --hero-height: 60vh;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: var(--secondary-bg);
+            padding: var(--spacing-md) 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-fast);
+        }
+
+        nav {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .logo {
+            font-size: var(--font-size-xl);
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-xl);
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .play-btn {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            padding: 0.75rem var(--spacing-lg);
+            border: none;
+            border-radius: var(--border-radius-md);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-primary);
+            display: inline-block;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-primary-hover);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(2, 7, 11, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: var(--spacing-xl);
+            transition: left var(--transition-fast);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .mobile-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: var(--font-size-xl);
+            transition: color var(--transition-fast);
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: var(--hero-height);
+            background: var(--gradient-overlay), var(--bg-hero);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: var(--nav-height);
+        }
+
+        .hero-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--spacing-lg);
+            background: var(--gradient-hero-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Store Section */
+        .store-section {
+            padding: var(--spacing-4xl) 0;
+        }
+
+        .store-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .tab-btn {
+            background: rgba(2, 7, 11, 0.7);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: var(--font-size-md);
+            font-weight: bold;
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+        }
+
+        .item-card {
+            background: rgba(2, 7, 11, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-xl);
+            text-align: center;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-card);
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-primary);
+            border-color: var(--accent-color);
+        }
+
+        .item-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--spacing-md);
+            object-fit: contain;
+        }
+
+        .item-name {
+            font-size: var(--font-size-xl);
+            color: var(--accent-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .item-price {
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xl);
+            font-weight: bold;
+        }
+
+        .buy-btn {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border: none;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-primary);
+            width: 100%;
+            font-size: var(--font-size-md);
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-primary-hover);
+        }
+
+        .loading {
+            text-align: center;
+            padding: var(--spacing-3xl);
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: var(--primary-bg);
+            margin: 15% auto;
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            color: var(--text-primary);
+        }
+
+        .close {
+            color: var(--text-secondary);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--accent-color);
+        }
+
+        .modal h2 {
+            color: var(--accent-color);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .modal input {
+            width: 100%;
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background: rgba(2, 7, 11, 0.5);
+            color: var(--text-primary);
+        }
+
+        .modal-btn {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border: none;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-primary);
+            width: 100%;
+            margin-top: var(--spacing-md);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-primary-hover);
+        }
+
+        .user-info {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .rank-card {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #000;
+            border: 2px solid #ffd700;
+        }
+
+        .rank-card .item-name {
+            color: #000;
+        }
+
+        .rank-card .item-price {
+            color: #000;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-bg);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+            margin-top: var(--spacing-4xl);
+        }
+
+        .footer-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--spacing-xl);
+            color: var(--text-muted);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .category-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+        }
+
+        img {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        p, h1, h2, h3, h4, h5, h6, span, div:not(.item-icon), li, ol, ul {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <img src="https://cloud-smp.mcboss.top/media/logo.png" alt="Cloud SMP Logo" class="logo-img">
+                <div class="logo"><a href="/" style="text-decoration: none; color: var(--text-primary)">Cloud SMP</a></div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/community">Community</a></li>
+                <li><a href="/discord">Discord</a></li>
+                <li><a href="/store">Store</a></li>
+                <li><a href="/vote">Vote</a></li>
+                <li><a href="/map">Map</a></li>
+            </ul>
+            <a href="/play" class="play-btn">Play Now</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="/community">Community</a>
+        <a href="/discord">Discord</a>
+        <a href="/store">Store</a>
+        <a href="/vote">Vote</a>
+        <a href="/map">Map</a>
+        <a href="/play" class="play-btn">Play Now</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Cloud SMP Store</h1>
+            <p>Get ranks, items, and more to enhance your Cloud SMP experience!</p>
+        </div>
+    </section>
+
+    <!-- Store Section -->
+    <section class="store-section">
+        <div class="store-container">
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="tab-btn active" data-tab="ranks">Ranks</button>
+                <button class="tab-btn" data-tab="items">Cloud Point Shop</button>
+            </div>
+
+            <!-- Ranks Tab -->
+            <div class="tab-content active" id="ranks">
+                <div class="items-grid">
+                    <div class="item-card rank-card">
+                        <div class="item-name">EXPLORER</div>
+                        <div class="item-price">$1.00 USD</div>
+                        <p style="margin-bottom: 1rem; color: #333;">Unlock special permissions and features!</p>
+                        <button class="buy-btn" onclick="openRankModal()">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Tab -->
+            <div class="tab-content" id="items">
+                <div class="loading">Loading items...</div>
+                <div class="items-grid" id="itemsGrid" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Purchase Modal -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Purchase Item</h2>
+            <div id="modalStep1">
+                <p>Enter your Discord ID to continue:</p>
+                <input type="text" id="discordId" placeholder="e.g., 1146323123456789012">
+                <button class="modal-btn" onclick="checkUser()">Continue</button>
+            </div>
+            <div id="modalStep2" style="display: none;">
+                <div class="user-info" id="userInfo"></div>
+                <button class="modal-btn" onclick="requestOTP()">Get OTP</button>
+            </div>
+            <div id="modalStep3" style="display: none;">
+                <p>Enter OTP and your in-game name:</p>
+                <input type="text" id="otp" placeholder="Enter OTP">
+                <input type="text" id="ingameName" placeholder="Your Minecraft username">
+                <button class="modal-btn" onclick="completePurchase()">Complete Purchase</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rank Modal -->
+    <div id="rankModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRankModal()">&times;</span>
+            <h2>Purchase EXPLORER Rank</h2>
+            <p>To purchase ranks, please join our Discord server and open a ticket.</p>
+            <p style="margin: 1rem 0;"><strong>Payment Methods:</strong> eZcash, Bank Transfer</p>
+            <a href="https://discord.gg/4HVYYmXGFf" target="_blank" class="modal-btn" style="text-decoration: none; display: block; text-align: center;">Join Discord Server</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/community">Community</a>
+                <a href="/discord">Discord</a>
+                <a href="/store">Store</a>
+                <a href="/vote">Vote</a>
+                <a href="/map">Map</a>
+                <a href="/play">Play Now</a>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright © 2025 Cloud SMP</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = 'https://cloud-smp-shop-api.mcboss.top/api';
+        let currentItem = null;
+        let currentUser = null;
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tab).classList.add('active');
+                
+                if (tab === 'items') {
+                    loadItems();
+                }
+            });
+        });
+
+        // Load items from API
+        async function loadItems() {
+            try {
+                const response = await fetch(`${API_BASE}/shop/items`);
+                const data = await response.json();
+                
+                const grid = document.getElementById('itemsGrid');
+                const loading = document.querySelector('.loading');
+                
+                grid.innerHTML = data.items.map(item => `
+                    <div class="item-card">
+                        <img src="${item.item_icon}" alt="${item.item_name}" class="item-icon">
+                        <div class="item-name">${item.item_name}</div>
+                        <div class="item-price">${item.item_price} Cloud Points</div>
+                        <button class="buy-btn" onclick="openPurchaseModal('${item.item_id}', '${item.item_name}', ${item.item_price})">Buy Now</button>
+                    </div>
+                `).join('');
+                
+                loading.style.display = 'none';
+                grid.style.display = 'grid';
+            } catch (error) {
+                console.error('Error loading items:', error);
+                document.querySelector('.loading').innerHTML = 'Error loading items. Please try again.';
+            }
+        }
+
+        // Modal functions
+        function openPurchaseModal(itemId, itemName, itemPrice) {
+            currentItem = { id: itemId, name: itemName, price: itemPrice };
+            document.getElementById('modalTitle').textContent = `Purchase ${itemName}`;
+            document.getElementById('purchaseModal').style.display = 'block';
+            resetModal();
+        }
+
+        function openRankModal() {
+            document.getElementById('rankModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+            resetModal();
+        }
+
+        function closeRankModal() {
+            document.getElementById('rankModal').style.display = 'none';
+        }
+
+        function resetModal() {
+            document.getElementById('modalStep1').style.display = 'block';
+            document.getElementById('modalStep2').style.display = 'none';
+            document.getElementById('modalStep3').style.display = 'none';
+            document.getElementById('discordId').value = '';
+            document.getElementById('otp').value = '';
+            document.getElementById('ingameName').value = '';
+        }
+
+        async function checkUser() {
+            const discordId = document.getElementById('discordId').value;
+            if (!discordId) {
+                alert('Please enter your Discord ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/user/${discordId}`);
+                const user = await response.json();
+                
+                if (user.error) {
+                    alert('User not found');
+                    return;
+                }
+
+                currentUser = user;
+                document.getElementById('userInfo').innerHTML = `
+                    <strong>User:</strong> ${user.username}<br>
+                    <strong>Cloud Points:</strong> ${user.cloud_points}<br>
+                    <strong>Required:</strong> ${currentItem.price} points
+                `;
+
+                if (user.cloud_points < currentItem.price) {
+                    alert('Insufficient cloud points');
+                    return;
+                }
+
+                document.getElementById('modalStep1').style.display = 'none';
+                document.getElementById('modalStep2').style.display = 'block';
+            } catch (error) {
+                alert('Error checking user');
+            }
+        }
+
+        async function requestOTP() {
+            try {
+                const response = await fetch(`${API_BASE}/shop/${currentUser.user_id}/send-otp-dm`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message);
+                    document.getElementById('modalStep2').style.display = 'none';
+                    document.getElementById('modalStep3').style.display = 'block';
+                } else {
+                    alert('Error sending OTP');
+                }
+            } catch (error) {
+                alert('Error requesting OTP');
+            }
+        }
+
+        async function completePurchase() {
+            const otp = document.getElementById('otp').value;
+            const ingameName = document.getElementById('ingameName').value;
+            
+            if (!otp || !ingameName) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/shop/${currentUser.user_id}/${otp}/item/${currentItem.id}/${ingameName}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`Purchase successful! ${data.message}`);
+                    closeModal();
+                } else {
+                    alert(data.error || 'Purchase failed');
+                }
+            } catch (error) {
+                alert('Error completing purchase');
+            }
+        }
+
+        // Mobile menu
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Prevent right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(2, 7, 11, 0.95)';
+            } else {
+                header.style.background = 'rgba(2, 7, 11, 0.9)';
+            }
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const purchaseModal = document.getElementById('purchaseModal');
+            const rankModal = document.getElementById('rankModal');
+            if (event.target === purchaseModal) {
+                closeModal();
+            }
+            if (event.target === rankModal) {
+                closeRankModal();
+            }
+        }
+    </script>
+</body>
+</html>
